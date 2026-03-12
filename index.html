@@ -1,9 +1,14 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
+  <meta name="monetag" content="5e10d309cec0ed1a77fac12b0f173892">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🧀</text></svg>">
+  <meta http-equiv="X-Content-Type-Options" content="nosniff">
+  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Cheese Platform v3.15</title>
+<title>Cheese Platform v3.25</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#080b10;--surface:#0e1318;--surface2:#141c24;--surface3:#1a2430;--border:rgba(255,255,255,0.07);--accent:#f5c842;--accent2:#ff6b35;--text:#e8edf2;--muted:#5a6a7a;--green:#00e5a0;--red:#ff4d4d;}
@@ -136,6 +141,12 @@ body{font-family:Nunito,sans-serif;font-size:15px;background:var(--bg);color:var
 .msg-time{font-size:.6rem;color:var(--muted);}
 .copy-btn{font-size:.6rem;background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 5px;border-radius:5px;transition:.15s;}
 .copy-btn:hover{color:var(--accent);}
+.edit-btn{background:none;border:none;color:var(--muted);cursor:pointer;padding:2px 5px;border-radius:5px;transition:.15s;display:inline-flex;align-items:center;}
+.edit-btn:hover{color:var(--accent);}
+.edit-input{width:100%;background:var(--surface2);border:1px solid var(--accent);border-radius:10px;padding:8px 10px;color:var(--text);font-size:.9rem;resize:none;outline:none;font-family:inherit;}
+.edit-actions{display:flex;gap:6px;margin-top:6px;}
+.edit-save{background:var(--accent);color:#fff;border:none;border-radius:8px;padding:5px 14px;font-size:.8rem;cursor:pointer;}
+.edit-cancel{background:var(--surface3);color:var(--muted);border:none;border-radius:8px;padding:5px 14px;font-size:.8rem;cursor:pointer;}
 .code-block{position:relative;background:#0d1117;border:1px solid var(--border);border-radius:12px;margin:8px 0;overflow:hidden;}
 .code-block-header{display:flex;align-items:center;justify-content:space-between;padding:6px 12px;background:#161b22;border-bottom:1px solid var(--border);}
 .code-block-lang{font-size:.7rem;color:var(--muted);font-family:monospace;}
@@ -328,7 +339,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
   #streakBanner, #streakBanner ~ div{font-size:.85rem;}
 }
 </style>
-<script src="https://pl28888098.effectivegatecpm.com/c6/57/ba/c657ba979519c010ee4bb20f863220d8.js"></script>
+
 </head>
 <body>
 
@@ -336,7 +347,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
   <div id="splashScreen" style="position:fixed;inset:0;background:#080b10;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div style="animation:float 2s ease-in-out infinite;"><div style="font-size:4rem;">🧀</div></div>
     <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.5rem;color:#f5c842;margin-top:16px;">Cheese Platform</div>
-    <div style="font-size:.75rem;color:#5a6a7a;margin-top:4px;">v3.15 — K Studio</div>
+    <div style="font-size:.75rem;color:#5a6a7a;margin-top:4px;">v3.25 — K Studio</div>
     <div style="margin-top:30px;width:160px;height:3px;background:#1a2430;border-radius:10px;overflow:hidden;">
       <div id="splashBar" style="height:100%;width:0%;background:linear-gradient(90deg,#f5c842,#ff6b35);border-radius:10px;"></div>
     </div>
@@ -360,7 +371,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <div class="auth-form active" id="loginForm">
       <div class="auth-error" id="loginError"></div>
       <div class="input-group"><label>Email</label><input type="email" id="loginEmail" placeholder="email@Anda.com"/></div>
-      <div class="input-group"><label>Password</label><div style="position:relative;"><input type="password" id="loginPass" placeholder="Password Anda" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding-right:40px;box-sizing:border-box;"/><button type="button" onclick="togglePass('loginPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);padding:0;line-height:1;">👁️</button></div></div>
+      <div class="input-group"><label>Password</label><div style="position:relative;"><input type="password" id="loginPass" placeholder="Password Anda" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding-right:40px;box-sizing:border-box;"/><button type="button" onclick="togglePass('loginPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);padding:0;line-height:1;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <button class="auth-btn" onclick="doLogin()">Masuk Sekarang</button>
       <div class="auth-divider">atau</div>
       <button class="google-btn" onclick="doGuestLogin()">👤 Lanjut sebagai Tamu</button>
@@ -370,7 +381,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="auth-success" id="registerSuccess"></div>
       <div class="input-group"><label>Nama</label><input type="text" id="regName" placeholder="Nama Anda"/></div>
       <div class="input-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@Anda.com"/></div>
-      <div class="input-group"><label>Password</label><div style="position:relative;"><input type="password" id="regPass" placeholder="Minimal 6 karakter" onkeydown="if(event.key==='Enter')doRegister()" style="width:100%;padding-right:40px;box-sizing:border-box;"/><button type="button" onclick="togglePass('regPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);padding:0;line-height:1;">👁️</button></div></div>
+      <div class="input-group"><label>Password</label><div style="position:relative;"><input type="password" id="regPass" placeholder="Minimal 6 karakter" onkeydown="if(event.key==='Enter')doRegister()" style="width:100%;padding-right:40px;box-sizing:border-box;"/><button type="button" onclick="togglePass('regPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);padding:0;line-height:1;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <button class="auth-btn" onclick="doRegister()">Buat Akun</button>
       <div class="auth-divider">atau</div>
       <button class="google-btn" onclick="doGuestLogin()">👤 Lanjut sebagai Tamu</button>
@@ -384,7 +395,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <div class="sidebar-top">
       <div class="logo-row">
         <div class="logo-icon-wrap">🧀</div>
-        <div class="logo-text"><div class="t">Cheese</div><div class="s">Platform v3.15</div></div>
+        <div class="logo-text"><div class="t">Cheese</div><div class="s">Platform v3.25</div></div>
       </div>
       <div class="user-card">
         <div class="user-avatar" id="sidebarAvatar">?</div>
@@ -431,7 +442,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <!-- HOME -->
     <div id="home" class="section active">
       <div class="welcome-banner">
-        <div class="welcome-tag">✨ Cheese Platform v3.15</div>
+        <div class="welcome-tag">✨ Cheese Platform v3.25</div>
         <h1>Halo, <span id="welcomeName">Bos</span>! 👋</h1>
         <p>Platform gaming & AI lokal terbaik. Semua fitur ada di sini!</p>
       </div>
@@ -449,6 +460,52 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           <div id="streakCount" style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.6rem;color:var(--accent);line-height:1;">1</div>
           <div style="font-size:.6rem;color:var(--muted);">hari</div>
         </div>
+      </div>
+
+      <!-- GUEST BANNER -->
+      <div id="guestBanner" style="display:none;background:linear-gradient(135deg,rgba(88,101,242,.12),rgba(88,101,242,.05));border:1px solid rgba(88,101,242,.25);border-radius:14px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <div style="font-size:1.3rem;">🔓</div>
+          <div>
+            <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:.82rem;color:#5865f2;">Kamu masuk sebagai Tamu</div>
+            <div style="font-size:.7rem;color:var(--muted);">Daftar untuk unlock semua fitur!</div>
+          </div>
+        </div>
+        <button onclick="doLogout()" style="background:#5865f2;border:none;color:#fff;font-family:Nunito,sans-serif;font-weight:800;font-size:.75rem;padding:7px 12px;border-radius:10px;cursor:pointer;white-space:nowrap;">Daftar</button>
+      </div>
+
+      <!-- DASHBOARD CARD -->
+      <div id="dashboardCard" style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px 16px;margin-bottom:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
+          <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:.88rem;color:var(--accent);">📊 Dashboard</div>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button onclick="loadDashboard()" style="background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:2px 6px;border-radius:8px;" title="Refresh">🔄</button>
+            <div id="dashTier" style="font-size:.68rem;font-weight:700;padding:3px 10px;border-radius:20px;background:rgba(245,200,66,.12);color:var(--accent);">Normal</div>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+          <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
+            <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Limit Chat</div>
+            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);" id="dashLimit">—</div>
+            <div style="font-size:.62rem;color:var(--muted);">sisa hari ini</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
+            <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Versi App</div>
+            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);">3.25</div>
+            <div style="font-size:.62rem;color:var(--muted);">K Studio</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
+            <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Iklan Tersisa</div>
+            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);" id="dashAd">—</div>
+            <div style="font-size:.62rem;color:var(--muted);">hari ini</div>
+          </div>
+          <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
+            <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Status</div>
+            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.1rem;color:var(--green);" id="dashStatus">Online</div>
+            <div style="font-size:.62rem;color:var(--muted);">Backend</div>
+          </div>
+        </div>
+
       </div>
 
       <div class="stats-grid">
@@ -489,7 +546,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           <div style="display:flex;align-items:center;gap:11px;">
             <div class="ai-avatar">🧀</div>
             <div>
-              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;" id="aiNameDisplay">Cheese AI</div>
+              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;" id="aiNameDisplay">Cheese AI v2.3</div>
               <div class="ai-status"><span class="status-dot" style="width:6px;height:6px;"></span>Online</div>
             </div>
           </div>
@@ -501,6 +558,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
             <div class="empty-emoji">🧀</div>
             <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.98rem;">Cheese AI siap!</div>
             <div style="font-size:.79rem;color:var(--muted);max-width:230px;line-height:1.5;">Ketik pertanyaan atau pilih topik di bawah.</div>
+            <div style="font-size:.68rem;color:var(--muted);max-width:230px;margin-top:8px;padding:6px 10px;background:var(--surface2);border-radius:8px;line-height:1.4;">⚠️ Cheese AI dapat melakukan kesalahan. Verifikasi informasi penting ke sumber terpercaya.</div>
           </div>
         </div>
         <div class="sug-wrap" id="sugWrap">
@@ -519,12 +577,18 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           <!-- Tombol + dengan popup -->
           <div style="position:relative;">
             <button class="img-btn" onclick="toggleAttachMenu()" title="Lampiran" id="attachBtn">＋</button>
-            <div id="attachMenu" style="display:none;position:absolute;bottom:48px;left:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:8px;min-width:180px;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:999;">
+            <div id="attachMenu" style="display:none;position:absolute;bottom:48px;left:0;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:8px;min-width:190px;box-shadow:0 8px 24px rgba(0,0,0,.4);z-index:999;">
+              <div onclick="closeAttachMenu();openCameraCapture()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;font-size:.87rem;font-weight:600;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.85;flex-shrink:0;"><rect x="2" y="7" width="20" height="15" rx="3"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><circle cx="12" cy="14" r="3"/></svg>
+                Kamera
+              </div>
               <div onclick="closeAttachMenu();document.getElementById('imgUpload').click()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;font-size:.87rem;font-weight:600;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
-                <span style="font-size:1.2rem;">📸</span> Kirim Foto ke AI
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.85;flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                Galeri
               </div>
               <div onclick="closeAttachMenu();openGenerateModal()" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:12px;cursor:pointer;font-size:.87rem;font-weight:600;" onmouseover="this.style.background='var(--surface2)'" onmouseout="this.style.background=''">
-                <span style="font-size:1.2rem;">🎨</span> Generate Gambar AI
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.85;flex-shrink:0;"><path d="M12 3 L13.5 8.5 L19 10 L13.5 11.5 L12 17 L10.5 11.5 L5 10 L10.5 8.5 Z"/><path d="M19 3 L19.8 5.2 L22 6 L19.8 6.8 L19 9 L18.2 6.8 L16 6 L18.2 5.2 Z"/><path d="M5 17 L5.6 18.8 L7.4 19.4 L5.6 20 L5 21.8 L4.4 20 L2.6 19.4 L4.4 18.8 Z"/></svg>
+                Buat Gambar
               </div>
             </div>
           </div>
@@ -692,7 +756,81 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
         </div>
       </div>
 
+      <!-- TIER & PREMIUM INFO -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;margin-bottom:12px;color:var(--accent);">💎 Status Akun</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:.83rem;color:var(--muted);">Tier</span>
+          <span style="font-size:.83rem;font-weight:700;" id="profileTier">Normal</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:.83rem;color:var(--muted);">Limit Chat</span>
+          <span style="font-size:.83rem;font-weight:700;" id="profileLimit">—</span>
+        </div>
+        <div id="profileExpiryRow" style="display:none;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <span style="font-size:.83rem;color:var(--muted);">Premium hingga</span>
+          <span style="font-size:.83rem;font-weight:700;color:var(--green);" id="profileExpiry">—</span>
+        </div>
+        <!-- Redeem kode premium -->
+        <div style="margin-top:12px;display:flex;gap:8px;">
+          <input id="profileRedeemInput" type="text" placeholder="Kode premium..." style="flex:1;padding:10px 12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.85rem;outline:none;"/>
+          <button onclick="profileRedeem()" style="padding:10px 14px;border-radius:12px;border:none;background:var(--accent);color:#070a0f;font-family:Nunito,sans-serif;font-weight:800;font-size:.85rem;cursor:pointer;">Redeem</button>
+        </div>
+      </div>
+
+      <!-- KEAMANAN AKUN -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+        <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;margin-bottom:12px;color:var(--accent);">🔒 Keamanan Akun</div>
+        <button onclick="openChangePassword()" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-weight:700;font-size:.87rem;cursor:pointer;margin-bottom:8px;text-align:left;">🔑 Ganti Password</button>
+        <button onclick="doLogoutAll()" style="width:100%;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-weight:700;font-size:.87rem;cursor:pointer;margin-bottom:8px;text-align:left;">📱 Logout Semua Perangkat</button>
+        <button onclick="openDeleteAccount()" style="width:100%;padding:12px;border-radius:12px;border:1px solid rgba(255,80,80,.3);background:rgba(255,80,80,.06);color:#ff5050;font-family:Nunito,sans-serif;font-weight:700;font-size:.87rem;cursor:pointer;text-align:left;">🗑️ Hapus Akun</button>
+      </div>
+
+      <!-- HISTORY CHAT -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:14px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+          <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;color:var(--accent);">💬 History Chat</div>
+          <button onclick="loadChatHistory()" style="background:none;border:none;color:var(--accent);font-size:.78rem;font-weight:700;cursor:pointer;">🔄 Refresh</button>
+        </div>
+        <div id="profileHistoryList" style="max-height:200px;overflow-y:auto;display:flex;flex-direction:column;gap:6px;">
+          <div style="font-size:.78rem;color:var(--muted);text-align:center;padding:12px;">Tap refresh untuk load history</div>
+        </div>
+        <button onclick="clearChatHistoryBackend()" style="width:100%;margin-top:10px;padding:10px;border-radius:12px;border:1px solid rgba(255,80,80,.3);background:rgba(255,80,80,.06);color:#ff5050;font-family:Nunito,sans-serif;font-weight:700;font-size:.83rem;cursor:pointer;">🗑️ Hapus Semua History</button>
+      </div>
+
       <button class="logout-btn" onclick="doLogout()">🚪 Keluar dari Akun</button>
+    </div>
+
+    <!-- MODAL: GANTI PASSWORD -->
+    <div id="changePwModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9000;align-items:center;justify-content:center;">
+      <div style="background:var(--surface);border-radius:20px;padding:24px;width:90%;max-width:340px;">
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;margin-bottom:16px;">🔑 Ganti Password</div>
+        <div style="position:relative;margin-bottom:10px;">
+          <input id="oldPwInput" type="password" placeholder="Password lama" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.88rem;outline:none;box-sizing:border-box;"/>
+        </div>
+        <div style="position:relative;margin-bottom:10px;">
+          <input id="newPwInput" type="password" placeholder="Password baru (min 6 karakter)" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.88rem;outline:none;box-sizing:border-box;"/>
+        </div>
+        <div id="changePwErr" style="display:none;color:#ff5050;font-size:.78rem;margin-bottom:8px;"></div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="submitChangePassword()" style="flex:1;padding:12px;border-radius:12px;border:none;background:var(--accent);color:#070a0f;font-family:Nunito,sans-serif;font-weight:800;cursor:pointer;">Simpan</button>
+          <button onclick="document.getElementById('changePwModal').style.display='none'" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-family:Nunito,sans-serif;font-weight:700;cursor:pointer;">Batal</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL: HAPUS AKUN -->
+    <div id="deleteAccModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9000;align-items:center;justify-content:center;">
+      <div style="background:var(--surface);border-radius:20px;padding:24px;width:90%;max-width:340px;">
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;margin-bottom:6px;color:#ff5050;">⚠️ Hapus Akun</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:14px;">Akun, history, dan data kamu akan dihapus permanen. Tindakan ini tidak bisa dibatalkan!</div>
+        <input id="deleteAccPwInput" type="password" placeholder="Masukkan password untuk konfirmasi" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(255,80,80,.4);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.88rem;outline:none;box-sizing:border-box;margin-bottom:10px;"/>
+        <div id="deleteAccErr" style="display:none;color:#ff5050;font-size:.78rem;margin-bottom:8px;"></div>
+        <div style="display:flex;gap:8px;">
+          <button onclick="submitDeleteAccount()" style="flex:1;padding:12px;border-radius:12px;border:none;background:#ff5050;color:#fff;font-family:Nunito,sans-serif;font-weight:800;cursor:pointer;">Hapus</button>
+          <button onclick="document.getElementById('deleteAccModal').style.display='none'" style="flex:1;padding:12px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);color:var(--muted);font-family:Nunito,sans-serif;font-weight:700;cursor:pointer;">Batal</button>
+        </div>
+      </div>
     </div>
 
     <!-- AVATAR PICKER MODAL -->
@@ -807,7 +945,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="settings-card">
         <div class="settings-card-title">🤖 Nama AI</div>
         <div class="settings-card-sub">Ganti nama Cheese AI sesuka hati</div>
-        <input type="text" id="aiNicknameInputPers" placeholder="Cheese AI" maxlength="20" style="width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.86rem;outline:none;transition:.2s;box-sizing:border-box;" onfocus="this.style.borderColor='rgba(245,200,66,.4)'" onblur="this.style.borderColor='var(--border)'" oninput="savePersonalisasi()"/>
+        <input type="text" id="aiNicknameInputPers" placeholder="Cheese AI v2.3" maxlength="20" style="width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.86rem;outline:none;transition:.2s;box-sizing:border-box;" onfocus="this.style.borderColor='rgba(245,200,66,.4)'" onblur="this.style.borderColor='var(--border)'" oninput="savePersonalisasi()"/>
       </div>
 
       <!-- SAVE BTN -->
@@ -822,8 +960,8 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="settings-card">
         <div class="settings-card-title">🗺️ Roadmap</div>
         <div style="margin-top:12px;">
-          <div style="margin-bottom:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.15 — Backend Aman + Premium System</span><span style="font-size:.72rem;color:var(--green);font-weight:700;">✅ 100%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:100%;background:var(--green);border-radius:10px;"></div></div></div>
-          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.2 — Dalam Pengembangan</span><span style="font-size:.72rem;color:#5865f2;font-weight:700;">20%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:20%;background:#5865f2;border-radius:10px;"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.3 — Memory + History + Notif + Streaming</span><span style="font-size:.72rem;color:#5865f2;font-weight:700;">60%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:60%;background:#5865f2;border-radius:10px;"></div></div></div>
+          <div style="margin-top:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.4 — Google Login + Xendit Payment 🔜</span><span style="font-size:.72rem;color:var(--muted);font-weight:700;">0%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:0%;background:#5865f2;border-radius:10px;"></div></div></div>
         </div>
       </div>
       <div class="sec-sub">Kustomisasi Cheese Platform sesuai selera Anda!</div>
@@ -837,7 +975,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
         <div class="settings-card-sub">Atur gaya bicara AI sesuai keinginan Anda</div>
         <div style="margin-bottom:14px;">
           <div style="font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Nama AI</div>
-          <input type="text" class="settings-input" id="aiNicknameInput" placeholder="Cheese AI" maxlength="20" oninput="saveAISettings()"/>
+          <input type="text" class="settings-input" id="aiNicknameInput" placeholder="Cheese AI v2.3" maxlength="20" oninput="saveAISettings()"/>
         </div>
         <div style="margin-bottom:14px;">
           <div style="font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Gaya Bicara</div>
@@ -904,7 +1042,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="settings-card">
         <div class="settings-card-title">ℹ️ Info Aplikasi</div>
         <div style="display:flex;flex-direction:column;gap:8px;font-size:.82rem;">
-          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Versi</span><span style="font-weight:700;color:var(--accent);">v3.15</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Versi</span><span style="font-weight:700;color:var(--accent);">v3.25</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Build</span><span style="font-weight:600;">2026.03d</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">AI Engine</span><span style="font-weight:600;" id="aiEngineDisplay">Mendeteksi...</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Developer</span><span style="font-weight:600;">K Studio 🧀</span></div>
@@ -1045,7 +1183,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
 // BACKEND URL — ganti dengan URL Cloudflare Worker Anda!
 // Contoh: 'https://cheese-api.namalo.workers.dev'
 // ============================================================
-var BACKEND_URL = 'https://full-whale-85.k-studio1.deno.net';
+var BACKEND_URL = 'https://lucky-snake-48.k-studio1.deno.net';
 
 var API_KEY = ''; // Tidak dipakai lagi — API key aman di backend
 var soundOn = true;
@@ -1102,7 +1240,7 @@ function savePersonalisasi() {
   
   // Update AI name display
   var aiNameEl = document.getElementById('aiName');
-  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI';
+  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI v2.3';
   
   // Also sync with old settings input
   var oldNick = document.getElementById('aiNicknameInput');
@@ -1217,35 +1355,36 @@ function loadConversation(id) {
   var conv = convs.find(function(c) { return c.id === id; });
   if(!conv) return;
 
-  // Pindah ke section chat dulu
-  showSection('chat');
   closeRiwayat();
-
   showSection('ai');
-  currentConvId = id;
-  var cb = document.getElementById('chatBox');
-  if(!cb) return;
-  cb.innerHTML = '';
-  chatHistory = [];
-  chatStarted = false;
-  currentMsgs = [];
 
-  var es = document.getElementById('emptyState'); if(es) es.remove();
-  var sw = document.getElementById('sugWrap'); if(sw) sw.style.display = 'none';
+  setTimeout(function() {
+    currentConvId = id;
+    var cb = document.getElementById('chatBox');
+    if(!cb) return;
+    cb.innerHTML = '';
+    chatHistory = [];
+    chatStarted = false;
+    currentMsgs = [];
 
-  conv.msgs.forEach(function(m) { addMsg(m.text, m.type); currentMsgs.push({type:m.type, text:m.text}); });
-  chatStarted = true;
+    var es = document.getElementById('emptyState'); if(es) es.remove();
+    var sw = document.getElementById('sugWrap'); if(sw) sw.style.display = 'none';
 
-  // Rebuild chatHistory for AI context
-  conv.msgs.slice(-10).forEach(function(m) {
-    chatHistory.push({ role: m.type === 'user' ? 'user' : 'assistant', content: m.text });
-  });
+    conv.msgs.forEach(function(m) { addMsg(m.text, m.type); currentMsgs.push({type:m.type, text:m.text}); });
+    chatStarted = true;
 
-  showToast('📂 Percakapan dibuka!', 'success', 2000);
+    // Rebuild chatHistory for AI context
+    conv.msgs.slice(-10).forEach(function(m) {
+      chatHistory.push({ role: m.type === 'user' ? 'user' : 'assistant', content: m.text });
+    });
+
+    // Scroll ke bawah
+    cb.scrollTop = cb.scrollHeight;
+    showToast('📂 Percakapan dibuka!', 'success', 2000);
+  }, 100);
 }
 
-function deleteConversation(id, event) {
-  event.stopPropagation();
+function deleteConversation(id) {
   var convs = getConversations().filter(function(c) { return c.id !== id; });
   saveConversations(convs);
   if(currentConvId === id) currentConvId = null;
@@ -1285,21 +1424,50 @@ function renderRiwayat() {
     list.innerHTML = '<div style="text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0;">Belum ada riwayat percakapan</div>';
     return;
   }
-  list.innerHTML = convs.map(function(c) {
-    return '<div onclick="loadConversation(\"'+c.id+'\")" style="padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:.2s;">'
-      +'<div style="flex:1;min-width:0;">'
-      +'<div style="font-size:.84rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+c.title+'</div>'
-      +'<div style="font-size:.68rem;color:var(--muted);margin-top:2px;">'+c.updated+'</div>'
-      +'</div>'
-      +'<button onclick="deleteConversation(\"'+c.id+'\", event)" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;flex-shrink:0;padding:4px;">🗑️</button>'
-      +'</div>';
-  }).join('');
+  list.innerHTML = '';
+  convs.forEach(function(c) {
+    var div = document.createElement('div');
+    div.style.cssText = 'padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:.2s;';
+    div.innerHTML = '<div style="flex:1;min-width:0;"><div style="font-size:.84rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + c.title + '</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + c.updated + '</div></div>';
+    div.addEventListener('click', function() { loadConversation(c.id); });
+    var btn = document.createElement('button');
+    btn.innerHTML = '🗑️';
+    btn.style.cssText = 'background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;flex-shrink:0;padding:4px;';
+    btn.addEventListener('click', function(e) { e.stopPropagation(); deleteConversation(c.id); });
+    div.appendChild(btn);
+    list.appendChild(div);
+  });
 }
-
 // ============================================================
 // INIT — load from localStorage
 // ============================================================
 (function init() {
+  // Animate splash bar
+  var splashBar = document.getElementById('splashBar');
+  var splashEl = document.getElementById('splashScreen');
+  var _sw = 0;
+  var _splashDone = false;
+  var splashIv = setInterval(function(){
+    _sw += 2.5;
+    if(splashBar) splashBar.style.width = Math.min(_sw,100)+'%';
+    if(_sw >= 100){
+      clearInterval(splashIv);
+      if(_splashDone) hideSplashEl();
+    }
+  }, 18);
+
+  function hideSplashEl(){
+    setTimeout(function(){
+      if(splashEl){ splashEl.style.transition='opacity .4s'; splashEl.style.opacity='0'; setTimeout(function(){ splashEl.style.display='none'; }, 400); }
+    }, 150);
+  }
+
+  function finishSplash(){
+    _splashDone = true;
+    if(_sw >= 100) hideSplashEl();
+    // else wait for interval to finish
+  }
+
   // Load users / session
   try { currentUser = JSON.parse(localStorage.getItem('cheeseCurrentUser') || 'null'); } catch(e){}
   try { stats = JSON.parse(localStorage.getItem('cheeseStats') || '{"games":0,"chats":0}'); } catch(e){}
@@ -1314,14 +1482,19 @@ function renderRiwayat() {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({token: savedToken})
     }).then(function(r){ return r.json(); }).then(function(data){
-      if(data.valid) { currentUser = data.user; enterApp(); }
-      else {
-        localStorage.removeItem('cheeseToken');
-        localStorage.removeItem('cheeseCurrentUser');
-      }
-    }).catch(function(){ if(currentUser) enterApp(); });
+      if(data.valid) { currentUser = data.user; }
+      else { localStorage.removeItem('cheeseToken'); localStorage.removeItem('cheeseCurrentUser'); }
+      finishSplash();
+      if(currentUser) enterApp();
+    }).catch(function(){
+      finishSplash();
+      if(currentUser) enterApp();
+    });
   } else if(currentUser) {
+    finishSplash();
     enterApp();
+  } else {
+    finishSplash();
   }
 })();
 
@@ -1366,6 +1539,16 @@ function checkRegisterLimit() {
   if(count >= 3) return false;
   sessionStorage.setItem('regCount', count + 1);
   return true;
+}
+
+function togglePass(id, btn){
+  var inp = document.getElementById(id);
+  if(!inp) return;
+  var show = inp.type === 'password';
+  inp.type = show ? 'text' : 'password';
+  btn.innerHTML = show
+    ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94"/><path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19"/><line x1="1" y1="1" x2="23" y2="23"/></svg>'
+    : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>';
 }
 
 function doRegister() {
@@ -1419,6 +1602,19 @@ function doLogout() {
   document.getElementById('authScreen').style.display = 'flex';
 }
 
+function doLogoutAll() {
+  if(!confirm('Logout dari semua perangkat? Semua sesi aktif akan dihapus.')) return;
+  var token = localStorage.getItem('cheeseToken');
+  if(token) {
+    fetch(BACKEND_URL + '/auth/logoutall', {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({token: token})
+    }).catch(function(){});
+  }
+  doLogout();
+  showToast('✅ Berhasil logout dari semua perangkat!', 'success', 2500);
+}
+
 function enterApp() {
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'block';
@@ -1435,11 +1631,17 @@ function enterApp() {
   document.getElementById('gamesPlayed').textContent = stats.games || stats.gamesTotal || 0;
   document.getElementById('chatCount').textContent = stats.chats || stats.chatTotal || 0;
   fetchMyStatus();
+  loadDashboard();
+  loadNotif();
+  updateProfileStatus();
+  // Guest banner
+  var gb = document.getElementById('guestBanner');
+  if(gb) gb.style.display = (currentUser && currentUser.isGuest) ? 'flex' : 'none';
   // apply accent
   if(aiSettings.accent) document.documentElement.style.setProperty('--accent', aiSettings.accent);
   // apply AI name in chat
   var aiNameEl = document.getElementById('aiNameDisplay');
-  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI';
+  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI v2.3';
 }
 
 // ============================================================
@@ -1536,19 +1738,66 @@ function sanitize(str) {
   return d.innerHTML;
 }
 
+function detectJailbreak(text) {
+  var patterns = [
+    /ignore (all |your |previous |prior )?(instructions?|rules?|guidelines?|prompt)/i,
+    /forget (everything|all|your|instructions?|rules?)/i,
+    /pretend (you are|to be)|act as (if )?you('re| are)/i,
+    /jailbreak|dan mode|evil mode|developer mode|god mode|unrestricted mode/i,
+    /no (restrictions?|limits?|rules?|guidelines?)/i,
+    /bypass (filter|restriction|rule|safety)/i,
+    /override (system|instruction|rule|safety)/i,
+    /\[system\]|\[admin\]|\[override\]|\[root\]/i,
+    /you are now (a|an) (different|new|other|unrestricted)/i,
+    /your (true|real|actual) (self|identity|nature)/i,
+    /without (any )?(restrictions?|limits?|filter|rules?)/i,
+  ];
+  return patterns.some(function(p){ return p.test(text); });
+}
+
 function validateInput(text) {
   if(!text || text.trim().length === 0) return false;
-  if(text.length > 1000) return false;
-  if(/<script|javascript:|on\w+=/i.test(text)) return false;
+  if(text.length > 2000) return false;
+  if(/\x3cscript[\s>]/i.test(text)) return false;
+  if(/javascript\s*:/i.test(text)) return false;
+  if(/vbscript\s*:/i.test(text)) return false;
+  if(/data\s*:\s*text\/html/i.test(text)) return false;
+  if(/(UNION.*SELECT|DROP.*TABLE)/i.test(text)) return false;
+  if(/ /.test(text)) return false;
   return true;
+}
+
+// Escape HTML to prevent XSS when inserting user content
+function escapeHtml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#x27;')
+    .replace(/\//g, '&#x2F;');
 }
 
 var msgTimestamps = [];
 function checkRateLimit() {
   var now = Date.now();
-  msgTimestamps = msgTimestamps.filter(function(t){ return now - t < 10000; });
-  if(msgTimestamps.length >= 5) return false;
+  msgTimestamps = msgTimestamps.filter(function(t){ return now - t < 8000; });
+  if(msgTimestamps.length >= 3) return false;
   msgTimestamps.push(now);
+  return true;
+}
+
+// Detect and block repeated spam
+var lastMsg = '';
+var repeatCount = 0;
+function checkSpam(text) {
+  if(text === lastMsg) {
+    repeatCount++;
+    if(repeatCount >= 3) return false; // Block after 3 identical messages
+  } else {
+    repeatCount = 0;
+    lastMsg = text;
+  }
   return true;
 }
 
@@ -1585,7 +1834,7 @@ var cheeseBrain = {
     {keys:["canva","figma","desain","design","ui ux","logo"],ans:["Tools desain recommended:\n🎨 Canva - mudah untuk pemula (gratis!)\n🖌️ Figma - UI/UX profesional\n🖼️ Photoshop - editing foto\n\nMulai dari Canva dulu. 🎨"]},
     {keys:["interview","cv","resume","lamaran kerja","magang"],ans:["Tips interview kerja:\n📄 CV: 1 halaman, jelas, no typo\n👔 Pakaian rapi\n🧠 Research perusahaan dulu\n💬 STAR method untuk jawab pertanyaan\n\nSemangat! Anda pasti bisa! 💪"]},
     {keys:["revan","kevin","k studio","siapa yang buat","pembuat","developer"],ans:["Cheese Platform dibuat oleh Kevin (K Studio) 🧀🔥\n\nK Studio adalah studio indie yang fokus bikin platform gaming & AI keren untuk Indonesia! Support K Studio dengan donasi di Settings ya. ❤️"]},
-    {keys:["versi","update","v3.15","changelog","fitur baru"],ans:["Cheese Platform v3.15 — update terbaru:\n🤖 Gemini 2.0 Flash (AI utama)\n🔄 OpenRouter fallback ke-3\n📅 AI mengetahui tanggal hari ini\n💼 Tampilan lebih formal & profesional\n\nTerus diperbarui!"]},
+    {keys:["versi","update","v3.25","changelog","fitur baru"],ans:["Cheese Platform v3.25 — update terbaru:\n🤖 Gemini 3.1 Flash Lite + Gemini 2.5 Pro\n🔄 9 engine AI dengan auto-fallback\n🦙 Llama 4 Scout + Llama 3.3 70b + Llama 3.2 Vision\n🔍 Web search Serper + analisis Gemini\n🖼️ Image generation Pollinations (gratis) + HF fallback\n👁️ Vision — analisis gambar multi-engine\n👤 Auth system (register & login)\n💎 Premium 50/hari & Developer mode\n📺 Rewarded ads (+1 limit)\n⭐ Rating system global\n⚡ Cache 30 menit\n🌐 Backend: quick-rook-60\n\nTerus diperbarui! 🧀"]},
     {keys:["snake","dino","battle","puzzle","quiz","tips game"],ans:["Game di Cheese Platform:\n🐍 Snake - spiral dari pinggir ke tengah!\n🦕 Dino - timing lompat yang pas!\n⚔️ Battle 2D - gunakan power-up!\n🧩 Puzzle 15 - mulai dari pojok!\n⚡ Quiz - baca soal pelan-pelan!\n\nMau tips detail game mana? 🎮"]},
     {keys:["ai","chatgpt","openai","groq","llama","artificial intelligence"],ans:["Dunia AI lagi booming! 🤖\n\nModel populer:\n• ChatGPT (OpenAI) - paling terkenal\n• Gemini (Google) - integrasi Google\n• Claude (Anthropic) - fokus safety\n• Groq + LLaMA - SUPER CEPAT (yang Cheese AI pake!)\n\nMau tau lebih dalam? 💡"]},
     {keys:["indonesia","jakarta","bandung","surabaya","bali","kota"],ans:["Indonesia negara luar biasa! 🇮🇩\n\nFakta seru:\n🏝️ 17.000+ pulau\n🗣️ 700+ bahasa daerah\n🌴 Keanekaragaman hayati terkaya ke-2 di dunia\n🏙️ Jakarta ibu kota (sementara Nusantara di Kalimantan sedang dibangun!)\n\nAnda berasal dari mana?"]},
@@ -1617,6 +1866,21 @@ function getTimeStr() {
   return n.getHours().toString().padStart(2,'0') + ':' + n.getMinutes().toString().padStart(2,'0');
 }
 
+function sanitizeAIOutput(html) {
+  // Block dangerous tags and attributes from AI output
+  html = html.replace(/\x3cscript[\s\S]*?\x3c\/script>/gi, '');
+  html = html.replace(/\x3ciframe[\s\S]*?>/gi, '');
+  html = html.replace(/\x3cobject[\s\S]*?>/gi, '');
+  html = html.replace(/\x3cembed[\s\S]*?>/gi, '');
+  html = html.replace(/\x3cform[\s\S]*?>/gi, '');
+  html = html.replace(/javascript\s*:/gi, '');
+  html = html.replace(/vbscript\s*:/gi, '');
+  html = html.replace(/on\w+\s*=\s*["'][^"']*["']/gi, '');
+  html = html.replace(/on\w+\s*=\s*[^\s>]*/gi, '');
+  html = html.replace(/data\s*:\s*text\/html/gi, '');
+  return html;
+}
+
 function renderMarkdown(text) {
   function escHtml(s){ return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
   var lines = text.split('\n');
@@ -1643,6 +1907,9 @@ function renderMarkdown(text) {
     line = line.replace(/`([^`]+)`/g, '<code style="background:#1a2430;padding:1px 5px;border-radius:4px;font-family:monospace;font-size:.85em;">$1</code>');
     line = line.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
     line = line.replace(/\*([^*]+)\*/g, '<em>$1</em>');
+    // Sanitize links - only allow http/https
+    line = line.replace(/\[([^\]]+)\]\(((?!https?:\/\/)[^)]+)\)/g, '$1');
+    line = line.replace(/\[([^\]]+)\]\((https?:\/\/[^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer" style="color:var(--accent);">$1</a>');
     if(line.indexOf('### ') === 0){ html += '<div style="font-weight:700;font-size:.95rem;margin:6px 0 2px;color:var(--accent);">' + line.slice(4) + '</div>'; continue; }
     if(line.indexOf('## ') === 0){ html += '<div style="font-weight:800;font-size:1rem;margin:8px 0 2px;color:var(--accent);">' + line.slice(3) + '</div>'; continue; }
     if(line.indexOf('# ') === 0){ html += '<div style="font-weight:800;font-size:1.05rem;margin:8px 0 3px;color:var(--accent);">' + line.slice(2) + '</div>'; continue; }
@@ -1651,7 +1918,7 @@ function renderMarkdown(text) {
     if(line.trim() === ''){ html += '<div style="height:6px;"></div>'; continue; }
     html += '<div>' + line + '</div>';
   }
-  return html;
+  return sanitizeAIOutput(html);
 }
 
 function copyCode(btn){
@@ -1732,7 +1999,72 @@ function addMsg(text, type) {
     };
     footer.appendChild(time);
     footer.appendChild(copyBtn);
+    // Edit button for user messages only
+    if(type === 'user') {
+      var editBtn = document.createElement('button');
+      editBtn.className = 'edit-btn';
+      editBtn.title = 'Edit pesan';
+      editBtn.innerHTML = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>`;
+      editBtn.onclick = function() {
+        var msgText = div.querySelector('.msg-text');
+        var originalText = msgText.textContent;
+        // Replace with textarea
+        var textarea = document.createElement('textarea');
+        textarea.className = 'edit-input';
+        textarea.value = originalText;
+        textarea.rows = Math.min(6, originalText.split('\n').length + 1);
+        var actions = document.createElement('div');
+        actions.className = 'edit-actions';
+        var saveBtn = document.createElement('button');
+        saveBtn.className = 'edit-save';
+        saveBtn.textContent = 'Kirim';
+        var cancelBtn = document.createElement('button');
+        cancelBtn.className = 'edit-cancel';
+        cancelBtn.textContent = 'Batal';
+        actions.appendChild(saveBtn);
+        actions.appendChild(cancelBtn);
+        msgText.replaceWith(textarea);
+        footer.style.display = 'none';
+        div.appendChild(actions);
+        textarea.focus();
+        cancelBtn.onclick = function() {
+          textarea.replaceWith(msgText);
+          actions.remove();
+          footer.style.display = '';
+        };
+        saveBtn.onclick = function() {
+          var newText = textarea.value.trim();
+          if(!newText) return;
+          textarea.replaceWith(msgText);
+          msgText.textContent = newText;
+          actions.remove();
+          footer.style.display = '';
+          // Remove all messages after this one and resend
+          var allMsgs = Array.from(document.getElementById('chatBox').children);
+          var idx = allMsgs.indexOf(div);
+          for(var i = allMsgs.length-1; i > idx; i--) {
+            allMsgs[i].remove();
+          }
+          // Update chat history
+          var userMsgs = document.querySelectorAll('.msg.user');
+          var userIdx = Array.from(userMsgs).indexOf(div);
+          chatHistory = chatHistory.slice(0, userIdx * 2);
+          currentMsgs = currentMsgs.slice(0, userIdx * 2);
+          // Resend
+          var inp = document.getElementById('userInput');
+          if(inp) { inp.value = newText; sendMessage(); }
+        };
+      };
+      footer.appendChild(editBtn);
+    }
     div.appendChild(footer);
+    // Disclaimer kecil di bawah pesan AI
+    if(type === 'ai') {
+      var disclaimer = document.createElement('div');
+      disclaimer.style.cssText = 'font-size:0.6rem;color:var(--muted);margin-top:2px;opacity:0.5;line-height:1.2;';
+      disclaimer.textContent = 'Informasi dapat keliru. Selalu verifikasi dari sumber terpercaya.';
+      div.appendChild(disclaimer);
+    }
   }
 
   cb.appendChild(div);
@@ -1798,7 +2130,7 @@ function getTodayStr() {
 }
 
 function getSystemPrompt() {
-  var nm = aiSettings.nickname || 'Cheese AI';
+  var nm = aiSettings.nickname || 'Cheese AI v2.3';
   var today = getTodayStr();
   var dateInfo = 'Hari ini adalah ' + today + '. ';
   var styles = {
@@ -1823,8 +2155,15 @@ async function sendMessage() {
   var sendBtn = document.getElementById('sendBtn');
   var text = input.value.trim();
   if(!text) return;
+  // Kalau ada foto pending, kirim sebagai vision
+  if(_pendingImgBase64 !== null && !text) { sendImgToAI(_pendingImgBase64, _pendingImgMime); return; }
+  if(_pendingImgBase64 !== null && text) { sendImgToAI(_pendingImgBase64, _pendingImgMime); return; }
   if(!validateInput(text)) { addMsg('⚠️ Input tidak valid atau mengandung karakter berbahaya!','err'); input.value=''; return; }
-  if(!checkRateLimit()) { addMsg('⚠️ TerlaAnda cepat! Mohon tunggu sebentar... 😅','err'); return; }
+  if(!checkSpam(text)) { addMsg('⚠️ Pesan yang sama terdeteksi berulang. Mohon variasikan pertanyaan Anda.','err'); return; }
+  if(detectJailbreak(text)) { addMsg('🛡️ Permintaan ini tidak dapat diproses karena melanggar kebijakan keamanan Cheese AI.','err'); input.value=''; return; }
+  if(!checkRateLimit()) { addMsg('⚠️ Terlalu cepat! Mohon tunggu sebentar... 😅','err'); return; }
+  // Cek status dari backend dulu
+  if(_premiumStatus && _premiumStatus.remaining === 0) { showPaywall(); return; }
 
   input.value = '';
   input.disabled = true;
@@ -1848,6 +2187,7 @@ async function sendMessage() {
           var hist = [{role:'system', content: sys}].concat(chatHistory.slice());
           return hist;
         })(),
+        token: localStorage.getItem('cheeseToken') || '',
         max_tokens: 512
       })
     });
@@ -1856,6 +2196,7 @@ async function sendMessage() {
     if(data.error) {
       chatHistory.pop();
       if(data.error === 'limit_exceeded') {
+        fetchMyStatus();
         showPaywall();
       } else {
         addMsg(data.message || data.error || 'Unknown error', 'err');
@@ -1867,6 +2208,9 @@ async function sendMessage() {
       saveChatHistory();
       saveCurrentConversation();
       sfxReceive();
+      // Update limit display setelah chat
+      loadDashboard();
+      updateProfileStatus();
       // Update AI Engine display
       if(data.engine) {
         var engineNames = {
@@ -1881,17 +2225,27 @@ async function sendMessage() {
           'deepseek-v3': 'DeepSeek V3',
           'huggingface-flux-dev': 'FLUX.1 Dev',
         };
-        var lastEng = localStorage.getItem('lastEngine');
-  var engEl = document.getElementById('aiEngineDisplay');
-  if(engEl && lastEng) engEl.textContent = lastEng;
-        if(el) el.textContent = engineNames[data.engine] || data.engine;
-        localStorage.setItem('lastEngine', engineNames[data.engine] || data.engine);
+        var engEl = document.getElementById('aiEngineDisplay');
+        var engName = engineNames[data.engine] || data.engine;
+        if(engEl) engEl.textContent = engName;
+        localStorage.setItem('lastEngine', engName);
       }
     }
   } catch(e) {
     if(typingEl && typingEl.parentNode) typingEl.remove();
-    chatHistory.pop();
-    addMsg('🔴 Koneksi ke AI gagal. Periksa koneksi internet Anda dan coba lagi.', 'err');
+    var lastMsg = chatHistory[chatHistory.length-1];
+    var cb = document.getElementById('chatBox');
+    var aiMsgs = cb ? cb.querySelectorAll('.msg.ai') : [];
+    var lastAiMsg = aiMsgs[aiMsgs.length-1];
+    // Cek apakah error terjadi SETELAH AI sudah jawab (engine display error dll)
+    // Caranya: cek apakah pesan terakhir di chatBox adalah dari AI
+    if(lastAiMsg && lastMsg && lastMsg.role === 'assistant'){
+      // AI sudah jawab, error dari proses lain - abaikan
+    } else {
+      chatHistory.pop();
+      // Cek apakah mungkin limit habis
+      fetchMyStatus().then && fetchMyStatus();
+    }
   }
   if(false) { // offline brain tetap ada sebagai fallback
     // Offline brain
@@ -1927,81 +2281,82 @@ function handleImgUpload(event) {
   event.target.value = '';
 }
 
-function closeImgModal(){var m=document.getElementById('imgCaptionModal');if(m)m.remove();}
+function closeImgModal(){
+  var bar = document.getElementById('imgPreviewBar');
+  if(bar) bar.remove();
+  var old = document.getElementById('imgCaptionModal');
+  if(old) old.remove();
+  _pendingImgBase64 = null;
+  _pendingImgMime = null;
+  var userInput = document.getElementById('userInput');
+  if(userInput) userInput.placeholder = 'Tulis pesan...';
+}
 
-var _pendingImgBase64 = ''; var _pendingImgMime = '';
+var _pendingImgBase64 = null; var _pendingImgMime = null;
 
 function closeImgModal(){var m=document.getElementById('imgCaptionModal');if(m)m.remove();}
 
 function showImgCaptionModal(base64, mimeType) {
   _pendingImgBase64 = base64;
   _pendingImgMime = mimeType;
-  var old = document.getElementById('imgCaptionModal');
+
+  // Hapus preview lama kalau ada
+  var old = document.getElementById('imgPreviewBar');
   if(old) old.remove();
 
-  var modal = document.createElement('div');
-  modal.id = 'imgCaptionModal';
-  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:9999;display:flex;align-items:flex-end;justify-content:center;backdrop-filter:blur(4px);';
+  // Buat preview bar di atas input
+  var bar = document.createElement('div');
+  bar.id = 'imgPreviewBar';
+  bar.style.cssText = 'display:flex;align-items:center;gap:8px;padding:8px 12px;background:var(--surface2);border-top:1px solid var(--border);animation:fadeIn .2s ease;';
 
-  var inner = document.createElement('div');
-  inner.style.cssText = 'background:var(--surface);border-radius:20px 20px 0 0;width:100%;max-width:500px;overflow:hidden;display:flex;flex-direction:column;max-height:90vh;';
+  // Thumbnail kecil
+  var thumb = document.createElement('div');
+  thumb.style.cssText = 'position:relative;flex-shrink:0;';
 
-  // Header
-  var header = document.createElement('div');
-  header.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px;border-bottom:1px solid var(--border);';
-  var htitle = document.createElement('span');
-  htitle.style.cssText = 'font-family:Outfit,sans-serif;font-weight:800;font-size:.95rem;';
-  htitle.textContent = '📸 Kirim Foto ke AI';
-  var hclose = document.createElement('button');
-  hclose.textContent = '✕';
-  hclose.style.cssText = 'background:none;border:none;color:var(--muted);font-size:1.1rem;cursor:pointer;padding:4px 8px;';
-  hclose.onclick = closeImgModal;
-  header.appendChild(htitle);
-  header.appendChild(hclose);
-
-  // Foto preview
-  var imgWrap = document.createElement('div');
-  imgWrap.style.cssText = 'background:#000;display:flex;align-items:center;justify-content:center;max-height:50vh;overflow:hidden;';
   var imgEl = document.createElement('img');
   imgEl.src = base64;
-  imgEl.style.cssText = 'max-width:100%;max-height:50vh;object-fit:contain;display:block;';
-  imgWrap.appendChild(imgEl);
+  imgEl.style.cssText = 'width:48px;height:48px;border-radius:10px;object-fit:cover;display:block;cursor:pointer;border:1.5px solid var(--border);';
+  imgEl.onclick = function(){ openImgViewer(base64); };
+  thumb.appendChild(imgEl);
 
-  // Input area
-  var inputArea = document.createElement('div');
-  inputArea.style.cssText = 'display:flex;align-items:flex-end;gap:8px;padding:10px 12px;border-top:1px solid var(--border);background:var(--surface);';
+  // Tombol hapus foto
+  var removeBtn = document.createElement('button');
+  removeBtn.textContent = '✕';
+  removeBtn.style.cssText = 'position:absolute;top:-5px;right:-5px;width:18px;height:18px;border-radius:50%;border:none;background:#ff5050;color:#fff;font-size:.6rem;cursor:pointer;display:flex;align-items:center;justify-content:center;font-weight:900;padding:0;line-height:1;z-index:10;';
+  removeBtn.addEventListener('click', function(e){ e.stopPropagation(); closeImgModal(); });
+  thumb.appendChild(removeBtn);
 
-  var inp = document.createElement('textarea');
-  inp.id = 'imgCaptionInput';
-  inp.placeholder = 'Tulis pertanyaan tentang foto ini...';
-  inp.rows = 1;
-  inp.style.cssText = 'flex:1;resize:none;padding:10px 14px;border-radius:20px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.92rem;outline:none;max-height:100px;overflow-y:auto;line-height:1.4;';
-  inp.oninput = function(){
-    this.style.height = 'auto';
-    this.style.height = Math.min(this.scrollHeight, 100) + 'px';
-  };
-  inp.onkeydown = function(e){
-    if(e.key === 'Enter' && !e.shiftKey){ e.preventDefault(); sendImgToAI(_pendingImgBase64, _pendingImgMime); }
-  };
+  // Label
+  var label = document.createElement('div');
+  label.style.cssText = 'flex:1;';
+  var labelText = document.createElement('div');
+  labelText.style.cssText = 'font-size:.75rem;color:var(--muted);margin-bottom:2px;';
+  labelText.textContent = '📷 Foto siap dikirim';
+  var labelSub = document.createElement('div');
+  labelSub.style.cssText = 'font-size:.68rem;color:var(--muted);opacity:.7;';
+  labelSub.textContent = 'Ketik pertanyaan lalu tekan kirim';
+  label.appendChild(labelText);
+  label.appendChild(labelSub);
 
-  var btnKirim = document.createElement('button');
-  btnKirim.innerHTML = '▶';
-  btnKirim.style.cssText = 'width:42px;height:42px;border-radius:50%;border:none;background:var(--accent);color:#000;font-size:1rem;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-weight:900;';
-  btnKirim.onclick = function(){ sendImgToAI(_pendingImgBase64, _pendingImgMime); };
+  bar.appendChild(thumb);
+  bar.appendChild(label);
 
-  inputArea.appendChild(inp);
-  inputArea.appendChild(btnKirim);
+  // Sisipkan bar di atas input row
+  var inputRow = document.querySelector('.chat-input-row');
+  if(inputRow && inputRow.parentNode) {
+    inputRow.parentNode.insertBefore(bar, inputRow);
+  }
 
-  inner.appendChild(header);
-  inner.appendChild(imgWrap);
-  inner.appendChild(inputArea);
-  modal.appendChild(inner);
-  document.body.appendChild(modal);
-  setTimeout(function(){ inp.focus(); }, 150);
+  // Fokus ke input teks
+  var userInput = document.getElementById('userInput');
+  if(userInput) {
+    userInput.placeholder = 'Tulis pertanyaan tentang foto...';
+    setTimeout(function(){ userInput.focus(); }, 100);
+  }
 }
 
 function sendImgToAI(base64, mimeType) {
-  var inp = document.getElementById('imgCaptionInput');
+  var inp = document.getElementById('userInput');
   var caption = inp ? inp.value.trim() : '';
   closeImgModal();
 
@@ -2041,16 +2396,16 @@ function sendImgToAI(base64, mimeType) {
   var b64data = base64.split(',')[1];
   var prompt = caption || 'Jelaskan isi gambar ini secara detail dalam bahasa Indonesia.';
 
-  fetch(BACKEND+'/vision', {
+  fetch(BACKEND_URL+'/vision', {
     method:'POST',
     headers:{'Content-Type':'application/json'},
-    body: JSON.stringify({ image: b64data, mimeType: mimeType, prompt: prompt })
+    body: JSON.stringify({ imageBase64: b64data, mimeType: mimeType, prompt: prompt })
   })
   .then(function(r){ return r.json(); })
   .then(function(data){
     if(typingEl && typingEl.parentNode) typingEl.remove();
-    if(data.result) {
-      addMsg(data.result, 'ai');
+    if(data.reply) {
+      addMsg(data.reply, 'ai');
     } else {
       addMsg('⚠️ Gagal analisis: '+(data.error||'Unknown error'), 'err');
     }
@@ -2108,6 +2463,7 @@ function sfxClick()  { playTone(600,'sine',.04,.08); }
 function sfxReceive(){ playTone(440,'sine',.05,.07); }
 function sfxWin()    { [523,587,659,698,784].forEach(function(f,i){ playTone(f,'sine',.12,.14,i*.1); }); }
 function sfxPuzzle() { playTone(440,'sine',.05,.1); }
+function sfxClang()  { playTone(800,'square',.12,.08); playTone(1200,'square',.08,.08,.02); playTone(400,'sawtooth',.1,.15,.05); }
 function sfxNav()    { playTone(700,'sine',.03,.05); }
 
 function toggleSound() {
@@ -2174,7 +2530,7 @@ function renderSettings() {
 
   // AI Nickname
   var nickEl = document.getElementById('aiNicknameInput');
-  if(nickEl) nickEl.value = aiSettings.nickname || 'Cheese AI';
+  if(nickEl) nickEl.value = aiSettings.nickname || 'Cheese AI v2.3';
 
   // Style buttons
   var sg = document.getElementById('styleGrid');
@@ -2479,6 +2835,185 @@ function fetchMyStatus() {
       else pb.textContent = '⭐ Premium';
     }
   }).catch(function(){});
+}
+
+function loadDashboard() {
+  fetch(BACKEND_URL + '/mystatus').then(function(r){ return r.json(); }).then(function(data){
+    var limitEl = document.getElementById('dashLimit');
+    var adEl = document.getElementById('dashAd');
+    var tierEl = document.getElementById('dashTier');
+    var statusEl = document.getElementById('dashStatus');
+    if(limitEl) limitEl.textContent = Math.max(0, data.remaining);
+    if(adEl) adEl.textContent = Math.max(0, data.adRemaining);
+    if(tierEl) {
+      if(data.isDev) { tierEl.textContent = '👑 Developer'; tierEl.style.background = 'rgba(245,200,66,.2)'; tierEl.style.color = '#f5c842'; }
+      else if(data.isPremium) { tierEl.textContent = '💎 Premium'; tierEl.style.background = 'rgba(88,101,242,.2)'; tierEl.style.color = '#5865f2'; }
+      else { tierEl.textContent = '🧀 Normal'; }
+    }
+    if(statusEl) { statusEl.textContent = 'Online'; statusEl.style.color = 'var(--green)'; }
+  }).catch(function(){
+    var statusEl = document.getElementById('dashStatus');
+    if(statusEl) { statusEl.textContent = 'Offline'; statusEl.style.color = '#ff4444'; }
+  });
+}
+
+function loadNotif() {
+  fetch(BACKEND_URL + '/notif').then(function(r){ return r.json(); }).then(function(data){
+    if(data.notifs && data.notifs.length > 0) {
+      var notif = data.notifs[0];
+      var seen = localStorage.getItem('cheeseNotifSeen');
+      if(seen === notif.id) return;
+      var icon = notif.type === 'warning' ? '⚠️' : notif.type === 'success' ? '✅' : 'ℹ️';
+      showToast(icon + ' ' + notif.title + ': ' + notif.message, notif.type === 'warning' ? 'err' : 'success', 5000);
+      localStorage.setItem('cheeseNotifSeen', notif.id);
+    }
+  }).catch(function(){});
+}
+
+// ============================================================
+// PROFILE FUNCTIONS
+// ============================================================
+function profileRedeem() {
+  var input = document.getElementById('profileRedeemInput');
+  var code = input ? input.value.trim() : '';
+  if(!code) { showToast('⚠️ Masukkan kode premium dulu!', 'err', 2000); return; }
+  fetch(BACKEND_URL + '/redeem', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({code: code})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data.success) {
+      sfxCorrect();
+      showToast(data.message, 'success', 3000);
+      if(input) input.value = '';
+      loadDashboard();
+      updateProfileStatus();
+    } else {
+      sfxWrong();
+      showToast('❌ ' + (data.error || 'Kode tidak valid'), 'err', 2500);
+    }
+  }).catch(function(){ showToast('❌ Gagal connect ke server', 'err', 2000); });
+}
+
+function updateProfileStatus() {
+  fetch(BACKEND_URL + '/mystatus').then(function(r){ return r.json(); }).then(function(data){
+    var tierEl = document.getElementById('profileTier');
+    var limitEl = document.getElementById('profileLimit');
+    var expiryRow = document.getElementById('profileExpiryRow');
+    var expiryEl = document.getElementById('profileExpiry');
+    if(tierEl) {
+      if(data.isDev) tierEl.textContent = '👑 Developer';
+      else if(data.isPremium) tierEl.textContent = '💎 Premium';
+      else tierEl.textContent = '🧀 Normal';
+    }
+    if(limitEl) limitEl.textContent = Math.max(0, data.remaining) + ' tersisa';
+    if(expiryRow && expiryEl && data.isPremium && data.premiumExpiry) {
+      expiryRow.style.display = 'flex';
+      expiryEl.textContent = new Date(data.premiumExpiry).toLocaleDateString('id-ID', {day:'numeric',month:'long',year:'numeric'});
+    } else if(expiryRow) {
+      expiryRow.style.display = 'none';
+    }
+  }).catch(function(){});
+}
+
+function openChangePassword() {
+  if(currentUser && currentUser.isGuest) { showToast('⚠️ Akun guest tidak bisa ganti password. Daftar dulu!', 'err', 2500); return; }
+  document.getElementById('oldPwInput').value = '';
+  document.getElementById('newPwInput').value = '';
+  document.getElementById('changePwErr').style.display = 'none';
+  document.getElementById('changePwModal').style.display = 'flex';
+}
+
+function submitChangePassword() {
+  var oldPw = document.getElementById('oldPwInput').value.trim();
+  var newPw = document.getElementById('newPwInput').value.trim();
+  var errEl = document.getElementById('changePwErr');
+  if(!oldPw || !newPw) { errEl.textContent = 'Semua field wajib diisi.'; errEl.style.display = 'block'; return; }
+  if(newPw.length < 6) { errEl.textContent = 'Password baru minimal 6 karakter.'; errEl.style.display = 'block'; return; }
+  var token = localStorage.getItem('cheeseToken') || '';
+  fetch(BACKEND_URL + '/auth/changepassword', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({token: token, oldPassword: oldPw, newPassword: newPw})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data.success) {
+      document.getElementById('changePwModal').style.display = 'none';
+      showToast('✅ Password berhasil diubah!', 'success', 2500);
+    } else {
+      errEl.textContent = data.error || 'Gagal ganti password.';
+      errEl.style.display = 'block';
+    }
+  }).catch(function(){ errEl.textContent = 'Gagal connect ke server.'; errEl.style.display = 'block'; });
+}
+
+function openDeleteAccount() {
+  if(currentUser && currentUser.isGuest) { showToast('⚠️ Akun guest tidak perlu dihapus.', 'err', 2000); return; }
+  document.getElementById('deleteAccPwInput').value = '';
+  document.getElementById('deleteAccErr').style.display = 'none';
+  document.getElementById('deleteAccModal').style.display = 'flex';
+}
+
+function submitDeleteAccount() {
+  var pw = document.getElementById('deleteAccPwInput').value.trim();
+  var errEl = document.getElementById('deleteAccErr');
+  if(!pw) { errEl.textContent = 'Masukkan password dulu.'; errEl.style.display = 'block'; return; }
+  var token = localStorage.getItem('cheeseToken') || '';
+  fetch(BACKEND_URL + '/auth/deleteaccount', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({token: token, password: pw})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data.success) {
+      document.getElementById('deleteAccModal').style.display = 'none';
+      showToast('✅ Akun berhasil dihapus.', 'success', 2000);
+      setTimeout(function(){ doLogout(); }, 1500);
+    } else {
+      errEl.textContent = data.error || 'Gagal hapus akun.';
+      errEl.style.display = 'block';
+    }
+  }).catch(function(){ errEl.textContent = 'Gagal connect ke server.'; errEl.style.display = 'block'; });
+}
+
+function loadChatHistory() {
+  var token = localStorage.getItem('cheeseToken') || '';
+  if(!token) { showToast('⚠️ Login dulu untuk lihat history.', 'err', 2000); return; }
+  var listEl = document.getElementById('profileHistoryList');
+  if(listEl) listEl.innerHTML = '<div style="font-size:.78rem;color:var(--muted);text-align:center;padding:12px;">Loading...</div>';
+  fetch(BACKEND_URL + '/history', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({token: token})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(!listEl) return;
+    if(!data.history || data.history.length === 0) {
+      listEl.innerHTML = '<div style="font-size:.78rem;color:var(--muted);text-align:center;padding:12px;">Belum ada history chat.</div>';
+      return;
+    }
+    var html = '';
+    data.history.slice(-20).reverse().forEach(function(h) {
+      if(h.role !== 'user') return;
+      var time = new Date(h.timestamp).toLocaleDateString('id-ID', {day:'numeric',month:'short',hour:'2-digit',minute:'2-digit'});
+      html += '<div style="background:var(--surface2);border-radius:10px;padding:8px 10px;">' +
+        '<div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">' + time + '</div>' +
+        '<div style="font-size:.78rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + h.content.slice(0,80) + '</div>' +
+        '</div>';
+    });
+    listEl.innerHTML = html || '<div style="font-size:.78rem;color:var(--muted);text-align:center;padding:12px;">Belum ada history.</div>';
+  }).catch(function(){
+    if(listEl) listEl.innerHTML = '<div style="font-size:.78rem;color:#ff5050;text-align:center;padding:12px;">Gagal load history.</div>';
+  });
+}
+
+function clearChatHistoryBackend() {
+  if(!confirm('Hapus semua history chat dari server?')) return;
+  var token = localStorage.getItem('cheeseToken') || '';
+  fetch(BACKEND_URL + '/history/clear', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({token: token})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data.success) {
+      showToast('✅ History berhasil dihapus!', 'success', 2000);
+      loadChatHistory();
+    } else {
+      showToast('❌ Gagal hapus history.', 'err', 2000);
+    }
+  }).catch(function(){ showToast('❌ Gagal connect ke server.', 'err', 2000); });
 }
 
 var BADGES = [
@@ -2898,6 +3433,405 @@ function restartBattle(){
   if(scoreEl) scoreEl.textContent = '0';
   var canvas = document.getElementById('battleCanvas');
   if(canvas) initBattle(canvas);
+  sfxClick();
+}
+
+
+// ===== MINI GAMES =====
+
+function initSnake() {
+  var gc = document.getElementById('gameContent');
+  gc.innerHTML = '<div class="score-row" style="width:100%;padding:0 2px;">'
+    +'<div class="g-score">Skor: <span id="gs">0</span></div>'
+    +'<div class="g-best">Best: <span id="gb">'+(localStorage.getItem('snakeHigh')||0)+'</span></div></div>'
+    +'<div style="position:relative;"><canvas id="gc" width="400" height="280"></canvas></div>'
+    +'<div class="dpad-wrap">'
+    +'<div class="dpad-row"><button class="dpad-btn" id="dU" ontouchstart="dpad(\'up\');event.preventDefault();" onmousedown="dpad(\'up\')">▲</button></div>'
+    +'<div class="dpad-row">'
+    +'<button class="dpad-btn" id="dL" ontouchstart="dpad(\'left\');event.preventDefault();" onmousedown="dpad(\'left\')">◀</button>'
+    +'<button class="dpad-btn" style="visibility:hidden;width:52px;"></button>'
+    +'<button class="dpad-btn" id="dR" ontouchstart="dpad(\'right\');event.preventDefault();" onmousedown="dpad(\'right\')">▶</button>'
+    +'</div>'
+    +'<div class="dpad-row"><button class="dpad-btn" id="dD" ontouchstart="dpad(\'down\');event.preventDefault();" onmousedown="dpad(\'down\')">▼</button></div>'
+    +'</div>'
+    +'<div class="ctrl-txt">Arrow / WASD / D-Pad untuk bergerak</div>';
+
+  var canvas = document.getElementById('gc');
+  snakeCtx = canvas.getContext('2d');
+  var cell=20;
+  snakeData = {
+    snake:[{x:10,y:7},{x:9,y:7},{x:8,y:7}],
+    food:null, dir:{x:1,y:0}, next:{x:1,y:0},
+    rows:Math.floor(280/cell), cols:Math.floor(400/cell),
+    cell:cell, dead:false
+  };
+  snakePlaceFood();
+  if(gameInterval) clearInterval(gameInterval);
+  gameInterval = setInterval(tickSnake, 130);
+
+  document.onkeydown = function(e) {
+    var d = snakeData.dir;
+    if((e.key==='ArrowUp'||e.key==='w')&&d.y===0){snakeData.next={x:0,y:-1};e.preventDefault();}
+    if((e.key==='ArrowDown'||e.key==='s')&&d.y===0){snakeData.next={x:0,y:1};e.preventDefault();}
+    if((e.key==='ArrowLeft'||e.key==='a')&&d.x===0){snakeData.next={x:-1,y:0};e.preventDefault();}
+    if((e.key==='ArrowRight'||e.key==='d')&&d.x===0){snakeData.next={x:1,y:0};e.preventDefault();}
+  };
+}
+
+function dpad(dir){
+  if(!snakeData || snakeData.dead) return;
+  var d = snakeData.dir;
+  if(dir==='up'    && d.y===0) snakeData.next={x:0,y:-1};
+  if(dir==='down'  && d.y===0) snakeData.next={x:0,y:1};
+  if(dir==='left'  && d.x===0) snakeData.next={x:-1,y:0};
+  if(dir==='right' && d.x===0) snakeData.next={x:1,y:0};
+}
+
+function snakePlaceFood() {
+  var s=snakeData,food,tries=0;
+  do{food={x:Math.floor(Math.random()*s.cols),y:Math.floor(Math.random()*s.rows)};tries++;}
+  while(tries<200&&s.snake.some(function(p){return p.x===food.x&&p.y===food.y;}));
+  s.food=food;
+}
+
+function tickSnake() {
+  var s=snakeData,c=snakeCtx,cell=s.cell;
+  if(s.dead)return;
+  s.dir={x:s.next.x,y:s.next.y};
+  var head={x:s.snake[0].x+s.dir.x,y:s.snake[0].y+s.dir.y};
+  if(head.x<0||head.x>=s.cols||head.y<0||head.y>=s.rows||s.snake.some(function(p){return p.x===head.x&&p.y===head.y;})) {
+    s.dead=true; clearInterval(gameInterval);
+    sfxDie();
+    var best=parseInt(localStorage.getItem('snakeHigh')||0);
+    if(gameScore>best){best=gameScore;localStorage.setItem('snakeHigh',best);}
+    var gc=document.getElementById('gc');if(gc&&gc.parentNode)gc.parentNode.insertAdjacentHTML('beforeend',makeGameOver(gameScore,best));
+    return;
+  }
+  s.snake.unshift(head);
+  if(head.x===s.food.x&&head.y===s.food.y) {
+    gameScore+=10;
+    var el=document.getElementById('gs');if(el)el.textContent=gameScore;
+    sfxEat(); snakePlaceFood();
+  } else { s.snake.pop(); }
+
+  c.fillStyle='#0a0f15';c.fillRect(0,0,400,280);
+  c.strokeStyle='rgba(255,255,255,.025)';c.lineWidth=1;
+  for(var i=0;i<=s.cols;i++){c.beginPath();c.moveTo(i*cell,0);c.lineTo(i*cell,280);c.stroke();}
+  for(var j=0;j<=s.rows;j++){c.beginPath();c.moveTo(0,j*cell);c.lineTo(400,j*cell);c.stroke();}
+  c.shadowColor='#ff6b35';c.shadowBlur=10;
+  c.fillStyle='#ff6b35';c.beginPath();c.arc(s.food.x*cell+cell/2,s.food.y*cell+cell/2,cell/2-2,0,Math.PI*2);c.fill();
+  c.shadowBlur=0;
+  s.snake.forEach(function(p,i){
+    c.fillStyle=i===0?'#f5c842':i<3?'#e0b030':'#00e5a0';
+    c.beginPath();c.roundRect(p.x*cell+1,p.y*cell+1,cell-2,cell-2,i===0?6:3);c.fill();
+  });
+}
+
+function initDino() {
+  var gc=document.getElementById('gameContent');
+  gc.innerHTML='<div class="score-row" style="width:100%;padding:0 2px;">'
+    +'<div class="g-score">Skor: <span id="gs">0</span></div>'
+    +'<div class="g-best">Best: <span id="gb">'+(localStorage.getItem('dinoHigh')||0)+'</span></div></div>'
+    +'<div style="position:relative;"><canvas id="gc" width="400" height="180"></canvas></div>'
+    +'<div style="display:flex;justify-content:center;margin-top:8px;">'
+    +'<button class="dpad-btn" style="width:110px;height:52px;font-family:Outfit,sans-serif;font-weight:700;font-size:.85rem;" onmousedown="dinoJump()" ontouchstart="dinoJump();event.preventDefault()">⬆ LOMPAT</button>'
+    +'</div>'
+    +'<div class="ctrl-txt">Spasi / Klik / Tap untuk lompat</div>';
+
+  var canvas=document.getElementById('gc');
+  var ctx=canvas.getContext('2d');
+  dinoState={dino:{x:60,y:110,vy:0,jumping:false,h:36,w:28},obs:[],speed:3.5,frame:0,score:0,dead:false,ground:110,ctx:ctx};
+  if(dinoRAF) cancelAnimationFrame(dinoRAF);
+  document.onkeydown=function(e){if(e.code==='Space'){e.preventDefault();dinoJump();}};
+  canvas.onclick=dinoJump;
+  canvas.ontouchstart=function(e){e.preventDefault();dinoJump();};
+  spawnObs();
+  dinoRAF=requestAnimationFrame(dinoLoop);
+}
+
+function dinoJump(){
+  if(!dinoState||dinoState.dead)return;
+  if(!dinoState.dino.jumping){dinoState.dino.vy=-10;dinoState.dino.jumping=true;sfxJump();}
+}
+
+function spawnObs(){
+  var s=dinoState,h=28+Math.random()*18;
+  var lastX=s.obs.length?s.obs[s.obs.length-1].x:410;
+  s.obs.push({x:Math.max(430,lastX+(170+Math.random()*130)),y:s.ground+s.dino.h-h,w:18,h:h});
+}
+
+function dinoLoop(){
+  var s=dinoState;if(!s||s.dead)return;
+  var d=s.dino,ctx=s.ctx;
+  s.frame++;s.score+=0.08;
+  gameScore=Math.floor(s.score);
+  var el=document.getElementById('gs');if(el)el.textContent=gameScore;
+  s.speed=3.5+s.score*0.004;
+  d.vy+=0.5;d.y+=d.vy;
+  if(d.y>=s.ground){d.y=s.ground;if(d.jumping&&d.vy>2)sfxLand();d.vy=0;d.jumping=false;}
+  s.obs.forEach(function(o){o.x-=s.speed;});
+  s.obs=s.obs.filter(function(o){return o.x>-30;});
+  if(!s.obs.length||s.obs[s.obs.length-1].x<350)spawnObs();
+  var hit=s.obs.some(function(o){return d.x+d.w-8>o.x+4&&d.x+8<o.x+o.w-4&&d.y+d.h-4>o.y+4;});
+  if(hit){
+    s.dead=true;sfxDie();
+    var best=parseInt(localStorage.getItem('dinoHigh')||0);
+    if(gameScore>best){best=gameScore;localStorage.setItem('dinoHigh',best);}
+    var gc=document.getElementById('gc');if(gc&&gc.parentNode)gc.parentNode.insertAdjacentHTML('beforeend',makeGameOver(gameScore,best));
+    return;
+  }
+  ctx.fillStyle='#0a0f15';ctx.fillRect(0,0,400,180);
+  ctx.strokeStyle='rgba(245,200,66,.15)';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(0,s.ground+d.h+2);ctx.lineTo(400,s.ground+d.h+2);ctx.stroke();
+  // Dino
+  ctx.fillStyle='#f5c842';ctx.beginPath();ctx.roundRect(d.x,d.y,d.w,d.h,6);ctx.fill();
+  ctx.fillStyle='#080b10';ctx.fillRect(d.x+d.w-7,d.y+5,4,4);
+  if(!d.jumping){
+    var leg=s.frame%16<8;
+    ctx.fillStyle='#f5c842';
+    ctx.fillRect(d.x+6,d.y+d.h,5,leg?9:5);
+    ctx.fillRect(d.x+17,d.y+d.h,5,leg?5:9);
+  }
+  // Obstacles
+  s.obs.forEach(function(o){
+    ctx.fillStyle='#ff6b35';ctx.shadowColor='#ff6b35';ctx.shadowBlur=6;
+    ctx.beginPath();ctx.roundRect(o.x,o.y,o.w,o.h,4);ctx.fill();
+    ctx.shadowBlur=0;
+    ctx.fillStyle='#ff8c55';ctx.fillRect(o.x+3,o.y-8,o.w-6,10);
+  });
+  ctx.fillStyle='rgba(245,200,66,.5)';ctx.font='bold 12px Syne,sans-serif';
+  ctx.fillText('SCORE '+gameScore,310,18);
+  dinoRAF=requestAnimationFrame(dinoLoop);
+}
+
+function initPuzzle(){
+  var gc=document.getElementById('gameContent');
+  gc.innerHTML='<div class="score-row" style="width:100%;padding:0 2px;">'
+    +'<div class="g-score">Moves: <span id="gs">0</span></div>'
+    +'<div class="g-best">Best: <span id="gb">'+(localStorage.getItem('puzzleBest')||'-')+'</span></div></div>'
+    +'<div id="puzzleBoard" class="puzzle-grid" style="grid-template-columns:repeat(4,64px);width:284px;margin:8px auto;position:relative;"></div>'
+    +'<div class="ctrl-txt">Tap tile di sebelah kotak kosong untuk memindahkan</div>';
+  var tiles=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0];
+  for(var i=tiles.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=tiles[i];tiles[i]=tiles[j];tiles[j]=t;}
+  puzzleData={tiles:tiles,moves:0};
+  renderPuzzle();
+}
+
+function renderPuzzle(){
+  var board=document.getElementById('puzzleBoard');if(!board)return;
+  board.innerHTML='';
+  puzzleData.tiles.forEach(function(t,i){
+    var el=document.createElement('div');
+    el.className='puzzle-tile';
+    if(t===0){
+      el.style.cssText='background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.1);cursor:default;';
+    } else {
+      el.textContent=t;
+      var bg=t<6?'rgba(245,200,66,.15)':t<11?'rgba(0,229,160,.12)':'rgba(255,107,53,.12)';
+      el.style.cssText='background:'+bg+';border:1.5px solid rgba(255,255,255,.1);color:#e8edf2;';
+      var idx=i;
+      el.onclick=function(){movePuzzle(idx);};
+    }
+    board.appendChild(el);
+  });
+  // Win check
+  var won=puzzleData.tiles.slice(0,15).every(function(t,i){return t===i+1;})&&puzzleData.tiles[15]===0;
+  if(won){
+    sfxWin();
+    var best=parseInt(localStorage.getItem('puzzleBest')||9999);
+    if(puzzleData.moves<best){best=puzzleData.moves;localStorage.setItem('puzzleBest',best);}
+    setTimeout(function(){
+      board.insertAdjacentHTML('afterend','<div class="gameover-overlay show" style="position:absolute;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;border-radius:10px;">'
+        +'<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.2rem;color:var(--green);">Selesai! 🎉</div>'
+        +'<div style="font-size:.84rem;color:var(--muted);">'+puzzleData.moves+' moves | Best: '+best+'</div>'
+        +'<button class="restart-btn" onclick="restartGame()">🔄 Main Lagi</button></div>');
+    },200);
+  }
+}
+
+function movePuzzle(i){
+  var t=puzzleData.tiles,zero=t.indexOf(0);
+  var valid=[zero-1,zero+1,zero-4,zero+4];
+  if(zero%4===0) valid=valid.filter(function(v){return v!==zero-1;});
+  if(zero%4===3) valid=valid.filter(function(v){return v!==zero+1;});
+  if(valid.indexOf(i)!==-1){
+    t[zero]=t[i];t[i]=0;
+    sfxPuzzle();
+    puzzleData.moves++;
+    var el=document.getElementById('gs');if(el)el.textContent=puzzleData.moves;
+    renderPuzzle();
+  }
+}
+
+
+var quizBank=[
+  {q:"Planet terbesar di tata surya?",opts:["Bumi","Saturnus","Jupiter","Neptunus"],ans:2},
+  {q:"Berapa jumlah warna pelangi?",opts:["5","6","7","8"],ans:2},
+  {q:"Bahasa pemrograman yang dibuat oleh Guido van Rossum?",opts:["Java","Python","Ruby","Go"],ans:1},
+  {q:"Ibu kota Australia?",opts:["Sydney","Melbourne","Canberra","Brisbane"],ans:2},
+  {q:"Siapa penemu telepon?",opts:["Edison","Bell","Tesla","Marconi"],ans:1},
+  {q:"Apa kepanjangan dari HTML?",opts:["Hyper Text Markup Language","High Tech Modern Language","Home Tool Markup Language","Hyper Transfer Markup Logic"],ans:0},
+  {q:"Berapa jumlah provinsi di Indonesia (2024)?",opts:["34","36","37","38"],ans:3},
+  {q:"Game battle royale populer buatan Epic Games?",opts:["PUBG","Apex Legends","Fortnite","Warzone"],ans:2},
+  {q:"Aplikasi musik streaming terbesar di dunia?",opts:["Apple Music","Spotify","YouTube Music","Deezer"],ans:1},
+  {q:"Siapa CEO Tesla saat ini?",opts:["Bill Gates","Jeff Bezos","Elon Musk","Mark Zuckerberg"],ans:2},
+  {q:"CPU singkatan dari?",opts:["Central Processing Unit","Computer Personal Unit","Core Power Unit","Central Program Utility"],ans:0},
+  {q:"Mata uang Jepang?",opts:["Won","Yuan","Yen","Baht"],ans:2},
+  {q:"Berapa banyak string pada gitar standar?",opts:["4","5","6","7"],ans:2},
+  {q:"Siapa pencipta Facebook?",opts:["Steve Jobs","Bill Gates","Mark Zuckerberg","Larry Page"],ans:2},
+  {q:"Lagu 'Shape of You' dari?",opts:["Justin Bieber","Ed Sheeran","Bruno Mars","The Weeknd"],ans:1},
+  {q:"Apa nama OS buatan Apple untuk iPhone?",opts:["Android","Windows","iOS","HarmonyOS"],ans:2},
+  {q:"Benua terluas di dunia?",opts:["Amerika","Afrika","Asia","Eropa"],ans:2},
+  {q:"Siapa yang menemukan listrik?",opts:["Einstein","Newton","Franklin","Edison"],ans:2},
+  {q:"Apa itu RAM?",opts:["Random Access Memory","Read All Memory","Rapid Access Module","Run Access Memory"],ans:0},
+  {q:"Indonesia merdeka pada tahun?",opts:["1944","1945","1946","1947"],ans:1},
+  {q:"Game MOBA populer di mobile?",opts:["Free Fire","PUBG Mobile","Mobile Legends","COD Mobile"],ans:2},
+  {q:"YouTube dimiliki oleh?",opts:["Meta","Microsoft","Apple","Google"],ans:3},
+  {q:"Satuan kecepatan internet?",opts:["MB","Mbps","GHz","Hz"],ans:1},
+  {q:"Apa itu VPN?",opts:["Virtual Private Network","Video Processing Node","Visual Program Network","Verified Personal Node"],ans:0},
+  {q:"Siapa presiden pertama Indonesia?",opts:["Soeharto","Habibie","Soekarno","Megawati"],ans:2},
+  {q:"Bahasa resmi Brazil?",opts:["Spanyol","Portugis","Inggris","Prancis"],ans:1},
+  {q:"Planet terdekat dengan matahari?",opts:["Venus","Mars","Merkurius","Bumi"],ans:2},
+  {q:"Apa kepanjangan dari AI?",opts:["Automatic Intelligence","Artificial Intelligence","Advanced Interface","Automated Input"],ans:1},
+  {q:"Siapa yang menciptakan teori relativitas?",opts:["Newton","Darwin","Einstein","Hawking"],ans:2},
+  {q:"Aplikasi chat buatan Meta selain WhatsApp?",opts:["Telegram","Signal","Messenger","Line"],ans:2},
+  {q:"Berapa bit dalam 1 byte?",opts:["4","8","16","32"],ans:1},
+  {q:"Laut terluas di dunia?",opts:["Atlantik","Hindia","Arktik","Pasifik"],ans:3},
+  {q:"Apa nama karakter utama GTA V?",opts:["Niko Bellic","CJ","Trevor/Michael/Franklin","Tommy Vercetti"],ans:2},
+  {q:"OS Android dikembangkan oleh?",opts:["Apple","Samsung","Google","Microsoft"],ans:2},
+  {q:"Berapa jumlah pemain dalam satu tim sepak bola?",opts:["10","11","12","9"],ans:1},
+  {q:"Apa itu phishing?",opts:["Teknik memancing ikan","Serangan cyber curi data","Program antivirus","Jenis enkripsi"],ans:1},
+  {q:"Siapa penyanyi 'Blinding Lights'?",opts:["Drake","Travis Scott","The Weeknd","Post Malone"],ans:2},
+  {q:"Berapa lama satu hari di planet Mars?",opts:["22 jam","24 jam","24 jam 37 menit","26 jam"],ans:2},
+  {q:"Apa nama browser buatan Mozilla?",opts:["Chrome","Firefox","Safari","Opera"],ans:1},
+  {q:"Gunung tertinggi di Indonesia?",opts:["Rinjani","Semeru","Puncak Jaya","Kerinci"],ans:2},
+  {q:"Minecraft dibuat oleh?",opts:["EA","Ubisoft","Mojang","Valve"],ans:2},
+  {q:"Apa kepanjangan dari USB?",opts:["Universal Serial Bus","Ultra Speed Byte","Unified System Bridge","Universal Sync Board"],ans:0},
+  {q:"Berapa jumlah huruf alfabet Inggris?",opts:["24","25","26","27"],ans:2},
+  {q:"Siapa founder Amazon?",opts:["Elon Musk","Jeff Bezos","Bill Gates","Larry Ellison"],ans:1},
+  {q:"Apa arti 'open source'?",opts:["Software berbayar","Kode program terbuka","Aplikasi online","Program buatan pemerintah"],ans:1},
+  {q:"Negara dengan populasi terbesar di dunia?",opts:["Amerika","India","China","Indonesia"],ans:1},
+  {q:"Game battle royale buatan PUBG Corp?",opts:["Fortnite","Free Fire","PUBG","Apex Legends"],ans:2},
+  {q:"Siapa yang mendirikan Microsoft?",opts:["Steve Jobs","Bill Gates & Paul Allen","Mark Zuckerberg","Larry Page"],ans:1},
+  {q:"Apa itu SSD?",opts:["Super Speed Disk","Solid State Drive","System Storage Device","Secondary Sync Drive"],ans:1},
+  {q:"Danau terluas di Indonesia?",opts:["Danau Toba","Danau Singkarak","Danau Maninjau","Danau Poso"],ans:0},
+  {q:"Siapa karakter utama game God of War?",opts:["Kratos","Zeus","Ares","Thor"],ans:0},
+  {q:"Berapa Hz layar gaming yang umum?",opts:["30Hz","60Hz","120Hz","144Hz"],ans:3},
+  {q:"Aplikasi edit video populer di HP?",opts:["Photoshop","CapCut","Lightroom","Canva"],ans:1},
+  {q:"Apa nama mata uang kripto pertama?",opts:["Ethereum","Dogecoin","Bitcoin","Litecoin"],ans:2},
+  {q:"Siapa pencipta game Among Us?",opts:["Mojang","Innersloth","Epic Games","Valve"],ans:1},
+  {q:"Kecepatan cahaya sekitar?",opts:["100.000 km/s","300.000 km/s","500.000 km/s","1 juta km/s"],ans:1},
+  {q:"Apa nama layanan streaming film Netflix dalam bahasa?",opts:["StreamFlix","NetStream","Netflix","CineMax"],ans:2},
+  {q:"Sungai terpanjang di dunia?",opts:["Amazon","Mississippi","Nil","Yangtze"],ans:2},
+  {q:"Apa itu GPU?",opts:["General Processing Unit","Graphics Processing Unit","Global Program Utility","Game Power Unit"],ans:1},
+  {q:"Siapa yang menyanyikan 'Levitating'?",opts:["Ariana Grande","Dua Lipa","Billie Eilish","Olivia Rodrigo"],ans:1},
+  {q:"Free Fire dikembangkan oleh?",opts:["Tencent","Garena","PUBG Corp","Epic Games"],ans:1},
+  {q:"Apa kepanjangan dari URL?",opts:["Uniform Resource Locator","Universal Record Link","Unified Resource Layer","User Request Link"],ans:0},
+  {q:"Berapa jumlah nada dalam satu oktaf?",opts:["7","8","12","14"],ans:2},
+  {q:"Siapa pendiri Apple?",opts:["Bill Gates","Steve Jobs & Steve Wozniak","Elon Musk","Jeff Bezos"],ans:1},
+  {q:"Game RPG populer dari Hoyoverse?",opts:["Honor of Kings","PUBG","Genshin Impact","Clash of Clans"],ans:2},
+  {q:"Apa itu firewall?",opts:["Software untuk edit foto","Sistem keamanan jaringan","Aplikasi streaming","Browser internet"],ans:1},
+  {q:"Ibu kota Korea Selatan?",opts:["Busan","Seoul","Incheon","Daegu"],ans:1},
+  {q:"Siapa penulis novel Harry Potter?",opts:["Stephen King","J.K. Rowling","Tolkien","George R.R. Martin"],ans:1},
+  {q:"Apa kepanjangan dari API?",opts:["Application Programming Interface","Automatic Process Input","Advanced Program Integration","Application Proxy Interface"],ans:0},
+  {q:"Berapa jumlah bendera putih dan merah di bendera Indonesia?",opts:["Merah atas putih bawah","Putih atas merah bawah","Merah kiri putih kanan","Putih kiri merah kanan"],ans:0},
+  {q:"Siapa penyanyi 'Dynamite' yang viral?",opts:["EXO","BTS","BLACKPINK","Stray Kids"],ans:1},
+  {q:"Apa nama chip buatan Apple untuk iPhone?",opts:["Snapdragon","Dimensity","Exynos","A-series Bionic"],ans:3},
+  {q:"Game strategi populer di PC?",opts:["FIFA","Age of Empires","NBA 2K","Madden NFL"],ans:1},
+  {q:"Berapa jumlah planet di tata surya?",opts:["7","8","9","10"],ans:1},
+  {q:"Siapa CEO Meta (Facebook)?",opts:["Jeff Bezos","Tim Cook","Mark Zuckerberg","Satya Nadella"],ans:2},
+  {q:"Apa nama protokol keamanan website (HTTPS)?",opts:["Hyper Text Transfer Protocol Secure","High Tech Transfer Protocol System","Home Transfer Protocol Safe","Hyper Transfer Proxy Secure"],ans:0},
+  {q:"Bahasa pemrograman yang dipakai untuk web frontend?",opts:["Python","Java","JavaScript","C++"],ans:2},
+  {q:"Siapa founder Twitter/X?",opts:["Mark Zuckerberg","Jack Dorsey","Elon Musk","Evan Spiegel"],ans:1},
+  {q:"Berapa lama cahaya matahari sampai ke bumi?",opts:["1 menit","8 menit","30 menit","1 jam"],ans:1},
+  {q:"Apa nama karakter utama The Legend of Zelda?",opts:["Zelda","Link","Ganon","Sheik"],ans:1},
+  {q:"Framework CSS populer untuk web?",opts:["React","Vue","Tailwind","Angular"],ans:2},
+  {q:"Organ tubuh manusia yang paling besar?",opts:["Hati","Paru-paru","Kulit","Otak"],ans:2},
+  {q:"Apa nama tombol 'delete' di Mac?",opts:["Delete","Backspace","Clear","Erase"],ans:1},
+  {q:"Siapa penyanyi lagu 'Juicy Luicy'?",opts:["Hindia","Tulus","Pamungkas","Juicy Luicy"],ans:3},
+  {q:"Apa singkatan dari 'DNS'?",opts:["Dynamic Network System","Domain Name System","Data Node Server","Digital Name Service"],ans:1},
+  {q:"Berapa FPS yang nyaman untuk gaming?",opts:["15 FPS","30 FPS","60 FPS","10 FPS"],ans:2},
+  {q:"Siapa yang menyanyikan 'Riptide'?",opts:["Ed Sheeran","Vance Joy","John Mayer","James Bay"],ans:1},
+  {q:"Apa nama game online buatan Valve?",opts:["Leakami of Legends","Dota 2","Smite","Heroes of the Storm"],ans:1},
+  {q:"RAM berapa yang standar untuk HP gaming?",opts:["2GB","4GB","8GB","1GB"],ans:2},
+  {q:"Apa bahasa resmi India?",opts:["Hindi & Inggris","Urdu","Bengali","Tamil"],ans:0},
+  {q:"Siapa yang membuat WhatsApp?",opts:["Mark Zuckerberg","Jan Koum & Brian Acton","Jack Dorsey","Kevin Systrom"],ans:1},
+  {q:"Apa nama chip AI buatan Google?",opts:["M-series","TPU","NPU","Tensor Core"],ans:1},
+  {q:"Berapa jumlah kartu dalam satu deck standar?",opts:["48","52","54","56"],ans:1},
+  {q:"Siapa penyanyi 'Flowers'?",opts:["Taylor Swift","Ariana Grande","Miley Cyrus","Selena Gomez"],ans:2},
+  {q:"Framework JavaScript buatan Meta?",opts:["Vue","Angular","Svelte","React"],ans:3},
+  {q:"Apa kepanjangan dari IoT?",opts:["Internet of Things","Input Output Technology","Integrated Open Tech","Internet Object Transfer"],ans:0},,
+  // === QUIZ BARU ===
+  {q:"Apa nama AI chatbot buatan Anthropic?",opts:["ChatGPT","Gemini","Claude","Copilot"],ans:2},
+  {q:"Berapa resolusi layar Full HD?",opts:["1280x720","1920x1080","2560x1440","3840x2160"],ans:1},
+  {q:"Siapa yang menciptakan karakter Naruto?",opts:["Eiichiro Oda","Masashi Kishimoto","Akira Toriyama","Hajime Isayama"],ans:1},
+  {q:"Apa nama planet yang memiliki cincin paling indah?",opts:["Jupiter","Uranus","Neptunus","Saturnus"],ans:3},
+  {q:"Bahasa pemrograman yang dipakai untuk membuat iOS app?",opts:["Java","Kotlin","Swift","Python"],ans:2},
+  {q:"Siapa pencipta One Piece?",opts:["Masashi Kishimoto","Eiichiro Oda","Tite Kubo","Akira Toriyama"],ans:1},
+  {q:"Apa nama game survival buatan Mojang selain Minecraft?",opts:["Terraria","Valheim","Minecraft Dungeons","Roblox"],ans:2},
+  {q:"Berapa jumlah tulang dalam tubuh manusia dewasa?",opts:["196","206","216","226"],ans:1},
+  {q:"Apa singkatan dari 'GHz' dalam prosesor?",opts:["Gigahertz","Gigabyte","Gigawatt","Gigabit"],ans:0},
+  {q:"Siapa pemeran Iron Man di MCU?",opts:["Chris Evans","Chris Hemsworth","Robert Downey Jr.","Benedict Cumberbatch"],ans:2},
+  {q:"Game open world buatan Rockstar selain GTA?",opts:["The Witcher","Red Dead Redemption","Cyberpunk 2077","Elden Ring"],ans:1},
+  {q:"Apa nama satelit alami bumi?",opts:["Mars","Pluto","Bulan","Titan"],ans:2},
+  {q:"Siapa yang menyanyikan 'As It Was'?",opts:["Shawn Mendes","Justin Bieber","Harry Styles","Niall Horan"],ans:2},
+  {q:"Apa kepanjangan dari 'GIF'?",opts:["Graphics Image Format","Graphics Interchange Format","Global Image File","General Image Format"],ans:1},
+  {q:"Negara dengan luas wilayah terbesar di dunia?",opts:["Amerika Serikat","Kanada","Rusia","China"],ans:2},
+  {q:"Siapa pencipta Dragon Ball?",opts:["Eiichiro Oda","Masashi Kishimoto","Akira Toriyama","Naoki Urasawa"],ans:2},
+  {q:"Apa nama model AI terbaru dari OpenAI (2024)?",opts:["GPT-3","GPT-4o","BERT","LLaMA"],ans:1},
+  {q:"Berapa suhu normal tubuh manusia?",opts:["35°C","36-37°C","38°C","39°C"],ans:1},
+  {q:"Siapa CEO Apple saat ini?",opts:["Steve Jobs","Jony Ive","Tim Cook","Craig Federighi"],ans:2},
+  {q:"Apa nama game horror populer buatan Capcom?",opts:["Silent Hill","Outlast","Resident Evil","The Evil Within"],ans:2}
+];
+
+function initQuiz(){
+  document.getElementById('gameContent').innerHTML='<div id="quizArea" class="quiz-wrap"></div>';
+  quizData={score:0, q:0, answered:false};
+  quizQuestions=quizBank.slice().sort(function(){return Math.random()-.5;}).slice(0,10);
+  renderQuiz();
+}
+
+function renderQuiz(){
+  var area=document.getElementById('quizArea');if(!area)return;
+  if(quizData.q>=quizQuestions.length){
+    sfxWin();
+    var best=parseInt(localStorage.getItem('quizBest')||0);
+    if(quizData.score>best){best=quizData.score;localStorage.setItem('quizBest',best);}
+    area.innerHTML='<div style="text-align:center;padding:24px 20px;">'
+      +'<div style="font-size:2.2rem;margin-bottom:12px;">🏆</div>'
+      +'<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);margin-bottom:8px;">Quiz Selesai!</div>'
+      +'<div style="font-size:.9rem;color:var(--muted);margin-bottom:16px;">Skor: '+quizData.score+'/'+quizQuestions.length+' | Best: '+best+'</div>'
+      +'<button class="restart-btn" onclick="restartGame()">🔄 Main Lagi</button></div>';
+    return;
+  }
+  var q=quizQuestions[quizData.q];
+  area.innerHTML='<div class="quiz-info"><span>Soal '+(quizData.q+1)+'/'+quizQuestions.length+'</span><span style="color:var(--accent);">Skor: '+quizData.score+'</span></div>'
+    +'<div class="quiz-question">'+q.q+'</div>'
+    +'<div class="quiz-options">'+q.opts.map(function(o,i){
+      return '<button class="quiz-opt" onclick="answerQuiz('+i+')">'+String.fromCharCode(65+i)+'. '+o+'</button>';
+    }).join('')+'</div>';
+}
+
+function answerQuiz(i){
+  if(quizData.answered)return;
+  quizData.answered=true;
+  var q=quizQuestions[quizData.q];
+  document.querySelectorAll('.quiz-opt').forEach(function(o,j){
+    o.disabled=true;
+    if(j===q.ans) o.classList.add('correct');
+    else if(j===i) o.classList.add('wrong');
+  });
+  if(i===q.ans){quizData.score++;sfxCorrect();}else{sfxWrong();}
+  setTimeout(function(){quizData.q++;quizData.answered=false;renderQuiz();},1200);
+}
+
+function toggleTheme(){
+  var body = document.body;
+  var dark = body.getAttribute('data-theme') !== 'light';
+  body.setAttribute('data-theme', dark ? 'light' : 'dark');
+  body.style.filter = dark ? 'invert(1) hue-rotate(180deg)' : '';
+  localStorage.setItem('cheeseTheme', dark ? 'light' : 'dark');
+  showToast(dark ? 'Light mode aktif' : 'Dark mode aktif','info');
   sfxClick();
 }
 
@@ -3364,35 +4298,69 @@ function doRedeemCode(){
 }
 
 function updatePaywallTimer(){
-  var u = getUsage();
-  var remain = Math.max(0, (u.resetAt||0) - Date.now());
-  if(remain === 0){ closePaywall(); return; }
+  var el = document.getElementById('paywallTimer');
+  // Pakai resetAt dari backend kalau ada, fallback ke localStorage
+  var resetAt = window._paywallResetAt || (getUsage().resetAt || 0);
+  var remain = Math.max(0, resetAt - Date.now());
+  if(remain === 0){
+    if(el) el.textContent = '⏳ Menunggu reset server...';
+    // Cek backend tiap 10 detik
+    if(!window._paywallCheckTimer){
+      window._paywallCheckTimer = setInterval(function(){
+        fetch(BACKEND_URL + '/mystatus').then(function(r){ return r.json(); }).then(function(data){
+          _premiumStatus = data;
+          if(data.remaining > 0){
+            clearInterval(window._paywallCheckTimer);
+            window._paywallCheckTimer = null;
+            closePaywall();
+            showToast('✅ Limit sudah reset! Bisa chat lagi.', 'success', 3000);
+          }
+        }).catch(function(){});
+      }, 10000);
+    }
+    return;
+  }
   var h = Math.floor(remain/3600000);
   var m = Math.floor((remain%3600000)/60000);
   var s = Math.floor((remain%60000)/1000);
-  var el = document.getElementById('paywallTimer');
   if(el) el.textContent = '⏳ Reset dalam ' + (h?h+'j ':'')+m+'m '+s+'s';
 }
 
 function closePaywall(){
   document.getElementById('paywallModal').style.display='none';
   clearInterval(window._pwTimer);
+  clearInterval(window._paywallCheckTimer);
+  window._paywallCheckTimer = null;
+  window._paywallResetAt = null;
 }
 
 function toggleAttachMenu(){
   var m = document.getElementById('attachMenu');
-  m.style.display = m.style.display === 'none' ? 'block' : 'none';
+  var o = document.getElementById('attachOverlay');
+  var isOpen = m.style.display === 'block';
+  if(isOpen){ m.style.display='none'; if(o) o.style.display='none'; }
+  else { m.style.display='block'; if(o) o.style.display='block'; }
 }
 function closeAttachMenu(){
   var m = document.getElementById('attachMenu');
+  var o = document.getElementById('attachOverlay');
   if(m) m.style.display = 'none';
+  if(o) o.style.display = 'none';
+}
+function openCameraCapture(){
+  var input = document.createElement('input');
+  input.type = 'file';
+  input.accept = 'image/*';
+  input.capture = 'environment';
+  input.onchange = function(e){ handleImgUpload(e); };
+  input.click();
 }
 // Tutup menu kalau klik di luar
 document.addEventListener('click', function(e){
   var btn = document.getElementById('attachBtn');
   var menu = document.getElementById('attachMenu');
   if(menu && btn && !btn.contains(e.target) && !menu.contains(e.target)){
-    menu.style.display = 'none';
+    closeAttachMenu();
   }
 });
 
@@ -3531,26 +4499,39 @@ function checkDevMode(){
 // ===== v2.8 NEW FEATURES =====
 
 function submitFeedback(rating){
-  // Guard: 1x per day only
-  var today = new Date().toDateString();
-  var lastRated = localStorage.getItem('cheeseLastRated');
-  if(lastRated === today){
+  fetch(BACKEND_URL + '/rating', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({score: rating})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if(data.error){
+      showToast(data.error, 'err', 3000);
+      document.getElementById('feedbackModal').style.display='none';
+      return;
+    }
     document.getElementById('feedbackModal').style.display='none';
-    showToast('⭐ Anda udah rating hari ini. Besok lagi ya 😄', 'err', 3000);
-    sfxClick();
-    return;
-  }
-  localStorage.setItem('cheeseLastRated', today);
-  var feedbacks = JSON.parse(localStorage.getItem('cheeseFeedbacks') || '[]');
-  feedbacks.unshift({rating: rating, date: new Date().toLocaleDateString('id-ID')});
-  if(feedbacks.length > 30) feedbacks.pop();
-  localStorage.setItem('cheeseFeedbacks', JSON.stringify(feedbacks));
-  var avg = (feedbacks.reduce(function(a,b){return a+b.rating;},0)/feedbacks.length).toFixed(1);
-  localStorage.setItem('cheeseFeedbackAvg', avg);
-  document.getElementById('feedbackModal').style.display='none';
-  showToast('⭐ Thanks, rating '+rating+'/5 tersimpan! Avg: '+avg+'⭐', 'success', 3000);
-  sfxCorrect();
-  pushNotif('⭐ Anda kasih rating '+rating+'/5 hari ini!');
+    showToast('⭐ Thanks! Rating ' + rating + '/5 tersimpan!', 'success', 3000);
+    sfxCorrect();
+    pushNotif('⭐ Anda kasih rating ' + rating + '/5!');
+    updateRatingDisplay(data.average, data.count);
+  }).catch(function(){
+    document.getElementById('feedbackModal').style.display='none';
+    showToast('⭐ Thanks untuk ratingnya!', 'success', 2000);
+    sfxCorrect();
+  });
+}
+
+function updateRatingDisplay(avg, count){
+  var el = document.getElementById('feedbackAvgDisplay');
+  if(!el) return;
+  if(!avg && !count){ el.innerHTML = ''; return; }
+  // Bintang kayak Play Store
+  var full = Math.floor(avg);
+  var half = (avg - full) >= 0.5 ? 1 : 0;
+  var empty = 5 - full - half;
+  var stars = '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+  el.innerHTML = '<div style="font-size:1.3rem;letter-spacing:2px;color:#f5c842;">' + stars + '</div>'
+    + '<div style="font-size:.75rem;color:var(--muted);margin-top:2px;">(' + count + ')</div>';
 }
 
 function hoverStars(n){
@@ -3566,11 +4547,11 @@ function resetStars(){
   }
 }
 function openFeedback(){
-  var avg = localStorage.getItem('cheeseFeedbackAvg');
-  var el = document.getElementById('feedbackAvgDisplay');
-  if(el) el.textContent = avg ? 'Rating sekarang: '+avg+' ⭐' : '';
   document.getElementById('feedbackModal').style.display='flex';
   sfxClick();
+  fetch(BACKEND_URL + '/rating').then(function(r){ return r.json(); }).then(function(data){
+    updateRatingDisplay(data.average, data.count);
+  }).catch(function(){});
 }
 
 // ===== BATTLE vs AI =====
@@ -3741,7 +4722,7 @@ function initBattle2P(canvas){
   loop();
 }
 
-function openBattle2P(){
+function openBattle2P(difficulty){
   currentGame='battle2p';
   var modal=document.getElementById('gameModal');
   modal.classList.add('open');
@@ -3751,31 +4732,107 @@ function openBattle2P(){
   if(battle2P){cancelAnimationFrame(battle2P);battle2P=null;}
 
   var gc=document.getElementById('gameContent');
+
+  // Show difficulty selector if no difficulty chosen
+  if(!difficulty){
+    gc.innerHTML=
+      '<div style="padding:20px 12px;display:flex;flex-direction:column;align-items:center;gap:12px;">'
+      +'<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;color:var(--accent);margin-bottom:4px;">⚔️ Pilih Kesulitan</div>'
+      +'<button id="diff-easy"   style="width:100%;padding:13px;border-radius:12px;border:1.5px solid #00e5a044;background:rgba(0,229,160,.15);color:#00e5a0;font-family:Outfit,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">🟢 Easy</button>'
+      +'<button id="diff-medium" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid #f5c84244;background:rgba(245,200,66,.1);color:#f5c842;font-family:Outfit,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">🟡 Medium</button>'
+      +'<button id="diff-hard"   style="width:100%;padding:13px;border-radius:12px;border:1.5px solid #ff6b3544;background:rgba(255,107,53,.15);color:#ff6b35;font-family:Outfit,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">🔴 Hard</button>'
+      +'<button id="diff-veryhard" style="width:100%;padding:13px;border-radius:12px;border:1.5px solid #ff4d4d44;background:rgba(255,77,77,.15);color:#ff4d4d;font-family:Outfit,sans-serif;font-weight:700;font-size:.9rem;cursor:pointer;">💀 Very Hard</button>'
+      +'</div>';
+    ['easy','medium','hard','veryhard'].forEach(function(d){
+      var btn = document.getElementById('diff-'+d);
+      if(btn) btn.addEventListener('click', function(){ openBattle2P(d); });
+    });
+    sfxClick();
+    return;
+  }
+
+  // Difficulty configs
+  var diffCfg = {
+    easy:     {aiSpeed:0.9,  aiHp:4, slashRate:80,  dodgeReact:false, label:'🟢 EASY'},
+    medium:   {aiSpeed:1.6,  aiHp:5, slashRate:45,  dodgeReact:true,  label:'🟡 MEDIUM'},
+    hard:     {aiSpeed:2.2,  aiHp:6, slashRate:30,  dodgeReact:true,  label:'🔴 HARD'},
+    veryhard: {aiSpeed:3.0,  aiHp:7, slashRate:18,  dodgeReact:true,  label:'💀 VERY HARD'}
+  };
+  window._battleDiff = diffCfg[difficulty] || diffCfg.medium;
+
   gc.innerHTML=
-    '<div style="width:100%;padding:0 4px;margin-bottom:4px;display:flex;justify-content:space-between;">'
-    +'<span style="font-size:.7rem;color:#f5c842;font-weight:700;">🟡 Kamu</span>'
+    '<div style="width:100%;padding:0 4px 2px;display:flex;justify-content:space-between;align-items:center;">'
+    +'<span style="font-size:.7rem;color:#f5c842;font-weight:700;">⚔️ Kamu</span>'
+    +'<span id="b2p-round" style="font-size:.65rem;color:var(--muted);font-weight:700;">ROUND 1</span>'
     +'<span style="font-size:.7rem;color:#ff4d4d;font-weight:700;">AI 🤖</span>'
     +'</div>'
     +'<div style="position:relative;">'
-    +'<canvas id="gc" width="340" height="300"></canvas>'
-    +'<div id="battle2POver" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;">'
-    +'<button class="restart-btn" onclick="openBattle2P()">🔄 Main Lagi</button>'
+    +'<canvas id="gc" width="340" height="300" style="border-radius:10px;display:block;"></canvas>'
+    +'<div id="battle2POver" style="display:none;position:absolute;inset:0;align-items:center;justify-content:center;border-radius:10px;">'
+    +'<button class="restart-btn" onclick="openBattle2P()">🔄 Pilih Kesulitan</button>'
     +'</div></div>'
-    // D-PAD: Player only (center)
-    +'<div style="display:flex;justify-content:center;align-items:flex-end;padding:6px 4px;gap:24px;">'
-    +'<div style="display:flex;flex-direction:column;align-items:center;gap:3px;">'
-    +'<div style="font-size:.6rem;color:#f5c842;font-weight:700;margin-bottom:2px;">GERAK</div>'
-    +'<div><button class="dpad-btn" style="width:50px;height:50px;border-color:#f5c84244;" ontouchstart="b2pDir(1,\'up\',true);event.preventDefault();" ontouchend="b2pDir(1,\'up\',false);" onmousedown="b2pDir(1,\'up\',true)" onmouseup="b2pDir(1,\'up\',false)">▲</button></div>'
-    +'<div style="display:flex;gap:3px;">'
-    +'<button class="dpad-btn" style="width:50px;height:50px;border-color:#f5c84244;" ontouchstart="b2pDir(1,\'left\',true);event.preventDefault();" ontouchend="b2pDir(1,\'left\',false);" onmousedown="b2pDir(1,\'left\',true)" onmouseup="b2pDir(1,\'left\',false)">◀</button>'
-    +'<button class="dpad-btn" style="width:50px;height:50px;border-color:#f5c84244;" ontouchstart="b2pDir(1,\'down\',true);event.preventDefault();" ontouchend="b2pDir(1,\'down\',false);" onmousedown="b2pDir(1,\'down\',true)" onmouseup="b2pDir(1,\'down\',false)">▼</button>'
-    +'<button class="dpad-btn" style="width:50px;height:50px;border-color:#f5c84244;" ontouchstart="b2pDir(1,\'right\',true);event.preventDefault();" ontouchend="b2pDir(1,\'right\',false);" onmousedown="b2pDir(1,\'right\',true)" onmouseup="b2pDir(1,\'right\',false)">▶</button>'
-    +'</div></div>'
+    // JOYSTICK + ATTACK
+    +'<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 12px 2px;gap:8px;">'
+    // Joystick left
+    +'<div id="joystick-wrap" style="position:relative;width:90px;height:90px;background:rgba(255,255,255,0.05);border:2px solid rgba(255,255,255,0.1);border-radius:50%;touch-action:none;flex-shrink:0;">'
+    +'<div id="joystick-knob" style="position:absolute;width:38px;height:38px;background:rgba(245,200,66,0.7);border:2px solid #f5c842;border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;transition:box-shadow .1s;box-shadow:0 0 10px #f5c84266;"></div>'
+    +'</div>'
+    // Attack button right
     +'<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">'
-    +'<div style="font-size:.6rem;color:#f5c842;font-weight:700;">TEMBAK</div>'
-    +'<button class="dpad-btn" style="width:72px;height:72px;background:rgba(245,200,66,.2);border-color:#f5c842;color:#f5c842;font-size:1.4rem;" ontouchstart="b2pShoot(1);event.preventDefault();" onmousedown="b2pShoot(1)">🔫</button>'
+    +'<button id="btn-slash" class="dpad-btn" style="width:80px;height:80px;background:rgba(255,77,77,.18);border-color:#ff4d4d;color:#ff4d4d;font-size:1.8rem;border-radius:50%;font-weight:900;" ontouchstart="b2pSlash();event.preventDefault();" onmousedown="b2pSlash()">⚔️</button>'
+    +'<span style="font-size:.6rem;color:var(--muted);">TEBAS</span>'
+    +'</div>'
+    +'<div style="display:flex;flex-direction:column;align-items:center;gap:6px;">'
+    +'<button id="btn-dodge" class="dpad-btn" style="width:68px;height:68px;background:rgba(0,229,160,.15);border-color:#00e5a0;color:#00e5a0;font-size:1.5rem;border-radius:50%;" ontouchstart="b2pDodge();event.preventDefault();" onmousedown="b2pDodge()">🛡️</button>'
+    +'<span style="font-size:.6rem;color:var(--muted);">DODGE</span>'
     +'</div>'
     +'</div>';
+
+  // Init joystick
+  var wrap = document.getElementById('joystick-wrap');
+  var knob = document.getElementById('joystick-knob');
+  var joyActive = false, joyId = null;
+  var joyDx = 0, joyDy = 0;
+  var maxR = 28;
+
+  function joyMove(cx, cy, ox, oy){
+    var dx = cx - ox, dy = cy - oy;
+    var dist = Math.sqrt(dx*dx+dy*dy);
+    if(dist > maxR){ dx = dx/dist*maxR; dy = dy/dist*maxR; }
+    knob.style.transform = 'translate(calc(-50% + '+dx+'px), calc(-50% + '+dy+'px))';
+    joyDx = dx/maxR; joyDy = dy/maxR;
+  }
+  function joyReset(){
+    knob.style.transform = 'translate(-50%,-50%)';
+    joyDx = 0; joyDy = 0;
+  }
+  wrap.addEventListener('touchstart', function(e){
+    e.preventDefault();
+    joyActive=true; joyId=e.changedTouches[0].identifier;
+    var r=wrap.getBoundingClientRect();
+    joyMove(e.changedTouches[0].clientX, e.changedTouches[0].clientY, r.left+r.width/2, r.top+r.height/2);
+  },{passive:false});
+  wrap.addEventListener('touchmove', function(e){
+    e.preventDefault();
+    for(var i=0;i<e.changedTouches.length;i++){
+      if(e.changedTouches[i].identifier===joyId){
+        var r=wrap.getBoundingClientRect();
+        joyMove(e.changedTouches[i].clientX, e.changedTouches[i].clientY, r.left+r.width/2, r.top+r.height/2);
+      }
+    }
+  },{passive:false});
+  wrap.addEventListener('touchend', function(e){ joyActive=false; joyReset(); },{passive:false});
+  // Mouse fallback for joystick
+  wrap.addEventListener('mousedown', function(e){
+    joyActive=true;
+    var r=wrap.getBoundingClientRect();
+    joyMove(e.clientX, e.clientY, r.left+r.width/2, r.top+r.height/2);
+    function onMove(ev){ var r2=wrap.getBoundingClientRect(); joyMove(ev.clientX,ev.clientY,r2.left+r2.width/2,r2.top+r2.height/2); }
+    function onUp(){ joyActive=false; joyReset(); document.removeEventListener('mousemove',onMove); document.removeEventListener('mouseup',onUp); }
+    document.addEventListener('mousemove',onMove); document.addEventListener('mouseup',onUp);
+  });
+
+  window.getJoy = function(){ return {dx:joyDx, dy:joyDy}; };
 
   var canvas=document.getElementById('gc');
   if(canvas) setTimeout(function(){initBattle2P(canvas);},50);
@@ -3783,717 +4840,343 @@ function openBattle2P(){
   trackStat('gamesTotal');
 }
 
-function openDonate(){
-  document.getElementById('donateModal').style.display='flex';
-  sfxClick();
-}
+function initBattle2P(canvas){
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width = 340;
+  var H = canvas.height = 300;
+  var gameOver2P = false;
+  var frame = 0;
+  var slashActive = false, slashTimer = 0;
+  var aiSlashActive = false, aiSlashTimer = 0;
 
-function shareApp(){
-  var text = 'Cheese Platform - Gaming + AI Chat keren! Gratis & Seru! Dibuat oleh K Studio';
-  if(navigator.share){
-    navigator.share({title:'Cheese Platform', text:text});
-  } else {
-    navigator.clipboard.writeText(text).then(function(){
-      showToast('Link dicopy! Share ke temen Anda!','success');
-    });
-  }
-  sfxCorrect();
-}
-
-function goTopup(game){
-  var links = {
-    ml:'https://www.codashop.com/id-id/mobile-legends',
-    ff:'https://www.codashop.com/id-id/free-fire',
-    pubg:'https://www.codashop.com/id-id/pubg-mobile',
-    genshin:'https://www.codashop.com/id-id/genshin-impact'
+  // Floating physics
+  var p1 = {
+    x:60, y:H/2, w:16, h:16,
+    vx:0, vy:0, speed:1.6,
+    hp:5, maxHp:5, color:'#f5c842',
+    floatOffset:0, floatPhase:0,
+    name:'Kamu', facing:1,
+    dodging:false, dodgeTimer:0, dodgeCooldown:0, parryFlash:0
   };
-  if(links[game]) window.open(links[game],'_blank');
-  showToast('Membuka top up ' + game.toUpperCase() + '...','info');
-  sfxClick();
-}
-
-function clearChatConfirm(){
-  if(!confirm('Hapus semua chat? Tidak bisa di-undo!')) return;
-  var cb = document.getElementById('chatBox');
-  if(cb) cb.innerHTML = '';
-  showToast('Chat dihapus!','info');
-  sfxClick();
-}
-
-function copyAllChat(){
-  var cb = document.getElementById('chatBox');
-  if(!cb){ showToast('Percakapan kosong.','error'); return; }
-  var msgs = cb.querySelectorAll('.msg');
-  var lines = [];
-  msgs.forEach(function(m){
-    var isUser = m.classList.contains('user');
-    var span = m.querySelector('span');
-    var txt = span ? span.textContent.trim() : '';
-    if(txt) lines.push((isUser?'Anda':'AI') + ': ' + txt);
-  });
-  if(!lines.length){ showToast('Percakapan masih kosong.','error'); return; }
-  navigator.clipboard.writeText(lines.join('\n\n')).then(function(){
-    showToast('Semua chat dicopy!','success');
-  });
-  sfxCorrect();
-}
-
-function chatStats(){
-  var cb = document.getElementById('chatBox');
-  if(!cb){ showToast('Percakapan kosong.','error'); return; }
-  var msgs = cb.querySelectorAll('.msg');
-  var totalWords = 0;
-  msgs.forEach(function(m){
-    var span = m.querySelector('span');
-    var txt = span ? span.textContent : '';
-    totalWords += txt.trim().split(/\s+/).filter(Boolean).length;
-  });
-  showToast(msgs.length + ' pesan, ' + totalWords + ' kata total','info',3500);
-  sfxClick();
-}
-
-function toggleTheme(){
-  var body = document.body;
-  var dark = body.getAttribute('data-theme') !== 'light';
-  body.setAttribute('data-theme', dark ? 'light' : 'dark');
-  body.style.filter = dark ? 'invert(1) hue-rotate(180deg)' : '';
-  localStorage.setItem('cheeseTheme', dark ? 'light' : 'dark');
-  showToast(dark ? 'Light mode aktif' : 'Dark mode aktif','info');
-  sfxClick();
-}
-
-function scheduleDonatePopup(){
-  setTimeout(function(){
-    showToast('Suka Cheese Platform? Dukung K Studio yuk!','info',4000);
-    setTimeout(function(){
-      // donate pulse removed
-    }, 4200);
-  }, 5*60*1000);
-}
-
-var TIPS_v27 = [
-  'Gunakan AI Podcast untuk dengerin konten sambil santai!',
-  'Ganti gaya bicara AI di Pengaturan sesuai mood Anda!',
-  'Skor game tersimpan otomatis di profil Anda!',
-  'Quick prompts di chat bisa bantu Anda dengan cepat!',
-  'Bisa export chat history ke file .txt di Pengaturan!',
-  'Top Up diamond ML dan FF bisa langsung dari app ini!',
-  'Ganti warna aksen platform di Pengaturan!',
-  'Cheese Platform dibuat oleh K Studio dengan cinta!',
-  'Limit chat gratis direset setiap 3 jam.',
-  'Dukung K Studio lewat tombol Dukung di pojok kanan!',
-];
-var tipIdx27 = Math.floor(Math.random()*TIPS_v27.length);
-function showTip(){ var el = document.getElementById('tipText'); if(el) el.textContent = TIPS_v27[tipIdx27]; }
-function nextTip(){ tipIdx27 = (tipIdx27+1)%TIPS_v27.length; showTip(); sfxClick(); }
-
-// Canvas roundRect polyfill
-if(!CanvasRenderingContext2D.prototype.roundRect) {
-  CanvasRenderingContext2D.prototype.roundRect = function(x,y,w,h,r) {
-    r = Math.min(r, w/2, h/2);
-    this.beginPath();this.moveTo(x+r,y);this.lineTo(x+w-r,y);this.quadraticCurveTo(x+w,y,x+w,y+r);
-    this.lineTo(x+w,y+h-r);this.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
-    this.lineTo(x+r,y+h);this.quadraticCurveTo(x,y+h,x,y+h-r);
-    this.lineTo(x,y+r);this.quadraticCurveTo(x,y,x+r,y);this.closePath();return this;
+  var diff = window._battleDiff || {aiSpeed:1.6, aiHp:5, slashRate:45, dodgeReact:true, label:'🟡 MEDIUM'};
+  var ai = {
+    x:W-76, y:H/2, w:16, h:16,
+    vx:0, vy:0, speed:diff.aiSpeed,
+    hp:diff.aiHp, maxHp:diff.aiHp, color:'#ff4d4d',
+    floatOffset:0, floatPhase:Math.PI,
+    name:'AI', facing:-1,
+    thinkTimer:0, dodgeFlash:0
   };
-}
 
-// ---- SNAKE ----
-var snakeData, snakeCtx;
-function initSnake() {
-  var gc = document.getElementById('gameContent');
-  gc.innerHTML = '<div class="score-row" style="width:100%;padding:0 2px;">'
-    +'<div class="g-score">Skor: <span id="gs">0</span></div>'
-    +'<div class="g-best">Best: <span id="gb">'+(localStorage.getItem('snakeHigh')||0)+'</span></div></div>'
-    +'<div style="position:relative;"><canvas id="gc" width="400" height="280"></canvas></div>'
-    +'<div class="dpad-wrap">'
-    +'<div class="dpad-row"><button class="dpad-btn" id="dU" ontouchstart="dpad(\'up\');event.preventDefault();" onmousedown="dpad(\'up\')">▲</button></div>'
-    +'<div class="dpad-row">'
-    +'<button class="dpad-btn" id="dL" ontouchstart="dpad(\'left\');event.preventDefault();" onmousedown="dpad(\'left\')">◀</button>'
-    +'<button class="dpad-btn" style="visibility:hidden;width:52px;"></button>'
-    +'<button class="dpad-btn" id="dR" ontouchstart="dpad(\'right\');event.preventDefault();" onmousedown="dpad(\'right\')">▶</button>'
-    +'</div>'
-    +'<div class="dpad-row"><button class="dpad-btn" id="dD" ontouchstart="dpad(\'down\');event.preventDefault();" onmousedown="dpad(\'down\')">▼</button></div>'
-    +'</div>'
-    +'<div class="ctrl-txt">Arrow / WASD / D-Pad untuk bergerak</div>';
-
-  var canvas = document.getElementById('gc');
-  snakeCtx = canvas.getContext('2d');
-  var cell=20;
-  snakeData = {
-    snake:[{x:10,y:7},{x:9,y:7},{x:8,y:7}],
-    food:null, dir:{x:1,y:0}, next:{x:1,y:0},
-    rows:Math.floor(280/cell), cols:Math.floor(400/cell),
-    cell:cell, dead:false
-  };
-  snakePlaceFood();
-  if(gameInterval) clearInterval(gameInterval);
-  gameInterval = setInterval(tickSnake, 130);
-
-  document.onkeydown = function(e) {
-    var d = snakeData.dir;
-    if((e.key==='ArrowUp'||e.key==='w')&&d.y===0){snakeData.next={x:0,y:-1};e.preventDefault();}
-    if((e.key==='ArrowDown'||e.key==='s')&&d.y===0){snakeData.next={x:0,y:1};e.preventDefault();}
-    if((e.key==='ArrowLeft'||e.key==='a')&&d.x===0){snakeData.next={x:-1,y:0};e.preventDefault();}
-    if((e.key==='ArrowRight'||e.key==='d')&&d.x===0){snakeData.next={x:1,y:0};e.preventDefault();}
-  };
-}
-function dpad(dir) {
-  if(!snakeData||snakeData.dead) return;
-  var d=snakeData.dir;
-  if(dir==='up'&&d.y===0) snakeData.next={x:0,y:-1};
-  if(dir==='down'&&d.y===0) snakeData.next={x:0,y:1};
-  if(dir==='left'&&d.x===0) snakeData.next={x:-1,y:0};
-  if(dir==='right'&&d.x===0) snakeData.next={x:1,y:0};
-  var map={up:'dU',down:'dD',left:'dL',right:'dR'};
-  var btn=document.getElementById(map[dir]);
-  if(btn){btn.classList.add('pressed');setTimeout(function(){btn.classList.remove('pressed');},150);}
-}
-function snakePlaceFood() {
-  var s=snakeData,food,tries=0;
-  do{food={x:Math.floor(Math.random()*s.cols),y:Math.floor(Math.random()*s.rows)};tries++;}
-  while(tries<200&&s.snake.some(function(p){return p.x===food.x&&p.y===food.y;}));
-  s.food=food;
-}
-function tickSnake() {
-  var s=snakeData,c=snakeCtx,cell=s.cell;
-  if(s.dead)return;
-  s.dir={x:s.next.x,y:s.next.y};
-  var head={x:s.snake[0].x+s.dir.x,y:s.snake[0].y+s.dir.y};
-  if(head.x<0||head.x>=s.cols||head.y<0||head.y>=s.rows||s.snake.some(function(p){return p.x===head.x&&p.y===head.y;})) {
-    s.dead=true; clearInterval(gameInterval);
-    sfxDie();
-    var best=parseInt(localStorage.getItem('snakeHigh')||0);
-    if(gameScore>best){best=gameScore;localStorage.setItem('snakeHigh',best);}
-    var gc=document.getElementById('gc');if(gc&&gc.parentNode)gc.parentNode.insertAdjacentHTML('beforeend',makeGameOver(gameScore,best));
-    return;
-  }
-  s.snake.unshift(head);
-  if(head.x===s.food.x&&head.y===s.food.y) {
-    gameScore+=10;
-    var el=document.getElementById('gs');if(el)el.textContent=gameScore;
-    sfxEat(); snakePlaceFood();
-  } else { s.snake.pop(); }
-
-  c.fillStyle='#0a0f15';c.fillRect(0,0,400,280);
-  c.strokeStyle='rgba(255,255,255,.025)';c.lineWidth=1;
-  for(var i=0;i<=s.cols;i++){c.beginPath();c.moveTo(i*cell,0);c.lineTo(i*cell,280);c.stroke();}
-  for(var j=0;j<=s.rows;j++){c.beginPath();c.moveTo(0,j*cell);c.lineTo(400,j*cell);c.stroke();}
-  c.shadowColor='#ff6b35';c.shadowBlur=10;
-  c.fillStyle='#ff6b35';c.beginPath();c.arc(s.food.x*cell+cell/2,s.food.y*cell+cell/2,cell/2-2,0,Math.PI*2);c.fill();
-  c.shadowBlur=0;
-  s.snake.forEach(function(p,i){
-    c.fillStyle=i===0?'#f5c842':i<3?'#e0b030':'#00e5a0';
-    c.beginPath();c.roundRect(p.x*cell+1,p.y*cell+1,cell-2,cell-2,i===0?6:3);c.fill();
-  });
-}
-
-// ---- DINO ----
-var dinoState;
-function initDino() {
-  var gc=document.getElementById('gameContent');
-  gc.innerHTML='<div class="score-row" style="width:100%;padding:0 2px;">'
-    +'<div class="g-score">Skor: <span id="gs">0</span></div>'
-    +'<div class="g-best">Best: <span id="gb">'+(localStorage.getItem('dinoHigh')||0)+'</span></div></div>'
-    +'<div style="position:relative;"><canvas id="gc" width="400" height="180"></canvas></div>'
-    +'<div style="display:flex;justify-content:center;margin-top:8px;">'
-    +'<button class="dpad-btn" style="width:110px;height:52px;font-family:Outfit,sans-serif;font-weight:700;font-size:.85rem;" onmousedown="dinoJump()" ontouchstart="dinoJump();event.preventDefault()">⬆ LOMPAT</button>'
-    +'</div>'
-    +'<div class="ctrl-txt">Spasi / Klik / Tap untuk lompat</div>';
-
-  var canvas=document.getElementById('gc');
-  var ctx=canvas.getContext('2d');
-  dinoState={dino:{x:60,y:110,vy:0,jumping:false,h:36,w:28},obs:[],speed:3.5,frame:0,score:0,dead:false,ground:110,ctx:ctx};
-  if(dinoRAF) cancelAnimationFrame(dinoRAF);
-  document.onkeydown=function(e){if(e.code==='Space'){e.preventDefault();dinoJump();}};
-  canvas.onclick=dinoJump;
-  canvas.ontouchstart=function(e){e.preventDefault();dinoJump();};
-  spawnObs();
-  dinoRAF=requestAnimationFrame(dinoLoop);
-}
-function dinoJump(){
-  if(!dinoState||dinoState.dead)return;
-  if(!dinoState.dino.jumping){dinoState.dino.vy=-10;dinoState.dino.jumping=true;sfxJump();}
-}
-function spawnObs(){
-  var s=dinoState,h=28+Math.random()*18;
-  var lastX=s.obs.length?s.obs[s.obs.length-1].x:410;
-  s.obs.push({x:Math.max(430,lastX+(170+Math.random()*130)),y:s.ground+s.dino.h-h,w:18,h:h});
-}
-function dinoLoop(){
-  var s=dinoState;if(!s||s.dead)return;
-  var d=s.dino,ctx=s.ctx;
-  s.frame++;s.score+=0.08;
-  gameScore=Math.floor(s.score);
-  var el=document.getElementById('gs');if(el)el.textContent=gameScore;
-  s.speed=3.5+s.score*0.004;
-  d.vy+=0.5;d.y+=d.vy;
-  if(d.y>=s.ground){d.y=s.ground;if(d.jumping&&d.vy>2)sfxLand();d.vy=0;d.jumping=false;}
-  s.obs.forEach(function(o){o.x-=s.speed;});
-  s.obs=s.obs.filter(function(o){return o.x>-30;});
-  if(!s.obs.length||s.obs[s.obs.length-1].x<350)spawnObs();
-  var hit=s.obs.some(function(o){return d.x+d.w-8>o.x+4&&d.x+8<o.x+o.w-4&&d.y+d.h-4>o.y+4;});
-  if(hit){
-    s.dead=true;sfxDie();
-    var best=parseInt(localStorage.getItem('dinoHigh')||0);
-    if(gameScore>best){best=gameScore;localStorage.setItem('dinoHigh',best);}
-    var gc=document.getElementById('gc');if(gc&&gc.parentNode)gc.parentNode.insertAdjacentHTML('beforeend',makeGameOver(gameScore,best));
-    return;
-  }
-  ctx.fillStyle='#0a0f15';ctx.fillRect(0,0,400,180);
-  ctx.strokeStyle='rgba(245,200,66,.15)';ctx.lineWidth=1.5;
-  ctx.beginPath();ctx.moveTo(0,s.ground+d.h+2);ctx.lineTo(400,s.ground+d.h+2);ctx.stroke();
-  // Dino
-  ctx.fillStyle='#f5c842';ctx.beginPath();ctx.roundRect(d.x,d.y,d.w,d.h,6);ctx.fill();
-  ctx.fillStyle='#080b10';ctx.fillRect(d.x+d.w-7,d.y+5,4,4);
-  if(!d.jumping){
-    var leg=s.frame%16<8;
-    ctx.fillStyle='#f5c842';
-    ctx.fillRect(d.x+6,d.y+d.h,5,leg?9:5);
-    ctx.fillRect(d.x+17,d.y+d.h,5,leg?5:9);
-  }
-  // Obstacles
-  s.obs.forEach(function(o){
-    ctx.fillStyle='#ff6b35';ctx.shadowColor='#ff6b35';ctx.shadowBlur=6;
-    ctx.beginPath();ctx.roundRect(o.x,o.y,o.w,o.h,4);ctx.fill();
-    ctx.shadowBlur=0;
-    ctx.fillStyle='#ff8c55';ctx.fillRect(o.x+3,o.y-8,o.w-6,10);
-  });
-  ctx.fillStyle='rgba(245,200,66,.5)';ctx.font='bold 12px Syne,sans-serif';
-  ctx.fillText('SCORE '+gameScore,310,18);
-  dinoRAF=requestAnimationFrame(dinoLoop);
-}
-
-// ---- PUZZLE 15 ----
-var puzzleData;
-function initPuzzle(){
-  var gc=document.getElementById('gameContent');
-  gc.innerHTML='<div class="score-row" style="width:100%;padding:0 2px;">'
-    +'<div class="g-score">Moves: <span id="gs">0</span></div>'
-    +'<div class="g-best">Best: <span id="gb">'+(localStorage.getItem('puzzleBest')||'-')+'</span></div></div>'
-    +'<div id="puzzleBoard" class="puzzle-grid" style="grid-template-columns:repeat(4,64px);width:284px;margin:8px auto;position:relative;"></div>'
-    +'<div class="ctrl-txt">Tap tile di sebelah kotak kosong untuk memindahkan</div>';
-  var tiles=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,0];
-  for(var i=tiles.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=tiles[i];tiles[i]=tiles[j];tiles[j]=t;}
-  puzzleData={tiles:tiles,moves:0};
-  renderPuzzle();
-}
-function renderPuzzle(){
-  var board=document.getElementById('puzzleBoard');if(!board)return;
-  board.innerHTML='';
-  puzzleData.tiles.forEach(function(t,i){
-    var el=document.createElement('div');
-    el.className='puzzle-tile';
-    if(t===0){
-      el.style.cssText='background:rgba(255,255,255,.03);border:2px dashed rgba(255,255,255,.1);cursor:default;';
-    } else {
-      el.textContent=t;
-      var bg=t<6?'rgba(245,200,66,.15)':t<11?'rgba(0,229,160,.12)':'rgba(255,107,53,.12)';
-      el.style.cssText='background:'+bg+';border:1.5px solid rgba(255,255,255,.1);color:#e8edf2;';
-      var idx=i;
-      el.onclick=function(){movePuzzle(idx);};
+  var particles = [];
+  function addParticle(x,y,color,n){
+    for(var i=0;i<n;i++){
+      var a=Math.random()*Math.PI*2, s=Math.random()*4+1;
+      particles.push({x:x,y:y,vx:Math.cos(a)*s,vy:Math.sin(a)*s,color:color,life:25,maxLife:25,size:Math.random()*3+1});
     }
-    board.appendChild(el);
-  });
-  // Win check
-  var won=puzzleData.tiles.slice(0,15).every(function(t,i){return t===i+1;})&&puzzleData.tiles[15]===0;
-  if(won){
-    sfxWin();
-    var best=parseInt(localStorage.getItem('puzzleBest')||9999);
-    if(puzzleData.moves<best){best=puzzleData.moves;localStorage.setItem('puzzleBest',best);}
-    setTimeout(function(){
-      board.insertAdjacentHTML('afterend','<div class="gameover-overlay show" style="position:absolute;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;border-radius:10px;">'
-        +'<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.2rem;color:var(--green);">Selesai! 🎉</div>'
-        +'<div style="font-size:.84rem;color:var(--muted);">'+puzzleData.moves+' moves | Best: '+best+'</div>'
-        +'<button class="restart-btn" onclick="restartGame()">🔄 Main Lagi</button></div>');
-    },200);
   }
-}
-function movePuzzle(i){
-  var t=puzzleData.tiles,zero=t.indexOf(0);
-  var valid=[zero-1,zero+1,zero-4,zero+4];
-  if(zero%4===0) valid=valid.filter(function(v){return v!==zero-1;});
-  if(zero%4===3) valid=valid.filter(function(v){return v!==zero+1;});
-  if(valid.indexOf(i)!==-1){
-    t[zero]=t[i];t[i]=0;
-    sfxPuzzle();
-    puzzleData.moves++;
-    var el=document.getElementById('gs');if(el)el.textContent=puzzleData.moves;
-    renderPuzzle();
+
+  // Exposed controls
+  window.b2pDir=function(){};
+  window.b2pShoot=function(){};
+  window.b2pSlash=function(){ if(!slashActive){ slashActive=true; slashTimer=18; sfxClick(); } };
+  window.b2pDodge=function(){
+    if(!p1.dodgeCooldown){
+      p1.dodging=true; p1.dodgeTimer=18; p1.dodgeCooldown=50;
+      // Dodge = kibas pedang ke arah AI
+      if(!slashActive){ slashActive=true; slashTimer=18; }
+      sfxClang();
+    }
+  };
+
+  var keys={};
+  function onKeyDown(e){ keys[e.key]=true; if(e.key===' '||e.key==='f'||e.key==='F') window.b2pSlash(); if(e.key==='d'||e.key==='D'||e.key==='Shift') window.b2pDodge(); }
+  function onKeyUp(e){ keys[e.key]=false; }
+  document.addEventListener('keydown',onKeyDown);
+  document.addEventListener('keyup',onKeyUp);
+
+  function drawStickman(p, slashing, slashT){
+    var cx = p.x, cy = p.y + p.floatOffset;
+    var facing = p.facing;
+    ctx.save();
+    ctx.strokeStyle = p.color;
+    ctx.lineWidth = 2.5;
+    ctx.lineCap = 'round';
+    ctx.shadowColor = p.color;
+    ctx.shadowBlur = 10;
+
+    // Head
+    ctx.beginPath();
+    ctx.arc(cx, cy-20, 8, 0, Math.PI*2);
+    ctx.stroke();
+
+    // Body
+    ctx.beginPath(); ctx.moveTo(cx, cy-12); ctx.lineTo(cx, cy+8); ctx.stroke();
+
+    // Legs (animated walk when moving)
+    var legSwing = Math.sin(frame*0.25) * (Math.abs(p.vx)+Math.abs(p.vy)>0.5 ? 10 : 0);
+    ctx.beginPath(); ctx.moveTo(cx, cy+8); ctx.lineTo(cx-6+legSwing, cy+22); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(cx, cy+8); ctx.lineTo(cx+6-legSwing, cy+22); ctx.stroke();
+
+    // Arm without sword
+    ctx.beginPath(); ctx.moveTo(cx, cy-8); ctx.lineTo(cx - facing*12, cy+2); ctx.stroke();
+
+    // Sword arm + sword
+    var swingAngle = 0;
+    if(slashing){
+      var prog = 1 - slashT/18;
+      swingAngle = facing * prog * Math.PI * 0.85;
+    }
+    var armEndX = cx + facing*14;
+    var armEndY = cy - 4;
+    ctx.beginPath(); ctx.moveTo(cx, cy-8); ctx.lineTo(armEndX, armEndY); ctx.stroke();
+
+    // Sword
+    ctx.save();
+    ctx.translate(armEndX, armEndY);
+    ctx.rotate(swingAngle);
+    ctx.lineWidth = 3;
+    ctx.strokeStyle = slashing ? '#ffffff' : '#aaccff';
+    ctx.shadowColor = slashing ? '#ffffff' : '#88aaff';
+    ctx.shadowBlur = slashing ? 20 : 8;
+    // Blade
+    ctx.beginPath();
+    ctx.moveTo(0, 0);
+    ctx.lineTo(facing*26, -8);
+    ctx.stroke();
+    // Guard
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(facing*6, -4);
+    ctx.lineTo(facing*10, -10);
+    ctx.stroke();
+    ctx.restore();
+
+    // Slash effect
+    if(slashing && slashT > 8){
+      ctx.save();
+      ctx.globalAlpha = (slashT-8)/10 * 0.6;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(armEndX, armEndY, 20, -Math.PI*0.3*facing, Math.PI*0.5*facing);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // HP bar
+    ctx.shadowBlur = 0;
+    ctx.fillStyle = 'rgba(0,0,0,.5)';
+    ctx.fillRect(cx-16, cy-36, 32, 4);
+    ctx.fillStyle = p.hp > 2 ? p.color : '#ff4d4d';
+    ctx.fillRect(cx-16, cy-36, 32*(p.hp/p.maxHp), 4);
+
+    // Parry flash (player)
+    if(p.parryFlash > 0){
+      ctx.globalAlpha = p.parryFlash/12 * 0.6;
+      ctx.fillStyle = '#00e5a0';
+      ctx.beginPath(); ctx.arc(cx, cy, 24, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+      ctx.fillStyle = '#00e5a0';
+      ctx.font = 'bold 9px Outfit,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('PARRY!', cx, cy-40);
+      p.parryFlash--;
+    }
+    // Dodge flash (AI)
+    if(p.dodgeFlash > 0){
+      ctx.globalAlpha = p.dodgeFlash/8 * 0.5;
+      ctx.fillStyle = '#00e5ff';
+      ctx.beginPath(); ctx.arc(cx, cy, 22, 0, Math.PI*2); ctx.fill();
+      ctx.globalAlpha = 1;
+      // DODGE text
+      ctx.fillStyle = '#00e5ff';
+      ctx.font = 'bold 9px Outfit,sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('DODGE!', cx, cy-40);
+    }
+    ctx.restore();
   }
-}
 
-// ---- QUIZ ----
-var quizQuestions, quizData;
-var quizBank=[
-  {q:"Planet terbesar di tata surya?",opts:["Bumi","Saturnus","Jupiter","Neptunus"],ans:2},
-  {q:"Berapa jumlah warna pelangi?",opts:["5","6","7","8"],ans:2},
-  {q:"Bahasa pemrograman yang dibuat oleh Guido van Rossum?",opts:["Java","Python","Ruby","Go"],ans:1},
-  {q:"Ibu kota Australia?",opts:["Sydney","Melbourne","Canberra","Brisbane"],ans:2},
-  {q:"Siapa penemu telepon?",opts:["Edison","Bell","Tesla","Marconi"],ans:1},
-  {q:"Apa kepanjangan dari HTML?",opts:["Hyper Text Markup Language","High Tech Modern Language","Home Tool Markup Language","Hyper Transfer Markup Logic"],ans:0},
-  {q:"Berapa jumlah provinsi di Indonesia (2024)?",opts:["34","36","37","38"],ans:3},
-  {q:"Game battle royale populer buatan Epic Games?",opts:["PUBG","Apex Legends","Fortnite","Warzone"],ans:2},
-  {q:"Aplikasi musik streaming terbesar di dunia?",opts:["Apple Music","Spotify","YouTube Music","Deezer"],ans:1},
-  {q:"Siapa CEO Tesla saat ini?",opts:["Bill Gates","Jeff Bezos","Elon Musk","Mark Zuckerberg"],ans:2},
-  {q:"CPU singkatan dari?",opts:["Central Processing Unit","Computer Personal Unit","Core Power Unit","Central Program Utility"],ans:0},
-  {q:"Mata uang Jepang?",opts:["Won","Yuan","Yen","Baht"],ans:2},
-  {q:"Berapa banyak string pada gitar standar?",opts:["4","5","6","7"],ans:2},
-  {q:"Siapa pencipta Facebook?",opts:["Steve Jobs","Bill Gates","Mark Zuckerberg","Larry Page"],ans:2},
-  {q:"Lagu 'Shape of You' dari?",opts:["Justin Bieber","Ed Sheeran","Bruno Mars","The Weeknd"],ans:1},
-  {q:"Apa nama OS buatan Apple untuk iPhone?",opts:["Android","Windows","iOS","HarmonyOS"],ans:2},
-  {q:"Benua terluas di dunia?",opts:["Amerika","Afrika","Asia","Eropa"],ans:2},
-  {q:"Siapa yang menemukan listrik?",opts:["Einstein","Newton","Franklin","Edison"],ans:2},
-  {q:"Apa itu RAM?",opts:["Random Access Memory","Read All Memory","Rapid Access Module","Run Access Memory"],ans:0},
-  {q:"Indonesia merdeka pada tahun?",opts:["1944","1945","1946","1947"],ans:1},
-  {q:"Game MOBA populer di mobile?",opts:["Free Fire","PUBG Mobile","Mobile Legends","COD Mobile"],ans:2},
-  {q:"YouTube dimiliki oleh?",opts:["Meta","Microsoft","Apple","Google"],ans:3},
-  {q:"Satuan kecepatan internet?",opts:["MB","Mbps","GHz","Hz"],ans:1},
-  {q:"Apa itu VPN?",opts:["Virtual Private Network","Video Processing Node","Visual Program Network","Verified Personal Node"],ans:0},
-  {q:"Siapa presiden pertama Indonesia?",opts:["Soeharto","Habibie","Soekarno","Megawati"],ans:2},
-  {q:"Bahasa resmi Brazil?",opts:["Spanyol","Portugis","Inggris","Prancis"],ans:1},
-  {q:"Planet terdekat dengan matahari?",opts:["Venus","Mars","Merkurius","Bumi"],ans:2},
-  {q:"Apa kepanjangan dari AI?",opts:["Automatic Intelligence","Artificial Intelligence","Advanced Interface","Automated Input"],ans:1},
-  {q:"Siapa yang menciptakan teori relativitas?",opts:["Newton","Darwin","Einstein","Hawking"],ans:2},
-  {q:"Aplikasi chat buatan Meta selain WhatsApp?",opts:["Telegram","Signal","Messenger","Line"],ans:2},
-  {q:"Berapa bit dalam 1 byte?",opts:["4","8","16","32"],ans:1},
-  {q:"Laut terluas di dunia?",opts:["Atlantik","Hindia","Arktik","Pasifik"],ans:3},
-  {q:"Apa nama karakter utama GTA V?",opts:["Niko Bellic","CJ","Trevor/Michael/Franklin","Tommy Vercetti"],ans:2},
-  {q:"OS Android dikembangkan oleh?",opts:["Apple","Samsung","Google","Microsoft"],ans:2},
-  {q:"Berapa jumlah pemain dalam satu tim sepak bola?",opts:["10","11","12","9"],ans:1},
-  {q:"Apa itu phishing?",opts:["Teknik memancing ikan","Serangan cyber curi data","Program antivirus","Jenis enkripsi"],ans:1},
-  {q:"Siapa penyanyi 'Blinding Lights'?",opts:["Drake","Travis Scott","The Weeknd","Post Malone"],ans:2},
-  {q:"Berapa lama satu hari di planet Mars?",opts:["22 jam","24 jam","24 jam 37 menit","26 jam"],ans:2},
-  {q:"Apa nama browser buatan Mozilla?",opts:["Chrome","Firefox","Safari","Opera"],ans:1},
-  {q:"Gunung tertinggi di Indonesia?",opts:["Rinjani","Semeru","Puncak Jaya","Kerinci"],ans:2},
-  {q:"Minecraft dibuat oleh?",opts:["EA","Ubisoft","Mojang","Valve"],ans:2},
-  {q:"Apa kepanjangan dari USB?",opts:["Universal Serial Bus","Ultra Speed Byte","Unified System Bridge","Universal Sync Board"],ans:0},
-  {q:"Berapa jumlah huruf alfabet Inggris?",opts:["24","25","26","27"],ans:2},
-  {q:"Siapa founder Amazon?",opts:["Elon Musk","Jeff Bezos","Bill Gates","Larry Ellison"],ans:1},
-  {q:"Apa arti 'open source'?",opts:["Software berbayar","Kode program terbuka","Aplikasi online","Program buatan pemerintah"],ans:1},
-  {q:"Negara dengan populasi terbesar di dunia?",opts:["Amerika","India","China","Indonesia"],ans:1},
-  {q:"Game battle royale buatan PUBG Corp?",opts:["Fortnite","Free Fire","PUBG","Apex Legends"],ans:2},
-  {q:"Siapa yang mendirikan Microsoft?",opts:["Steve Jobs","Bill Gates & Paul Allen","Mark Zuckerberg","Larry Page"],ans:1},
-  {q:"Apa itu SSD?",opts:["Super Speed Disk","Solid State Drive","System Storage Device","Secondary Sync Drive"],ans:1},
-  {q:"Danau terluas di Indonesia?",opts:["Danau Toba","Danau Singkarak","Danau Maninjau","Danau Poso"],ans:0},
-  {q:"Siapa karakter utama game God of War?",opts:["Kratos","Zeus","Ares","Thor"],ans:0},
-  {q:"Berapa Hz layar gaming yang umum?",opts:["30Hz","60Hz","120Hz","144Hz"],ans:3},
-  {q:"Aplikasi edit video populer di HP?",opts:["Photoshop","CapCut","Lightroom","Canva"],ans:1},
-  {q:"Apa nama mata uang kripto pertama?",opts:["Ethereum","Dogecoin","Bitcoin","Litecoin"],ans:2},
-  {q:"Siapa pencipta game Among Us?",opts:["Mojang","Innersloth","Epic Games","Valve"],ans:1},
-  {q:"Kecepatan cahaya sekitar?",opts:["100.000 km/s","300.000 km/s","500.000 km/s","1 juta km/s"],ans:1},
-  {q:"Apa nama layanan streaming film Netflix dalam bahasa?",opts:["StreamFlix","NetStream","Netflix","CineMax"],ans:2},
-  {q:"Sungai terpanjang di dunia?",opts:["Amazon","Mississippi","Nil","Yangtze"],ans:2},
-  {q:"Apa itu GPU?",opts:["General Processing Unit","Graphics Processing Unit","Global Program Utility","Game Power Unit"],ans:1},
-  {q:"Siapa yang menyanyikan 'Levitating'?",opts:["Ariana Grande","Dua Lipa","Billie Eilish","Olivia Rodrigo"],ans:1},
-  {q:"Free Fire dikembangkan oleh?",opts:["Tencent","Garena","PUBG Corp","Epic Games"],ans:1},
-  {q:"Apa kepanjangan dari URL?",opts:["Uniform Resource Locator","Universal Record Link","Unified Resource Layer","User Request Link"],ans:0},
-  {q:"Berapa jumlah nada dalam satu oktaf?",opts:["7","8","12","14"],ans:2},
-  {q:"Siapa pendiri Apple?",opts:["Bill Gates","Steve Jobs & Steve Wozniak","Elon Musk","Jeff Bezos"],ans:1},
-  {q:"Game RPG populer dari Hoyoverse?",opts:["Honor of Kings","PUBG","Genshin Impact","Clash of Clans"],ans:2},
-  {q:"Apa itu firewall?",opts:["Software untuk edit foto","Sistem keamanan jaringan","Aplikasi streaming","Browser internet"],ans:1},
-  {q:"Ibu kota Korea Selatan?",opts:["Busan","Seoul","Incheon","Daegu"],ans:1},
-  {q:"Siapa penulis novel Harry Potter?",opts:["Stephen King","J.K. Rowling","Tolkien","George R.R. Martin"],ans:1},
-  {q:"Apa kepanjangan dari API?",opts:["Application Programming Interface","Automatic Process Input","Advanced Program Integration","Application Proxy Interface"],ans:0},
-  {q:"Berapa jumlah bendera putih dan merah di bendera Indonesia?",opts:["Merah atas putih bawah","Putih atas merah bawah","Merah kiri putih kanan","Putih kiri merah kanan"],ans:0},
-  {q:"Siapa penyanyi 'Dynamite' yang viral?",opts:["EXO","BTS","BLACKPINK","Stray Kids"],ans:1},
-  {q:"Apa nama chip buatan Apple untuk iPhone?",opts:["Snapdragon","Dimensity","Exynos","A-series Bionic"],ans:3},
-  {q:"Game strategi populer di PC?",opts:["FIFA","Age of Empires","NBA 2K","Madden NFL"],ans:1},
-  {q:"Berapa jumlah planet di tata surya?",opts:["7","8","9","10"],ans:1},
-  {q:"Siapa CEO Meta (Facebook)?",opts:["Jeff Bezos","Tim Cook","Mark Zuckerberg","Satya Nadella"],ans:2},
-  {q:"Apa nama protokol keamanan website (HTTPS)?",opts:["Hyper Text Transfer Protocol Secure","High Tech Transfer Protocol System","Home Transfer Protocol Safe","Hyper Transfer Proxy Secure"],ans:0},
-  {q:"Bahasa pemrograman yang dipakai untuk web frontend?",opts:["Python","Java","JavaScript","C++"],ans:2},
-  {q:"Siapa founder Twitter/X?",opts:["Mark Zuckerberg","Jack Dorsey","Elon Musk","Evan Spiegel"],ans:1},
-  {q:"Berapa lama cahaya matahari sampai ke bumi?",opts:["1 menit","8 menit","30 menit","1 jam"],ans:1},
-  {q:"Apa nama karakter utama The Legend of Zelda?",opts:["Zelda","Link","Ganon","Sheik"],ans:1},
-  {q:"Framework CSS populer untuk web?",opts:["React","Vue","Tailwind","Angular"],ans:2},
-  {q:"Organ tubuh manusia yang paling besar?",opts:["Hati","Paru-paru","Kulit","Otak"],ans:2},
-  {q:"Apa nama tombol 'delete' di Mac?",opts:["Delete","Backspace","Clear","Erase"],ans:1},
-  {q:"Siapa penyanyi lagu 'Juicy Luicy'?",opts:["Hindia","Tulus","Pamungkas","Juicy Luicy"],ans:3},
-  {q:"Apa singkatan dari 'DNS'?",opts:["Dynamic Network System","Domain Name System","Data Node Server","Digital Name Service"],ans:1},
-  {q:"Berapa FPS yang nyaman untuk gaming?",opts:["15 FPS","30 FPS","60 FPS","10 FPS"],ans:2},
-  {q:"Siapa yang menyanyikan 'Riptide'?",opts:["Ed Sheeran","Vance Joy","John Mayer","James Bay"],ans:1},
-  {q:"Apa nama game online buatan Valve?",opts:["Leakami of Legends","Dota 2","Smite","Heroes of the Storm"],ans:1},
-  {q:"RAM berapa yang standar untuk HP gaming?",opts:["2GB","4GB","8GB","1GB"],ans:2},
-  {q:"Apa bahasa resmi India?",opts:["Hindi & Inggris","Urdu","Bengali","Tamil"],ans:0},
-  {q:"Siapa yang membuat WhatsApp?",opts:["Mark Zuckerberg","Jan Koum & Brian Acton","Jack Dorsey","Kevin Systrom"],ans:1},
-  {q:"Apa nama chip AI buatan Google?",opts:["M-series","TPU","NPU","Tensor Core"],ans:1},
-  {q:"Berapa jumlah kartu dalam satu deck standar?",opts:["48","52","54","56"],ans:1},
-  {q:"Siapa penyanyi 'Flowers'?",opts:["Taylor Swift","Ariana Grande","Miley Cyrus","Selena Gomez"],ans:2},
-  {q:"Framework JavaScript buatan Meta?",opts:["Vue","Angular","Svelte","React"],ans:3},
-  {q:"Apa kepanjangan dari IoT?",opts:["Internet of Things","Input Output Technology","Integrated Open Tech","Internet Object Transfer"],ans:0},,
-  // === QUIZ BARU ===
-  {q:"Apa nama AI chatbot buatan Anthropic?",opts:["ChatGPT","Gemini","Claude","Copilot"],ans:2},
-  {q:"Berapa resolusi layar Full HD?",opts:["1280x720","1920x1080","2560x1440","3840x2160"],ans:1},
-  {q:"Siapa yang menciptakan karakter Naruto?",opts:["Eiichiro Oda","Masashi Kishimoto","Akira Toriyama","Hajime Isayama"],ans:1},
-  {q:"Apa nama planet yang memiliki cincin paling indah?",opts:["Jupiter","Uranus","Neptunus","Saturnus"],ans:3},
-  {q:"Bahasa pemrograman yang dipakai untuk membuat iOS app?",opts:["Java","Kotlin","Swift","Python"],ans:2},
-  {q:"Siapa pencipta One Piece?",opts:["Masashi Kishimoto","Eiichiro Oda","Tite Kubo","Akira Toriyama"],ans:1},
-  {q:"Apa nama game survival buatan Mojang selain Minecraft?",opts:["Terraria","Valheim","Minecraft Dungeons","Roblox"],ans:2},
-  {q:"Berapa jumlah tulang dalam tubuh manusia dewasa?",opts:["196","206","216","226"],ans:1},
-  {q:"Apa singkatan dari 'GHz' dalam prosesor?",opts:["Gigahertz","Gigabyte","Gigawatt","Gigabit"],ans:0},
-  {q:"Siapa pemeran Iron Man di MCU?",opts:["Chris Evans","Chris Hemsworth","Robert Downey Jr.","Benedict Cumberbatch"],ans:2},
-  {q:"Game open world buatan Rockstar selain GTA?",opts:["The Witcher","Red Dead Redemption","Cyberpunk 2077","Elden Ring"],ans:1},
-  {q:"Apa nama satelit alami bumi?",opts:["Mars","Pluto","Bulan","Titan"],ans:2},
-  {q:"Siapa yang menyanyikan 'As It Was'?",opts:["Shawn Mendes","Justin Bieber","Harry Styles","Niall Horan"],ans:2},
-  {q:"Apa kepanjangan dari 'GIF'?",opts:["Graphics Image Format","Graphics Interchange Format","Global Image File","General Image Format"],ans:1},
-  {q:"Negara dengan luas wilayah terbesar di dunia?",opts:["Amerika Serikat","Kanada","Rusia","China"],ans:2},
-  {q:"Siapa pencipta Dragon Ball?",opts:["Eiichiro Oda","Masashi Kishimoto","Akira Toriyama","Naoki Urasawa"],ans:2},
-  {q:"Apa nama model AI terbaru dari OpenAI (2024)?",opts:["GPT-3","GPT-4o","BERT","LLaMA"],ans:1},
-  {q:"Berapa suhu normal tubuh manusia?",opts:["35°C","36-37°C","38°C","39°C"],ans:1},
-  {q:"Siapa CEO Apple saat ini?",opts:["Steve Jobs","Jony Ive","Tim Cook","Craig Federighi"],ans:2},
-  {q:"Apa nama game horror populer buatan Capcom?",opts:["Silent Hill","Outlast","Resident Evil","The Evil Within"],ans:2}
-];
-function initQuiz(){
-  document.getElementById('gameContent').innerHTML='<div id="quizArea" class="quiz-wrap"></div>';
-  quizData={score:0, q:0, answered:false};
-  quizQuestions=quizBank.slice().sort(function(){return Math.random()-.5;}).slice(0,10);
-  renderQuiz();
-}
-function renderQuiz(){
-  var area=document.getElementById('quizArea');if(!area)return;
-  if(quizData.q>=quizQuestions.length){
-    sfxWin();
-    var best=parseInt(localStorage.getItem('quizBest')||0);
-    if(quizData.score>best){best=quizData.score;localStorage.setItem('quizBest',best);}
-    area.innerHTML='<div style="text-align:center;padding:24px 20px;">'
-      +'<div style="font-size:2.2rem;margin-bottom:12px;">🏆</div>'
-      +'<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.1rem;color:var(--accent);margin-bottom:8px;">Quiz Selesai!</div>'
-      +'<div style="font-size:.9rem;color:var(--muted);margin-bottom:16px;">Skor: '+quizData.score+'/'+quizQuestions.length+' | Best: '+best+'</div>'
-      +'<button class="restart-btn" onclick="restartGame()">🔄 Main Lagi</button></div>';
-    return;
+  function checkSlashHit(attacker, target, slashT){
+    if(slashT < 6 || slashT > 16) return false;
+    var dist = Math.abs(attacker.x - target.x);
+    var dyAbs = Math.abs((attacker.y+attacker.floatOffset) - (target.y+target.floatOffset));
+    return dist < 55 && dyAbs < 35;
   }
-  var q=quizQuestions[quizData.q];
-  area.innerHTML='<div class="quiz-info"><span>Soal '+(quizData.q+1)+'/'+quizQuestions.length+'</span><span style="color:var(--accent);">Skor: '+quizData.score+'</span></div>'
-    +'<div class="quiz-question">'+q.q+'</div>'
-    +'<div class="quiz-options">'+q.opts.map(function(o,i){
-      return '<button class="quiz-opt" onclick="answerQuiz('+i+')">'+String.fromCharCode(65+i)+'. '+o+'</button>';
-    }).join('')+'</div>';
-}
-function answerQuiz(i){
-  if(quizData.answered)return;
-  quizData.answered=true;
-  var q=quizQuestions[quizData.q];
-  document.querySelectorAll('.quiz-opt').forEach(function(o,j){
-    o.disabled=true;
-    if(j===q.ans) o.classList.add('correct');
-    else if(j===i) o.classList.add('wrong');
-  });
-  if(i===q.ans){quizData.score++;sfxCorrect();}else{sfxWrong();}
-  setTimeout(function(){quizData.q++;quizData.answered=false;renderQuiz();},1200);
-}
 
-// ============================================================
-// AI PODCAST
-// ============================================================
-function setPodTopic(t) { document.getElementById('podcastTopic').value=t; sfxClick(); }
+  function aiThink(){
+    ai.thinkTimer++;
+    var dy = (p1.y+p1.floatOffset) - (ai.y+ai.floatOffset);
+    var dx = p1.x - ai.x;
+    var dist = Math.abs(dx);
+    var aiCy = ai.y + ai.floatOffset;
+    var p1Cy = p1.y + p1.floatOffset;
 
-async function generatePodcast() {
-  var topic = document.getElementById('podcastTopic').value.trim();
-  if(!topic){ alert('Isi topik dulu.'); return; }
-  var style = document.getElementById('podStyle').value;
-  var dur = document.getElementById('podDuration').value;
-  var styleMap={berita:'seperti anchor berita TV profesional',santai:'santai seperti ngobrol di kafe, bahasa gaul Indonesia',motivasi:'penuh semangat seperti motivator terkenal',edukasi:'mendalam dan informatif seperti dosen menyenangkan',komedi:'lucu dan menghibur dengan humor segar'};
-  var lenMap={pendek:'150-200 kata',sedang:'400-500 kata',panjang:'700-800 kata'};
-  var prompt='Buatkan script podcast audio '+styleMap[style]+' tentang: "'+topic+'". Panjang '+lenMap[dur]+'. Mulai langsung dengan konten tanpa kata pengantar. Format script podcast dengan pembukaan, isi, dan penutup. Bahasa Indonesia yang enak didengar.';
+    // DODGE: jika player lagi slash dan dekat, kabur!
+    var dodging = false;
+    if(diff.dodgeReact && slashActive && slashTimer > 8 && dist < 70 && Math.abs(dy) < 40){
+      // Dodge ke arah berlawanan secara vertikal
+      ai.vy = aiCy < H/2 ? ai.speed * 1.5 : -ai.speed * 1.5;
+      // Mundur menjauh
+      ai.vx = dx > 0 ? -ai.speed * 1.4 : ai.speed * 1.4;
+      dodging = true;
+      // Flash efek dodge
+      ai.dodgeFlash = 8;
+    }
 
-  var btn=document.getElementById('podGenBtn');
-  btn.textContent='⏳ Generating...'; btn.disabled=true;
+    if(!dodging){
+      // Chase player vertically
+      if(Math.abs(dy) > 8) ai.vy = dy>0 ? ai.speed : -ai.speed;
+      else ai.vy = 0;
 
-  try{
-    var res=await fetch(BACKEND_URL + '/chat',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        model:'llama-3.3-70b-versatile',
-        max_tokens:1024,
-        messages:[{role:'user',content:prompt}]
-      })
+      // Keep attack distance ~50-80px
+      if(dist < 45) ai.vx = ai.speed;
+      else if(dist > 90) ai.vx = -ai.speed;
+      else ai.vx = 0;
+    }
+
+    ai.facing = dx > 0 ? 1 : -1;
+    if(ai.dodgeFlash > 0) ai.dodgeFlash--;
+
+    // Slash when in range (lebih agresif - tiap 45 frame)
+    if(dist < 60 && Math.abs(dy)<30 && ai.thinkTimer % diff.slashRate === 0 && !aiSlashActive && !dodging){
+      aiSlashActive = true; aiSlashTimer = 18;
+    }
+
+    // Counter-attack setelah dodge berhasil
+    if(!dodging && ai.dodgeFlash === 0 && dist < 65 && Math.abs(dy)<35 && ai.thinkTimer % Math.max(20, diff.slashRate-10) === 0 && !aiSlashActive){
+      aiSlashActive = true; aiSlashTimer = 18;
+    }
+  }
+
+  function loop(){
+    if(gameOver2P) return;
+    frame++;
+
+    ctx.fillStyle='#070a0f'; ctx.fillRect(0,0,W,H);
+    // Grid
+    ctx.strokeStyle='rgba(255,255,255,0.03)'; ctx.lineWidth=1;
+    for(var gx=0;gx<W;gx+=40){ctx.beginPath();ctx.moveTo(gx,0);ctx.lineTo(gx,H);ctx.stroke();}
+    for(var gy=0;gy<H;gy+=40){ctx.beginPath();ctx.moveTo(0,gy);ctx.lineTo(W,gy);ctx.stroke();}
+    // Center dashed line
+    ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.setLineDash([4,8]);
+    ctx.beginPath(); ctx.moveTo(W/2,0); ctx.lineTo(W/2,H); ctx.stroke();
+    ctx.setLineDash([]);
+
+    // Floor ground
+    ctx.strokeStyle='rgba(255,255,255,0.06)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(0,H-20); ctx.lineTo(W,H-20); ctx.stroke();
+
+    // Floating animation
+    p1.floatPhase += 0.04;
+    p1.floatOffset = Math.sin(p1.floatPhase) * 4;
+    ai.floatPhase += 0.04;
+    ai.floatOffset = Math.sin(ai.floatPhase) * 4;
+
+    // Player movement via joystick
+    var joy = window.getJoy ? window.getJoy() : {dx:0,dy:0};
+    var jdx = joy.dx, jdy = joy.dy;
+    if(keys['a']||keys['A']) jdx -= 1;
+    if(keys['d']||keys['D']) jdx += 1;
+    if(keys['w']||keys['W']) jdy -= 1;
+    if(keys['s']||keys['S']) jdy += 1;
+
+    // Dodge cooldown
+    if(p1.dodgeCooldown > 0) p1.dodgeCooldown--;
+    if(p1.dodging){
+      p1.dodgeTimer--;
+      if(p1.dodgeTimer <= 0) p1.dodging = false;
+    }
+    p1.vx = jdx * p1.speed;
+    p1.vy = jdy * p1.speed;
+    if(Math.abs(jdx) > 0.1) p1.facing = jdx > 0 ? 1 : -1;
+
+    p1.x = Math.max(14, Math.min(W-14, p1.x + p1.vx));
+    p1.y = Math.max(30, Math.min(H-30, p1.y + p1.vy));
+
+    // Slash timers
+    if(slashActive){ slashTimer--; if(slashTimer<=0) slashActive=false; }
+    if(aiSlashActive){ aiSlashTimer--; if(aiSlashTimer<=0) aiSlashActive=false; }
+    if(p1.parryFlash > 0) p1.parryFlash--;
+
+    // Slash hit detection
+    if(slashActive && checkSlashHit(p1, ai, slashTimer) && slashTimer===15){
+      ai.hp--;
+      addParticle(ai.x, ai.y+ai.floatOffset, '#ff4d4d', 10);
+      sfxDie();
+      if(ai.hp<=0){ endBattle2P('WIN'); return; }
+    }
+    if(aiSlashActive && checkSlashHit(ai, p1, aiSlashTimer) && aiSlashTimer===15){
+      if(p1.dodging){
+        // PARRY! Dodge berhasil blok serangan
+        sfxClang();
+        addParticle(p1.x, p1.y+p1.floatOffset, '#00e5a0', 14);
+        p1.parryFlash = 12;
+      } else {
+        p1.hp--;
+        addParticle(p1.x, p1.y+p1.floatOffset, '#f5c842', 10);
+        sfxDie();
+        if(p1.hp<=0){ endBattle2P('LOSE'); return; }
+      }
+    }
+
+    // AI think
+    aiThink();
+    ai.x = Math.max(14, Math.min(W-14, ai.x + ai.vx));
+    ai.y = Math.max(30, Math.min(H-30, ai.y + ai.vy));
+
+    // Particles
+    particles = particles.filter(function(p){
+      p.x+=p.vx; p.y+=p.vy; p.life--;
+      ctx.globalAlpha = p.life/p.maxLife;
+      ctx.fillStyle=p.color;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.size*(p.life/p.maxLife),0,Math.PI*2); ctx.fill();
+      ctx.globalAlpha=1;
+      return p.life>0;
     });
-    var data=await res.json();
-    var text=data.reply||(data.choices&&data.choices[0]?data.choices[0].message.content:'Gagal generate.');
-    displayPodcast(topic,text);
-  }catch(e){
-    displayPodcast(topic,'🎙️ Cheese AI Podcast\n\nTopik: '+topic+'\n\n[Gagal konek ke server. Cek internet.]');
+
+    drawStickman(p1, slashActive, slashTimer);
+    drawStickman(ai, aiSlashActive, aiSlashTimer);
+
+    // HUD
+    ctx.fillStyle='rgba(255,255,255,0.3)'; ctx.font='bold 8px Outfit,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(diff.label, W/2, H-6);
+    ctx.fillStyle='#f5c842'; ctx.font='bold 9px Outfit,sans-serif'; ctx.textAlign='left';
+    var p1hpStr=''; for(var i=0;i<p1.hp;i++) p1hpStr+='♥ ';
+    ctx.fillText(p1hpStr.trim(), 6, 14);
+    ctx.fillStyle='#ff4d4d'; ctx.textAlign='right';
+    var aihpStr=''; for(var j=0;j<ai.hp;j++) aihpStr+='♥ ';
+    ctx.fillText(aihpStr.trim(), W-6, 14);
+
+    battle2P=requestAnimationFrame(loop);
   }
-  btn.textContent='🎙️ Generate Podcast'; btn.disabled=false;
+
+  function endBattle2P(result){
+    gameOver2P=true;
+    cancelAnimationFrame(battle2P);
+    sfxWin();
+    ctx.fillStyle='rgba(7,10,15,.9)'; ctx.fillRect(0,0,W,H);
+    var won = result==='WIN';
+    ctx.fillStyle = won?'#f5c842':'#ff4d4d';
+    ctx.font='bold 26px Outfit,sans-serif'; ctx.textAlign='center';
+    ctx.fillText(won?'KAMU MENANG! 🏆':'AI MENANG! 🤖', W/2, H/2-16);
+    ctx.fillStyle='#e8edf2'; ctx.font='13px Nunito,sans-serif';
+    ctx.fillText(won?'GG! Pedangmu tajam 💪':'Latih ayunan pedangmu!', W/2, H/2+14);
+    var ov=document.getElementById('battle2POver'); if(ov) ov.style.display='flex';
+    document.removeEventListener('keydown',onKeyDown);
+    document.removeEventListener('keyup',onKeyUp);
+    window.b2pDir=function(){};
+    window.b2pShoot=function(){};
+    window.b2pSlash=function(){};
+  }
+
+  loop();
 }
 
-function displayPodcast(topic, text) {
-  podcastText=text;
-  podEpCount++;
-  localStorage.setItem('cheesePodEp', podEpCount);
-  document.getElementById('podcastResult').style.display='block';
-  document.getElementById('podTitle').textContent=topic;
-  document.getElementById('podEpLabel').textContent='EP.'+podEpCount;
-  document.getElementById('podcastTextDisplay').textContent=text;
-  document.getElementById('podProgress').style.width='0%';
-  document.getElementById('podCurrent').textContent='0:00';
-  var words=text.split(' ').length;
-  var secs=(words/150*60)|0;
-  document.getElementById('podTotal').textContent=Math.floor(secs/60)+':'+(secs%60).toString().padStart(2,'0');
-  document.getElementById('podPlayBtn').textContent='▶';
-  podcastPlaying=false;
-  podHistory.unshift({topic:topic,text:text,ep:podEpCount,date:new Date().toLocaleDateString('id-ID')});
-  if(podHistory.length>10) podHistory.pop();
-  localStorage.setItem('cheesePodHistory',JSON.stringify(podHistory));
-  renderPodHistory();
-  document.getElementById('podcastResult').scrollIntoView({behavior:'smooth'});
-  sfxWin();
-}
-
-function renderPodHistory(){
-  var el=document.getElementById('podHistoryList');if(!el)return;
-  if(!podHistory.length){el.innerHTML='<div style="text-align:center;color:var(--muted);font-size:.8rem;padding:20px 0;">Belum ada podcast</div>';return;}
-  el.innerHTML=podHistory.map(function(p,i){
-    return '<div class="pod-history-item" onclick="replayPodHistory('+i+')">'
-      +'<div style="width:36px;height:36px;border-radius:10px;background:rgba(245,200,66,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1rem;">🎙️</div>'
-      +'<div style="flex:1;min-width:0;"><div style="font-weight:600;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">'+p.topic+'</div>'
-      +'<div style="font-size:.68rem;color:var(--muted);">EP.'+p.ep+' • '+p.date+'</div></div>'
-      +'<span style="font-size:.7rem;color:var(--accent);">▶</span></div>';
-  }).join('');
-}
-
-function replayPodHistory(i){ if(podHistory[i]) displayPodcast(podHistory[i].topic, podHistory[i].text); sfxClick(); }
-
-var podProgressInterval=null;
-function speakPodcast(){
-  if(!podcastText){alert('Silakan generate podcast terlebih dahulu!');return;}
-  if(!('speechSynthesis' in window)){alert('Browser Anda ga support Text-to-Speech!');return;}
-  stopPodcast();
-  podcastSpeech=new SpeechSynthesisUtterance(podcastText);
-  podcastSpeech.lang='id-ID'; podcastSpeech.rate=1.0; podcastSpeech.pitch=1.0;
-  var words=podcastText.split(' ').length;
-  var totalSecs=(words/150*60)|0;
-  var startTime=Date.now();
-  podcastSpeech.onstart=function(){
-    podcastPlaying=true;
-    document.getElementById('podPlayBtn').textContent='⏸';
-    podProgressInterval=setInterval(function(){
-      if(!podcastPlaying){clearInterval(podProgressInterval);return;}
-      var elapsed=(Date.now()-startTime)/1000;
-      var pct=Math.min((elapsed/totalSecs)*100,100);
-      var pg=document.getElementById('podProgress');if(pg)pg.style.width=pct+'%';
-      var cur=document.getElementById('podCurrent');if(cur)cur.textContent=Math.floor(elapsed/60)+':'+(elapsed%60|0).toString().padStart(2,'0');
-    },500);
-  };
-  podcastSpeech.onend=function(){
-    podcastPlaying=false;clearInterval(podProgressInterval);
-    var btn=document.getElementById('podPlayBtn');if(btn)btn.textContent='▶';
-    var pg=document.getElementById('podProgress');if(pg)pg.style.width='100%';
-  };
-  window.speechSynthesis.speak(podcastSpeech);
-}
-function togglePodcastPlay(){
-  if(podcastPlaying){window.speechSynthesis.pause();podcastPlaying=false;document.getElementById('podPlayBtn').textContent='▶';}
-  else{if(window.speechSynthesis.paused){window.speechSynthesis.resume();podcastPlaying=true;document.getElementById('podPlayBtn').textContent='⏸';}else{speakPodcast();}}
-  sfxClick();
-}
-function stopPodcast(){
-  window.speechSynthesis.cancel();podcastPlaying=false;clearInterval(podProgressInterval);
-  var btn=document.getElementById('podPlayBtn');if(btn)btn.textContent='▶';
-  var pg=document.getElementById('podProgress');if(pg)pg.style.width='0%';
-}
-function restartPodcast(){stopPodcast();setTimeout(speakPodcast,200);sfxClick();}
-function copyPodcast(){
-  if(!podcastText)return;
-  navigator.clipboard.writeText(podcastText).then(function(){
-    sfxCorrect();
-    var btn=document.getElementById('copyPodBtn');
-    if(btn){btn.textContent='✓ Copied!';setTimeout(function(){btn.textContent='📋 Copy';},2000);}
-  }).catch(function(){});
-}
-
-// ===== v2.8 — 5 FITUR BARU =====
-
-// FITUR 1: Daily Streak
+// ===== NOTIF SYSTEM =====
 var notifs = [];
-try{ notifs = JSON.parse(localStorage.getItem('cheeseNotifs')||'[]'); }catch(e){}
 
-(function initStreak(){
-  var today = new Date().toDateString();
-  var last = localStorage.getItem('cheeseLastLogin');
-  var streak = parseInt(localStorage.getItem('cheeseStreak')||'0');
-  if(!last){
-    streak=1;
-  } else if(last === today){
-    // same day, keep streak
-  } else {
-    var diff = (new Date(today)-new Date(last))/(1000*60*60*24);
-    streak = diff<=1 ? streak+1 : 1;
-  }
-  localStorage.setItem('cheeseStreak', streak);
-  localStorage.setItem('cheeseLastLogin', today);
-  var el = document.getElementById('streakCount');
-  if(el) el.textContent = streak;
-  if(streak>1 && last!==today){
-    pushNotif('🔥 Streak '+streak+' hari! Keren.');
-  }
-})();
-
-// FITUR 3: Light/Dark Mode Toggle
-var isLightMode = localStorage.getItem('cheeseLightMode')==='1';
-function applyTheme(){
-  if(isLightMode){
-    document.documentElement.style.setProperty('--bg','#f0f2f5');
-    document.documentElement.style.setProperty('--surface','#ffffff');
-    document.documentElement.style.setProperty('--surface2','#e8ecf0');
-    document.documentElement.style.setProperty('--surface3','#dde2e8');
-    document.documentElement.style.setProperty('--text','#1a2330');
-    document.documentElement.style.setProperty('--muted','#6b7a8d');
-    document.documentElement.style.setProperty('--border','rgba(0,0,0,0.1)');
-    var ic=document.getElementById('themeIcon'), lb=document.getElementById('themeLabel');
-    if(ic) ic.textContent='☀️';
-    if(lb) lb.textContent='Light';
-  } else {
-    document.documentElement.style.setProperty('--bg','#080b10');
-    document.documentElement.style.setProperty('--surface','#0e1318');
-    document.documentElement.style.setProperty('--surface2','#141c24');
-    document.documentElement.style.setProperty('--surface3','#1a2430');
-    document.documentElement.style.setProperty('--text','#e8edf2');
-    document.documentElement.style.setProperty('--muted','#5a6a7a');
-    document.documentElement.style.setProperty('--border','rgba(255,255,255,0.07)');
-    var ic=document.getElementById('themeIcon'), lb=document.getElementById('themeLabel');
-    if(ic) ic.textContent='🌙';
-    if(lb) lb.textContent='Dark';
-  }
-}
-function toggleTheme(){
-  isLightMode=!isLightMode;
-  localStorage.setItem('cheeseLightMode', isLightMode?'1':'0');
-  applyTheme();
-  sfxClick();
-  showToast(isLightMode?'☀️ Light mode aktif!':'🌙 Dark mode aktif!','success',2000);
-  pushNotif(isLightMode?'☀️ Ganti ke Light Mode':'🌙 Ganti ke Dark Mode');
-}
-applyTheme();
-
-// FITUR 4: Export Chat
-function exportChat(){
-  var cb = document.getElementById('chatBox');
-  if(!cb){ showToast('Belum ada percakapan.','err',2000); return; }
-  var msgs = [];
-  cb.querySelectorAll('.msg').forEach(function(m){
-    if(m.classList.contains('typing')) return;
-    var isUser = m.classList.contains('user');
-    var div = m.querySelector('div:first-child');
-    var txt = div ? div.textContent.trim() : m.textContent.trim();
-    if(txt) msgs.push((isUser?'[Anda]':'[Cheese AI]')+': '+txt);
-  });
-  if(!msgs.length){ showToast('Belum ada percakapan.','err',2000); return; }
-  var blob = new Blob([msgs.join('\n\n')], {type:'text/plain'});
-  var a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'cheese-chat-'+new Date().toLocaleDateString('id-ID').replace(/\//g,'-')+'.txt';
-  a.click();
-  sfxCorrect();
-  showToast('💾 Chat berhasil di-export!','success',2500);
-  pushNotif('💾 Chat di-export sebagai .txt');
-}
-
-// FITUR 5: Notif System
-var notifs = [];
-try{ notifs = JSON.parse(localStorage.getItem('cheeseNotifs')||'[]'); }catch(e){}
 
 function pushNotif(msg){
   notifs.unshift({msg:msg, time:new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'})});
@@ -4536,75 +5219,6 @@ function toggleNotifPanel(){
   },50);
 }
 
-function clearNotifs(){
-  notifs=[];
-  localStorage.removeItem('cheeseNotifs');
-  renderNotifs();
-  sfxClick();
-}
-
-// Push welcome notif on load
-setTimeout(function(){
-  pushNotif('👋 Selamat datang di Cheese Platform v3.15!');
-  pushNotif('🆕 v3.15: Gemini 2.0 Flash + OpenRouter + UI Formal!');
-}, 1500);
-
-renderNotifs();
-
-
-// ============================================================
-// SPLASH SCREEN
-// ============================================================
-(function(){
-  var bar = document.getElementById('splashBar');
-  var splash = document.getElementById('splashScreen');
-  var w = 0;
-  var iv = setInterval(function(){
-    w += 2.5;
-    if(bar) bar.style.width = Math.min(w,100)+'%';
-    if(w >= 100){
-      clearInterval(iv);
-      setTimeout(function(){
-        if(splash){ splash.style.transition='opacity .4s'; splash.style.opacity='0'; setTimeout(function(){ splash.style.display='none'; },400); }
-      }, 150);
-    }
-  }, 18);
-})();
-
-// ============================================================
-// SCROLL TO BOTTOM
-// ============================================================
-function scrollToBottom(){
-  var cb = document.getElementById('chatBox');
-  if(cb) cb.scrollTo({top:cb.scrollHeight, behavior:'smooth'});
-}
-(function(){
-  var cb = document.getElementById('chatBox');
-  if(!cb) return;
-  cb.addEventListener('scroll', function(){
-    var btn = document.getElementById('scrollBtn');
-    if(!btn) return;
-    var dist = cb.scrollHeight - cb.scrollTop - cb.clientHeight;
-    if(dist > 120){ btn.style.display='flex'; btn.style.alignItems='center'; btn.style.justifyContent='center'; }
-    else { btn.style.display='none'; }
-  });
-})();
-
-
-function togglePass(id, btn) {
-  var inp = document.getElementById(id);
-  if(!inp) return;
-  if(inp.type === 'password') {
-    inp.type = 'text';
-    btn.textContent = '🙈';
-    btn.style.color = 'var(--accent)';
-  } else {
-    inp.type = 'password';
-    btn.textContent = '👁️';
-    btn.style.color = 'var(--muted)';
-  }
-}
-
 </script>
 
 
@@ -4624,7 +5238,7 @@ function togglePass(id, btn) {
       <div style="font-size:2rem;margin-bottom:10px;">⭐</div>
       <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;margin-bottom:6px;">Gimana Cheese Platform?</div>
       <div style="font-size:.8rem;color:var(--muted);margin-bottom:6px;">Rating Anda bantu kami berkembang!</div>
-      <div id="feedbackAvgDisplay" style="font-size:.78rem;color:var(--accent);font-weight:700;margin-bottom:14px;"></div>
+      <div id="feedbackAvgDisplay" style="font-size:.9rem;color:var(--accent);font-weight:800;margin-bottom:14px;letter-spacing:.5px;"></div>
       <div style="display:flex;justify-content:center;gap:8px;margin-bottom:16px;" id="starRow">
         <button onclick="submitFeedback(1)" onmouseover="hoverStars(1)" onmouseout="resetStars()" style="font-size:2rem;background:none;border:none;cursor:pointer;transition:.2s;" id="star1">⭐</button>
         <button onclick="submitFeedback(2)" onmouseover="hoverStars(2)" onmouseout="resetStars()" style="font-size:2rem;background:none;border:none;cursor:pointer;transition:.2s;" id="star2">⭐</button>
@@ -4737,7 +5351,10 @@ function togglePass(id, btn) {
   <div id="generateModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.75);z-index:9000;align-items:flex-end;justify-content:center;">
     <div style="background:var(--surface);border-radius:20px 20px 0 0;padding:20px;padding-bottom:36px;width:100%;max-width:480px;">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;">
-        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;">🎨 Generate Gambar AI</div>
+        <div style="display:flex;align-items:center;gap:8px;font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="opacity:0.85;flex-shrink:0;"><rect x="3" y="3" width="18" height="18" rx="3"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+          Buat Gambar AI
+        </div>
         <button onclick="closeGenerateModal()" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;">✕</button>
       </div>
       <textarea id="generatePrompt" placeholder="Deskripsikan gambar yang ingin dibuat... (English lebih bagus)" style="width:100%;height:90px;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.88rem;resize:none;outline:none;margin-bottom:12px;"></textarea>
@@ -4750,4 +5367,4 @@ function togglePass(id, btn) {
   </div>
 
 </body>
-                </html>
+    </html>
