@@ -8,7 +8,7 @@
   <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
-<title>Cheese Platform v3.25</title>
+<title>Cheese Platform v3.3</title>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800;900&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
 <style>
 :root{--bg:#080b10;--surface:#0e1318;--surface2:#141c24;--surface3:#1a2430;--border:rgba(255,255,255,0.07);--accent:#f5c842;--accent2:#ff6b35;--text:#e8edf2;--muted:#5a6a7a;--green:#00e5a0;--red:#ff4d4d;}
@@ -347,7 +347,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
   <div id="splashScreen" style="position:fixed;inset:0;background:#080b10;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;">
     <div style="animation:float 2s ease-in-out infinite;"><div style="font-size:4rem;">🧀</div></div>
     <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.5rem;color:#f5c842;margin-top:16px;">Cheese Platform</div>
-    <div style="font-size:.75rem;color:#5a6a7a;margin-top:4px;">v3.25 — K Studio</div>
+    <div style="font-size:.75rem;color:#5a6a7a;margin-top:4px;">v3.3 — K Studio</div>
     <div style="margin-top:30px;width:160px;height:3px;background:#1a2430;border-radius:10px;overflow:hidden;">
       <div id="splashBar" style="height:100%;width:0%;background:linear-gradient(90deg,#f5c842,#ff6b35);border-radius:10px;"></div>
     </div>
@@ -373,6 +373,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="input-group"><label>Email</label><input type="email" id="loginEmail" placeholder="email@Anda.com"/></div>
       <div class="input-group"><label>Password</label><div style="position:relative;"><input type="password" id="loginPass" placeholder="Password Anda" onkeydown="if(event.key==='Enter')doLogin()" style="width:100%;padding-right:40px;box-sizing:border-box;"/><button type="button" onclick="togglePass('loginPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);padding:0;line-height:1;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <button class="auth-btn" onclick="doLogin()">Masuk Sekarang</button>
+      <div style="text-align:center;margin-top:10px;"><button onclick="showForgotPassword()" style="background:none;border:none;color:var(--accent);font-size:.82rem;cursor:pointer;font-family:Nunito,sans-serif;text-decoration:underline;">Lupa Password?</button></div>
       <div class="auth-divider">atau</div>
       <button class="google-btn" onclick="doGuestLogin()">👤 Lanjut sebagai Tamu</button>
     </div>
@@ -383,6 +384,29 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="input-group"><label>Email</label><input type="email" id="regEmail" placeholder="email@Anda.com"/></div>
       <div class="input-group"><label>Password</label><div style="position:relative;"><input type="password" id="regPass" placeholder="Minimal 6 karakter" onkeydown="if(event.key==='Enter')doRegister()" style="width:100%;padding-right:40px;box-sizing:border-box;"/><button type="button" onclick="togglePass('regPass',this)" style="position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1rem;color:var(--muted);padding:0;line-height:1;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></button></div></div>
       <button class="auth-btn" onclick="doRegister()">Buat Akun</button>
+<!-- OTP Section -->
+<div id="otpSection" style="display:none;padding:10px 0;">
+  <div style="text-align:center;margin-bottom:16px;">
+    <div id="otpTitle" style="font-size:1.1rem;font-weight:800;font-family:Outfit,sans-serif;margin-bottom:6px;">Verifikasi Email 📧</div>
+    <div id="otpDesc" style="font-size:.82rem;color:var(--muted);line-height:1.5;"></div>
+  </div>
+  <div class="auth-error" id="otpError" style="margin-bottom:10px;"></div>
+  <div class="input-group">
+    <label>Kode OTP</label>
+    <input type="number" id="otpInput" placeholder="6 digit kode" maxlength="6" style="letter-spacing:6px;font-size:1.2rem;text-align:center;" onkeydown="if(event.key==='Enter')submitOTP()"/>
+  </div>
+  <div id="newPassGroup" style="display:none;">
+    <div class="input-group" style="margin-top:8px;">
+      <label>Password Baru</label>
+      <input type="password" id="newPassInput" placeholder="Minimal 6 karakter" onkeydown="if(event.key==='Enter')submitOTP()"/>
+    </div>
+  </div>
+  <button id="otpSubmitBtn" class="auth-btn" onclick="submitOTP()" style="margin-top:12px;">Verifikasi</button>
+  <div style="display:flex;justify-content:space-between;margin-top:10px;">
+    <button id="resendOTPBtn" onclick="resendOTP()" style="background:none;border:none;color:var(--accent);font-size:.82rem;cursor:pointer;font-family:Nunito,sans-serif;text-decoration:underline;">Kirim Ulang</button>
+    <button onclick="hideOTPForm()" style="background:none;border:none;color:var(--muted);font-size:.82rem;cursor:pointer;font-family:Nunito,sans-serif;">← Kembali</button>
+  </div>
+</div>
       <div class="auth-divider">atau</div>
       <button class="google-btn" onclick="doGuestLogin()">👤 Lanjut sebagai Tamu</button>
     </div>
@@ -395,7 +419,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <div class="sidebar-top">
       <div class="logo-row">
         <div class="logo-icon-wrap">🧀</div>
-        <div class="logo-text"><div class="t">Cheese</div><div class="s">Platform v3.25</div></div>
+        <div class="logo-text"><div class="t">Cheese</div><div class="s">Platform v3.3</div></div>
       </div>
       <div class="user-card">
         <div class="user-avatar" id="sidebarAvatar">?</div>
@@ -442,7 +466,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <!-- HOME -->
     <div id="home" class="section active">
       <div class="welcome-banner">
-        <div class="welcome-tag">✨ Cheese Platform v3.25</div>
+        <div class="welcome-tag">✨ Cheese Platform v3.3</div>
         <h1>Halo, <span id="welcomeName">Bos</span>! 👋</h1>
         <p>Platform gaming & AI lokal terbaik. Semua fitur ada di sini!</p>
       </div>
@@ -491,7 +515,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           </div>
           <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
             <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Versi App</div>
-            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);">3.25</div>
+            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);">3.3</div>
             <div style="font-size:.62rem;color:var(--muted);">K Studio</div>
           </div>
           <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
@@ -546,7 +570,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           <div style="display:flex;align-items:center;gap:11px;">
             <div class="ai-avatar">🧀</div>
             <div>
-              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;" id="aiNameDisplay">Cheese AI v2.3</div>
+              <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;" id="aiNameDisplay">Cheese AI v3.3</div>
               <div class="ai-status"><span class="status-dot" style="width:6px;height:6px;"></span>Online</div>
             </div>
           </div>
@@ -879,8 +903,8 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="sec-title">Contact Us 📞</div>
       <div class="sec-sub">Hubungi kami lewat platform favorit Anda!</div>
       <a class="contact-card" href="https://instagram.com/cheese_platform" target="_blank"><div class="contact-ic" style="background:rgba(245,200,66,.1);">📸</div><div><div style="font-weight:600;font-size:.87rem;">Instagram</div><div style="font-size:.73rem;color:var(--muted);">@cheese_platform</div></div></a>
-      <a class="contact-card" href="#"><div class="contact-ic" style="background:rgba(0,229,160,.1);">💬</div><div><div style="font-weight:600;font-size:.87rem;">WhatsApp</div><div style="font-size:.73rem;color:var(--muted);">Segera hadir</div></div></a>
-      <a class="contact-card" href="#"><div class="contact-ic" style="background:rgba(88,101,242,.15);">🎮</div><div><div style="font-weight:600;font-size:.87rem;">Discord</div><div style="font-size:.73rem;color:var(--muted);">Segera hadir</div></div></a>
+      <a class="contact-card" href="https://tiktok.com/@kstduioofficial" target="_blank"><div class="contact-ic" style="background:rgba(0,0,0,.2);">🎵</div><div><div style="font-weight:600;font-size:.87rem;">TikTok</div><div style="font-size:.73rem;color:var(--muted);">@kstduioofficial</div></div></a>
+      <a class="contact-card" href="mailto:kstudio11143@gmail.com"><div class="contact-ic" style="background:rgba(245,200,66,.1);">✉️</div><div><div style="font-weight:600;font-size:.87rem;">Email</div><div style="font-size:.73rem;color:var(--muted);">kstudio11143@gmail.com</div></div></a>
     </div>
 
     <!-- SETTINGS -->
@@ -945,7 +969,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="settings-card">
         <div class="settings-card-title">🤖 Nama AI</div>
         <div class="settings-card-sub">Ganti nama Cheese AI sesuka hati</div>
-        <input type="text" id="aiNicknameInputPers" placeholder="Cheese AI v2.3" maxlength="20" style="width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.86rem;outline:none;transition:.2s;box-sizing:border-box;" onfocus="this.style.borderColor='rgba(245,200,66,.4)'" onblur="this.style.borderColor='var(--border)'" oninput="savePersonalisasi()"/>
+        <input type="text" id="aiNicknameInputPers" placeholder="Cheese AI v3.3" maxlength="20" style="width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:Nunito,sans-serif;font-size:.86rem;outline:none;transition:.2s;box-sizing:border-box;" onfocus="this.style.borderColor='rgba(245,200,66,.4)'" onblur="this.style.borderColor='var(--border)'" oninput="savePersonalisasi()"/>
       </div>
 
       <!-- SAVE BTN -->
@@ -957,11 +981,12 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <div id="settings" class="section">
       <div class="sec-title">Pengaturan ⚙️</div>
 
+      
       <div class="settings-card">
         <div class="settings-card-title">🗺️ Roadmap</div>
         <div style="margin-top:12px;">
-          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.3 — Memory + History + Notif + Streaming</span><span style="font-size:.72rem;color:#5865f2;font-weight:700;">60%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:60%;background:#5865f2;border-radius:10px;"></div></div></div>
-          <div style="margin-top:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.4 — Google Login + Xendit Payment 🔜</span><span style="font-size:.72rem;color:var(--muted);font-weight:700;">0%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:0%;background:#5865f2;border-radius:10px;"></div></div></div>
+          <div><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.3 — Memory + History + OTP + Verifikasi Email</span><span style="font-size:.72rem;color:#5865f2;font-weight:700;">100%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:100%;background:#5865f2;border-radius:10px;"></div></div></div>
+          <div style="margin-top:12px;"><div style="display:flex;justify-content:space-between;margin-bottom:4px;"><span style="font-size:.83rem;font-weight:700;">v3.4 — Google Login + Xendit Payment 🔜</span><span style="font-size:.72rem;color:var(--muted);font-weight:700;">5%</span></div><div style="height:6px;background:var(--surface3);border-radius:10px;overflow:hidden;"><div style="height:100%;width:5%;background:#5865f2;border-radius:10px;"></div></div></div>
         </div>
       </div>
       <div class="sec-sub">Kustomisasi Cheese Platform sesuai selera Anda!</div>
@@ -975,7 +1000,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
         <div class="settings-card-sub">Atur gaya bicara AI sesuai keinginan Anda</div>
         <div style="margin-bottom:14px;">
           <div style="font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Nama AI</div>
-          <input type="text" class="settings-input" id="aiNicknameInput" placeholder="Cheese AI v2.3" maxlength="20" oninput="saveAISettings()"/>
+          <input type="text" class="settings-input" id="aiNicknameInput" placeholder="Cheese AI v3.3" maxlength="20" oninput="saveAISettings()"/>
         </div>
         <div style="margin-bottom:14px;">
           <div style="font-size:.72rem;color:var(--muted);font-weight:600;margin-bottom:8px;text-transform:uppercase;letter-spacing:.4px;">Gaya Bicara</div>
@@ -1042,7 +1067,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="settings-card">
         <div class="settings-card-title">ℹ️ Info Aplikasi</div>
         <div style="display:flex;flex-direction:column;gap:8px;font-size:.82rem;">
-          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Versi</span><span style="font-weight:700;color:var(--accent);">v3.25</span></div>
+          <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Versi</span><span style="font-weight:700;color:var(--accent);">v3.3</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Build</span><span style="font-weight:600;">2026.03d</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">AI Engine</span><span style="font-weight:600;" id="aiEngineDisplay">Mendeteksi...</span></div>
           <div style="display:flex;justify-content:space-between;"><span style="color:var(--muted);">Developer</span><span style="font-weight:600;">K Studio 🧀</span></div>
@@ -1071,7 +1096,27 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
         <div class="settings-card-sub">Yang akan hadir di Cheese Platform!</div>
         <div id="featureList50" style="max-height:400px;overflow-y:auto;"></div>
       </div>
-    </div>
+    
+<!-- LAPORKAN BUG -->
+      <div class="settings-card">
+        <div class="settings-card-title">🐛 Laporkan Bug</div>
+        <div style="font-size:.78rem;color:var(--muted);margin-bottom:12px;">Temukan bug? Laporkan ke kami!</div>
+        <a href="https://tiktok.com/@kstduioofficial" target="_blank" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:var(--surface2);text-decoration:none;color:var(--text);margin-bottom:8px;">
+          <div style="font-size:1.3rem;">🎵</div>
+          <div>
+            <div style="font-weight:700;font-size:.87rem;">TikTok</div>
+            <div style="font-size:.73rem;color:var(--muted);">@kstduioofficial</div>
+          </div>
+        </a>
+        <a href="mailto:kstudio11143@gmail.com" style="display:flex;align-items:center;gap:12px;padding:12px;border-radius:12px;background:var(--surface2);text-decoration:none;color:var(--text);">
+          <div style="font-size:1.3rem;">✉️</div>
+          <div>
+            <div style="font-weight:700;font-size:.87rem;">Email</div>
+            <div style="font-size:.73rem;color:var(--muted);">kstudio11143@gmail.com</div>
+          </div>
+        </a>
+      </div>
+</div>
 
     <!-- PODCAST -->
     <div id="podcast" class="section">
@@ -1146,6 +1191,8 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
       <div class="settings-card">
         <div class="settings-card-title">📚 Riwayat Podcast</div>
         <div id="podHistoryList"><div style="text-align:center;color:var(--muted);font-size:.8rem;padding:20px 0;">Belum ada podcast</div></div>
+
+
       </div>
     </div>
 
@@ -1183,7 +1230,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
 // BACKEND URL — ganti dengan URL Cloudflare Worker Anda!
 // Contoh: 'https://cheese-api.namalo.workers.dev'
 // ============================================================
-var BACKEND_URL = 'https://lucky-snake-48.k-studio1.deno.net';
+var BACKEND_URL = 'https://clean-puma-86.k-studio.deno.net';
 
 var API_KEY = ''; // Tidak dipakai lagi — API key aman di backend
 var soundOn = true;
@@ -1240,7 +1287,7 @@ function savePersonalisasi() {
   
   // Update AI name display
   var aiNameEl = document.getElementById('aiName');
-  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI v2.3';
+  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI v3.3';
   
   // Also sync with old settings input
   var oldNick = document.getElementById('aiNicknameInput');
@@ -1566,9 +1613,116 @@ function doRegister() {
     if(data.error) { showAuthErr('registerError', data.error); return; }
     localStorage.setItem('cheeseToken', data.token);
     localStorage.setItem('cheeseCurrentUser', JSON.stringify(data.user));
-    showAuthOk('registerSuccess','Akun berhasil dibuat! Silakan masuk. ✅');
-    setTimeout(function(){ switchAuthTab('login'); }, 1500);
+    // Simpan email untuk OTP
+    window._pendingOTPEmail = email;
+    showOTPForm('register');
   }).catch(function(){ showAuthErr('registerError','Koneksi gagal. Coba lagi!'); });
+}
+
+
+// ---- OTP & Forgot Password ----
+var _otpMode = ''; // 'register' or 'forgot'
+
+function showOTPForm(mode) {
+  _otpMode = mode;
+  var authBox = document.querySelector('.auth-box') || document.getElementById('authContainer');
+  // Hide all auth forms
+  document.querySelectorAll('.auth-form').forEach(function(f){ f.style.display='none'; });
+  document.querySelectorAll('.auth-tabs').forEach(function(t){ t.style.display='none'; });
+  // Show OTP form
+  document.getElementById('otpSection').style.display = 'block';
+  var title = mode === 'register' ? 'Verifikasi Email 📧' : 'Reset Password 🔑';
+  var desc = mode === 'register'
+    ? 'Kode 6 digit telah dikirim ke <b>' + (window._pendingOTPEmail||'') + '</b>'
+    : 'Kode 6 digit telah dikirim ke <b>' + (window._pendingOTPEmail||'') + '</b>';
+  document.getElementById('otpTitle').innerHTML = title;
+  document.getElementById('otpDesc').innerHTML = desc;
+  document.getElementById('otpError').textContent = '';
+  document.getElementById('otpInput').value = '';
+  if (mode === 'forgot') {
+    document.getElementById('newPassGroup').style.display = 'block';
+  } else {
+    document.getElementById('newPassGroup').style.display = 'none';
+  }
+}
+
+function hideOTPForm() {
+  document.getElementById('otpSection').style.display = 'none';
+  document.querySelectorAll('.auth-form').forEach(function(f){ f.style.display=''; });
+  document.querySelectorAll('.auth-tabs').forEach(function(t){ t.style.display=''; });
+}
+
+function submitOTP() {
+  var otp = document.getElementById('otpInput').value.trim();
+  if (!otp || otp.length !== 6) { document.getElementById('otpError').textContent = 'Masukkan 6 digit kode OTP!'; return; }
+  var btn = document.getElementById('otpSubmitBtn');
+  btn.disabled = true; btn.textContent = 'Memverifikasi...';
+
+  if (_otpMode === 'register') {
+    fetch(BACKEND_URL + '/auth/verifyotp', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email: window._pendingOTPEmail, otp: otp })
+    }).then(function(r){ return r.json(); }).then(function(data){
+      btn.disabled = false; btn.textContent = 'Verifikasi';
+      if (data.error) { document.getElementById('otpError').textContent = data.error; return; }
+      hideOTPForm();
+      showAuthOk('registerSuccess', 'Email terverifikasi! Silakan masuk. ✅');
+      setTimeout(function(){ switchAuthTab('login'); }, 1500);
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = 'Verifikasi';
+      document.getElementById('otpError').textContent = 'Koneksi gagal. Coba lagi!';
+    });
+  } else if (_otpMode === 'forgot') {
+    var newPass = document.getElementById('newPassInput').value;
+    if (!newPass || newPass.length < 6) { document.getElementById('otpError').textContent = 'Password baru minimal 6 karakter!'; btn.disabled=false; btn.textContent='Verifikasi'; return; }
+    fetch(BACKEND_URL + '/auth/resetpassword', {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ email: window._pendingOTPEmail, otp: otp, newPassword: newPass })
+    }).then(function(r){ return r.json(); }).then(function(data){
+      btn.disabled = false; btn.textContent = 'Verifikasi';
+      if (data.error) { document.getElementById('otpError').textContent = data.error; return; }
+      hideOTPForm();
+      showAuthOk('loginError', 'Password berhasil direset! Silakan masuk. ✅');
+    }).catch(function(){
+      btn.disabled = false; btn.textContent = 'Verifikasi';
+      document.getElementById('otpError').textContent = 'Koneksi gagal. Coba lagi!';
+    });
+  }
+}
+
+function resendOTP() {
+  if (!window._pendingOTPEmail) return;
+  var btn = document.getElementById('resendOTPBtn');
+  btn.disabled = true; btn.textContent = 'Mengirim...';
+  var endpoint = _otpMode === 'register' ? '/auth/resendotp' : '/auth/forgotpassword';
+  fetch(BACKEND_URL + endpoint, {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ email: window._pendingOTPEmail })
+  }).then(function(r){ return r.json(); }).then(function(data){
+    btn.disabled = false; btn.textContent = 'Kirim Ulang';
+    if (data.error) { document.getElementById('otpError').textContent = data.error; return; }
+    document.getElementById('otpError').style.color = 'var(--accent)';
+    document.getElementById('otpError').textContent = 'Kode baru telah dikirim! ✅';
+    setTimeout(function(){ document.getElementById('otpError').style.color=''; document.getElementById('otpError').textContent=''; }, 3000);
+  }).catch(function(){
+    btn.disabled = false; btn.textContent = 'Kirim Ulang';
+  });
+}
+
+function showForgotPassword() {
+  var email = document.getElementById('loginEmail').value.trim();
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    showAuthErr('loginError', 'Masukkan email kamu dulu!'); return;
+  }
+  window._pendingOTPEmail = email;
+  var btn = document.querySelector('#loginForm .auth-btn');
+  fetch(BACKEND_URL + '/auth/forgotpassword', {
+    method: 'POST', headers: {'Content-Type':'application/json'},
+    body: JSON.stringify({ email: email })
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if (data.error) { showAuthErr('loginError', data.error); return; }
+    showOTPForm('forgot');
+  }).catch(function(){ showAuthErr('loginError', 'Koneksi gagal. Coba lagi!'); });
 }
 
 function doLogin() {
@@ -1641,7 +1795,7 @@ function enterApp() {
   if(aiSettings.accent) document.documentElement.style.setProperty('--accent', aiSettings.accent);
   // apply AI name in chat
   var aiNameEl = document.getElementById('aiNameDisplay');
-  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI v2.3';
+  if(aiNameEl) aiNameEl.textContent = aiSettings.nickname || 'Cheese AI v3.3';
 }
 
 // ============================================================
@@ -1834,7 +1988,7 @@ var cheeseBrain = {
     {keys:["canva","figma","desain","design","ui ux","logo"],ans:["Tools desain recommended:\n🎨 Canva - mudah untuk pemula (gratis!)\n🖌️ Figma - UI/UX profesional\n🖼️ Photoshop - editing foto\n\nMulai dari Canva dulu. 🎨"]},
     {keys:["interview","cv","resume","lamaran kerja","magang"],ans:["Tips interview kerja:\n📄 CV: 1 halaman, jelas, no typo\n👔 Pakaian rapi\n🧠 Research perusahaan dulu\n💬 STAR method untuk jawab pertanyaan\n\nSemangat! Anda pasti bisa! 💪"]},
     {keys:["revan","kevin","k studio","siapa yang buat","pembuat","developer"],ans:["Cheese Platform dibuat oleh Kevin (K Studio) 🧀🔥\n\nK Studio adalah studio indie yang fokus bikin platform gaming & AI keren untuk Indonesia! Support K Studio dengan donasi di Settings ya. ❤️"]},
-    {keys:["versi","update","v3.25","changelog","fitur baru"],ans:["Cheese Platform v3.25 — update terbaru:\n🤖 Gemini 3.1 Flash Lite + Gemini 2.5 Pro\n🔄 9 engine AI dengan auto-fallback\n🦙 Llama 4 Scout + Llama 3.3 70b + Llama 3.2 Vision\n🔍 Web search Serper + analisis Gemini\n🖼️ Image generation Pollinations (gratis) + HF fallback\n👁️ Vision — analisis gambar multi-engine\n👤 Auth system (register & login)\n💎 Premium 50/hari & Developer mode\n📺 Rewarded ads (+1 limit)\n⭐ Rating system global\n⚡ Cache 30 menit\n🌐 Backend: quick-rook-60\n\nTerus diperbarui! 🧀"]},
+    {keys:["versi","update","v3.3","changelog","fitur baru"],ans:["Cheese Platform v3.3 — update terbaru:\n🤖 Gemini 3.1 Flash Lite + Gemini 2.5 Pro\n🔄 9 engine AI dengan auto-fallback\n🦙 Llama 4 Scout + Llama 3.3 70b + Llama 3.2 Vision\n🔍 Web search Serper + analisis Gemini\n🖼️ Image generation Pollinations (gratis) + HF fallback\n👁️ Vision — analisis gambar multi-engine\n👤 Auth system (register & login)\n💎 Premium 50/hari & Developer mode\n📺 Rewarded ads (+1 limit)\n⭐ Rating system global\n⚡ Cache 30 menit\n🌐 Backend: quick-rook-60\n\nTerus diperbarui! 🧀"]},
     {keys:["snake","dino","battle","puzzle","quiz","tips game"],ans:["Game di Cheese Platform:\n🐍 Snake - spiral dari pinggir ke tengah!\n🦕 Dino - timing lompat yang pas!\n⚔️ Battle 2D - gunakan power-up!\n🧩 Puzzle 15 - mulai dari pojok!\n⚡ Quiz - baca soal pelan-pelan!\n\nMau tips detail game mana? 🎮"]},
     {keys:["ai","chatgpt","openai","groq","llama","artificial intelligence"],ans:["Dunia AI lagi booming! 🤖\n\nModel populer:\n• ChatGPT (OpenAI) - paling terkenal\n• Gemini (Google) - integrasi Google\n• Claude (Anthropic) - fokus safety\n• Groq + LLaMA - SUPER CEPAT (yang Cheese AI pake!)\n\nMau tau lebih dalam? 💡"]},
     {keys:["indonesia","jakarta","bandung","surabaya","bali","kota"],ans:["Indonesia negara luar biasa! 🇮🇩\n\nFakta seru:\n🏝️ 17.000+ pulau\n🗣️ 700+ bahasa daerah\n🌴 Keanekaragaman hayati terkaya ke-2 di dunia\n🏙️ Jakarta ibu kota (sementara Nusantara di Kalimantan sedang dibangun!)\n\nAnda berasal dari mana?"]},
@@ -2130,7 +2284,7 @@ function getTodayStr() {
 }
 
 function getSystemPrompt() {
-  var nm = aiSettings.nickname || 'Cheese AI v2.3';
+  var nm = aiSettings.nickname || 'Cheese AI v3.3';
   var today = getTodayStr();
   var dateInfo = 'Hari ini adalah ' + today + '. ';
   var styles = {
@@ -2208,7 +2362,12 @@ async function sendMessage() {
       saveChatHistory();
       saveCurrentConversation();
       sfxReceive();
-      // Update limit display setelah chat
+      // Decrement limit locally & update UI
+      if(_premiumStatus && _premiumStatus.remaining !== undefined && _premiumStatus.remaining > 0){
+        _premiumStatus.remaining = Math.max(0, _premiumStatus.remaining - 1);
+      }
+      var limitEl = document.getElementById('dashLimit');
+      if(limitEl && _premiumStatus && _premiumStatus.remaining !== undefined) limitEl.textContent = _premiumStatus.remaining;
       loadDashboard();
       updateProfileStatus();
       // Update AI Engine display
@@ -2530,7 +2689,7 @@ function renderSettings() {
 
   // AI Nickname
   var nickEl = document.getElementById('aiNicknameInput');
-  if(nickEl) nickEl.value = aiSettings.nickname || 'Cheese AI v2.3';
+  if(nickEl) nickEl.value = aiSettings.nickname || 'Cheese AI v3.3';
 
   // Style buttons
   var sg = document.getElementById('styleGrid');
@@ -3540,7 +3699,7 @@ function initDino() {
 
   var canvas=document.getElementById('gc');
   var ctx=canvas.getContext('2d');
-  dinoState={dino:{x:60,y:110,vy:0,jumping:false,h:36,w:28},obs:[],speed:3.5,frame:0,score:0,dead:false,ground:110,ctx:ctx};
+  dinoState={dino:{x:60,y:110,vy:0,jumping:false,h:36,w:28},obs:[],speed:3.0,frame:0,score:0,dead:false,ground:110,ctx:ctx};
   if(dinoRAF) cancelAnimationFrame(dinoRAF);
   document.onkeydown=function(e){if(e.code==='Space'){e.preventDefault();dinoJump();}};
   canvas.onclick=dinoJump;
@@ -3551,7 +3710,7 @@ function initDino() {
 
 function dinoJump(){
   if(!dinoState||dinoState.dead)return;
-  if(!dinoState.dino.jumping){dinoState.dino.vy=-10;dinoState.dino.jumping=true;sfxJump();}
+  if(!dinoState.dino.jumping){dinoState.dino.vy=-12;dinoState.dino.jumping=true;sfxJump();}
 }
 
 function spawnObs(){
@@ -3566,8 +3725,8 @@ function dinoLoop(){
   s.frame++;s.score+=0.08;
   gameScore=Math.floor(s.score);
   var el=document.getElementById('gs');if(el)el.textContent=gameScore;
-  s.speed=3.5+s.score*0.004;
-  d.vy+=0.5;d.y+=d.vy;
+  s.speed=3.0+s.score*0.001;
+  d.vy+=0.6;d.y+=d.vy;
   if(d.y>=s.ground){d.y=s.ground;if(d.jumping&&d.vy>2)sfxLand();d.vy=0;d.jumping=false;}
   s.obs.forEach(function(o){o.x-=s.speed;});
   s.obs=s.obs.filter(function(o){return o.x>-30;});
@@ -5367,4 +5526,4 @@ function toggleNotifPanel(){
   </div>
 
 </body>
-    </html>
+  </html>
