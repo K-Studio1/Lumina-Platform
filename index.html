@@ -3,9 +3,7 @@
 <head>
   <meta name="monetag" content="5e10d309cec0ed1a77fac12b0f173892">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27><text y=%27.9em%27 font-size=%2790%27>🧀</text></svg>">
-  <meta http-equiv="X-Content-Type-Options" content="nosniff">
-  <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
-  <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
+      <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta charset="UTF-8"/>
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://quiet-butterfly-31.k-studio.deno.net https://fonts.googleapis.com https://fonts.gstatic.com https://wttr.in https://image.pollinations.ai data: blob:;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
@@ -444,6 +442,18 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
   left: 0 !important;
   right: 0 !important;
   z-index: 100 !important;
+}
+
+/* Streaming AI Response */
+.msg-text.streaming {
+  border-right: none;
+}
+.msg-text.streaming::after {
+  content: '';
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 </style>
 
@@ -1838,18 +1848,27 @@ function resendOTP() {
 
 function showForgotPassword() {
   var email = document.getElementById('loginEmail').value.trim();
-  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-    showAuthErr('loginError', 'Masukkan email kamu dulu!'); return;
+  if (!email) {
+    showAuthErr('loginError', 'Masukkan email kamu dulu sebelum reset password!'); return;
+  }
+  if (!validateEmail(email)) {
+    showAuthErr('loginError', 'Format email tidak valid!'); return;
   }
   window._pendingOTPEmail = email;
-  var btn = document.querySelector('#loginForm .auth-btn');
+  // Tampilkan loading
+  var forgotBtn = document.querySelector('#loginForm button[onclick*="showForgotPassword"]');
+  if(forgotBtn) { forgotBtn.textContent = 'Mengirim...'; forgotBtn.disabled = true; }
   fetch(BACKEND_URL + '/auth/forgotpassword', {
     method: 'POST', headers: {'Content-Type':'application/json'},
     body: JSON.stringify({ email: email })
   }).then(function(r){ return r.json(); }).then(function(data){
+    if(forgotBtn) { forgotBtn.textContent = 'Lupa Password?'; forgotBtn.disabled = false; }
     if (data.error) { showAuthErr('loginError', data.error); return; }
     showOTPForm('forgot');
-  }).catch(function(){ showAuthErr('loginError', 'Koneksi gagal. Coba lagi!'); });
+  }).catch(function(){
+    if(forgotBtn) { forgotBtn.textContent = 'Lupa Password?'; forgotBtn.disabled = false; }
+    showAuthErr('loginError', 'Koneksi gagal. Coba lagi!');
+  });
 }
 
 function doLogin() {
@@ -1872,7 +1891,32 @@ function doLogin() {
 }
 
 function doGuestLogin() {
-  currentUser = {name:'Tamu', email:'guest@cheese.id', isGuest:true};
+  // Cek apakah sudah ada guest session sebelumnya
+  var existing = null;
+  try { existing = JSON.parse(localStorage.getItem('cheeseCurrentUser')); } catch(e){}
+  
+  if (existing && existing.isGuest && existing.email && /^guest_[a-z0-9]{6}@cheese\.id$/.test(existing.email)) {
+    // Pakai guest email yang sama biar limit tidak reset
+    currentUser = existing;
+  } else {
+    // Buat guest email baru yang acak
+    var rand = Math.random().toString(36).slice(2, 8).toLowerCase();
+    var guestEmail = 'guest_' + rand + '@cheese.id';
+    currentUser = {name:'Tamu', email: guestEmail, isGuest: true};
+  }
+  
+  // Daftarkan ke backend
+  fetch(BACKEND_URL + '/auth/register', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'},
+    body: JSON.stringify({email: currentUser.email})
+  }).then(function(r){ return r.json(); }).then(function(data){
+    if (data.token) {
+      localStorage.setItem('cheeseToken', data.token);
+      currentUser.token = data.token;
+    }
+  }).catch(function(){});
+  
   localStorage.setItem('cheeseCurrentUser', JSON.stringify(currentUser));
   enterApp();
 }
@@ -1898,7 +1942,7 @@ function doLogoutAll() {
   showToast('✅ Berhasil logout dari semua perangkat!', 'success', 2500);
 }
 
-function enterApp() {
+function enterApp() { fetchMyStatus(); setInterval(fetchMyStatus, 2*60*1000);
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'block';
   var init = currentUser.name.charAt(0).toUpperCase();
@@ -2488,10 +2532,24 @@ async function sendMessage() {
     } else {
       var reply = data.reply || (data.choices && data.choices[0] ? data.choices[0].message.content : '');
       chatHistory.push({role:'assistant', content:reply});
-      addMsg(reply, 'ai');
-      saveChatHistory();
-      saveCurrentConversation();
-      sfxReceive();
+      // Streaming typewriter effect
+      var aiDiv = addMsg('', 'ai');
+      if (aiDiv) {
+        var msgTextEl = aiDiv.querySelector('.msg-text');
+        if (msgTextEl) {
+          // Pilih mode: per kata kalau panjang, per karakter kalau pendek
+          var streamFn = reply.length > 150 ? typewriterStream : typewriterChar;
+          streamFn(msgTextEl, reply, function() {
+            saveChatHistory();
+            saveCurrentConversation();
+            sfxReceive();
+          });
+        } else {
+          saveChatHistory();
+          saveCurrentConversation();
+          sfxReceive();
+        }
+      }
       // Decrement limit locally & update UI
       if(_premiumStatus && _premiumStatus.remaining !== undefined && _premiumStatus.remaining > 0){
         _premiumStatus.remaining = Math.max(0, _premiumStatus.remaining - 1);
@@ -3090,16 +3148,27 @@ function getUser(){
   } catch(e){ return null; }
 }
 
-var _premiumStatus = { isPremium: false, isDev: false, remaining: 25, checkedAt: 0 };
+var _premiumStatus = { isPremium: false, isDev: false, remaining: -1, checkedAt: 0 };
 
 function isUnlocked(){
   return _premiumStatus.isPremium || _premiumStatus.isDev;
 }
 
 function fetchMyStatus() {
-  fetch(BACKEND_URL + '/mystatus').then(function(r){ return r.json(); }).then(function(data){
+  var token = localStorage.getItem('cheeseToken') || '';
+  var url = BACKEND_URL + '/mystatus' + (token ? '?token=' + encodeURIComponent(token) : '');
+  fetch(url).then(function(r){ return r.json(); }).then(function(data){
     _premiumStatus = data;
     _premiumStatus.checkedAt = Date.now();
+    // Sync usage ke localStorage dari backend (sumber kebenaran)
+    if(typeof data.remaining === 'number' && data.remaining >= 0){
+      var limit = data.limitMax || (data.isDev ? 1000 : data.isPremium ? 50 : data.isGuest ? 10 : 20);
+      var used = limit - data.remaining;
+      var u = getUsage();
+      u.count = Math.max(u.count || 0, used);
+      if(data.resetIn) u.resetAt = Date.now() + data.resetIn;
+      saveUsage(u);
+    }
     var pb = document.getElementById('premiumBadge');
     if(pb) {
       pb.style.display = (data.isPremium || data.isDev) ? 'inline-block' : 'none';
@@ -4491,16 +4560,29 @@ function saveUsage(u){ localStorage.setItem('cheeseUsage', JSON.stringify(u)); }
 
 function canSendMsg(){
   if(isUnlocked()) return true;
+  // Kalau belum pernah fetch backend di sesi ini, fetch dulu
+  if(_premiumStatus.checkedAt === 0){
+    fetchMyStatus();
+    // Sementara pakai localStorage, tapi reset dulu kalau kosong
+    var u = getUsage();
+    var now = Date.now();
+    if(!u.resetAt || now > u.resetAt){
+      // Jangan reset - tunggu backend
+      return true; // biarkan kirim, backend yang nentuin limit
+    }
+    return (u.count||0) < FREE_LIMIT;
+  }
+  // Pakai data dari backend (sumber kebenaran)
+  if(_premiumStatus.remaining !== undefined && _premiumStatus.remaining >= 0){
+    return _premiumStatus.remaining > 0;
+  }
+  // Fallback localStorage
   var u = getUsage();
   var now = Date.now();
   if(!u.resetAt || now > u.resetAt){
     u.count = 0;
     u.resetAt = now + RESET_HOURS*3600*1000;
     saveUsage(u);
-  }
-  // Cek juga dari backend status kalau udah difetch
-  if(_premiumStatus.checkedAt > 0 && _premiumStatus.remaining !== undefined){
-    return _premiumStatus.remaining > 0;
   }
   return (u.count||0) < FREE_LIMIT;
 }
@@ -4509,6 +4591,7 @@ function incrementUsage(){
   var u = getUsage();
   u.count = (u.count||0) + 1;
   saveUsage(u);
+  if(_premiumStatus.remaining > 0) _premiumStatus.remaining--;
   updateUsageUI();
 }
 
@@ -5805,6 +5888,64 @@ window.fetch = function(url, options) {
 
 // Simpan login time
 var _origEnterApp = typeof enterApp === 'function' ? enterApp : null;
+
+
+// ============================================================
+// STREAMING AI RESPONSE - Typewriter Effect
+// ============================================================
+function typewriterStream(el, text, onDone) {
+  var i = 0;
+  var speed = Math.max(8, Math.min(25, Math.floor(6000 / text.length))); // adaptive speed
+  el.innerHTML = '';
+  el.classList.add('streaming');
+
+  // Parse markdown dulu, lalu stream per kata
+  var words = text.split(' ');
+  var wordIdx = 0;
+  var built = '';
+
+  function nextWord() {
+    if (wordIdx >= words.length) {
+      // Selesai - render markdown final
+      el.innerHTML = renderMarkdown(text);
+      el.classList.remove('streaming');
+      if (onDone) onDone();
+      return;
+    }
+    built += (wordIdx > 0 ? ' ' : '') + words[wordIdx];
+    wordIdx++;
+    // Render sementara dengan teks biasa dulu biar cepat
+    el.textContent = built + (wordIdx < words.length ? '▊' : '');
+    // Scroll ke bawah
+    var cb = document.getElementById('chatBox');
+    if (cb) cb.scrollTop = cb.scrollHeight;
+    setTimeout(nextWord, speed);
+  }
+  nextWord();
+}
+
+// Versi per karakter untuk response pendek
+function typewriterChar(el, text, onDone) {
+  var i = 0;
+  var delay = text.length > 200 ? 12 : text.length > 100 ? 18 : 25;
+  el.innerHTML = '';
+  el.classList.add('streaming');
+
+  function next() {
+    if (i >= text.length) {
+      el.innerHTML = renderMarkdown(text);
+      el.classList.remove('streaming');
+      if (onDone) onDone();
+      return;
+    }
+    el.textContent = text.slice(0, i + 1) + '▊';
+    i++;
+    var cb = document.getElementById('chatBox');
+    if (cb) cb.scrollTop = cb.scrollHeight;
+    setTimeout(next, delay);
+  }
+  next();
+}
 
 </script>
 
