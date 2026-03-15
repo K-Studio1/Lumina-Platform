@@ -663,10 +663,9 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
             <div style="font-size:.62rem;color:var(--muted);">K Studio</div>
           </div>
           <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
-            <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Iklan Tersisa</div>
-            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);" id="dashAd">—</div>
-            <div style="font-size:.62rem;color:var(--muted);">hari ini</div>
-            <button onclick="doWatchAd()" style="margin-top:6px;width:100%;padding:5px 8px;border-radius:8px;border:none;background:rgba(245,200,66,0.15);color:var(--accent);font-size:.65rem;font-weight:700;cursor:pointer;font-family:Nunito,sans-serif;">📺 Tonton +1 Limit</button>
+            <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Total Chat</div>
+            <div style="font-family:Outfit,sans-serif;font-weight:900;font-size:1.3rem;color:var(--accent);" id="dashTotalChat">—</div>
+            <div style="font-size:.62rem;color:var(--muted);">pesan dikirim</div>
           </div>
           <div style="background:var(--surface2);border-radius:12px;padding:10px 12px;">
             <div style="font-size:.68rem;color:var(--muted);margin-bottom:3px;">Status</div>
@@ -675,6 +674,20 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           </div>
         </div>
 
+      </div>
+
+      <!-- Adsterra Banner 320x50 -->
+      <div style="display:flex;justify-content:center;margin:8px 0;">
+        <script>
+          atOptions = {
+            'key' : '7d20b07b3a5cb7be15d88a899208bbb8',
+            'format' : 'iframe',
+            'height' : 50,
+            'width' : 320,
+            'params' : {}
+          };
+        </script>
+        <script src="https://www.highperformanceformat.com/7d20b07b3a5cb7be15d88a899208bbb8/invoke.js"></script>
       </div>
 
       <div class="stats-grid">
@@ -2699,7 +2712,7 @@ function sendMessage() {
   if(detectJailbreak(text)) { addMsg('🛡️ Permintaan ini tidak dapat diproses karena melanggar kebijakan keamanan Cheese AI.','err'); input.value=''; return; }
   if(!checkRateLimit()) { addMsg('⚠️ Terlalu cepat! Mohon tunggu sebentar... 😅','err'); return; }
   // Cek status dari backend dulu
-  if(_premiumStatus && _premiumStatus.remaining === 0) { showPaywall(); return; }
+  if(_premiumStatus && _premiumStatus.remaining === 0) { showToast('Limit chat habis! Coba lagi dalam beberapa jam.', 'err', 3000); return; }
 
   input.value = '';
   input.disabled = true;
@@ -2709,6 +2722,11 @@ function sendMessage() {
   sendBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16" fill="#fff"><rect x="3" y="3" width="10" height="10" rx="2"/></svg>';
   addMsg(text, 'user');
   trackStat('chatTotal');
+  // Increment total chat counter
+  var tc = parseInt(localStorage.getItem('cheeseTotalChats') || '0') + 1;
+  localStorage.setItem('cheeseTotalChats', tc);
+  var tcEl = document.getElementById('dashTotalChat');
+  if(tcEl) tcEl.textContent = tc;
   var typingEl = addMsg('', 'typing');
   sfxClick();
 
@@ -2735,7 +2753,7 @@ function sendMessage() {
       chatHistory.pop();
       if(data.error === 'limit_exceeded') {
         fetchMyStatus();
-        showPaywall();
+        showToast(data.message || 'Limit chat habis! Coba lagi dalam beberapa jam.', 'err', 4000);
       } else {
         addMsg(data.message || data.error || 'Unknown error', 'err');
       }
@@ -3389,10 +3407,12 @@ function loadDashboard() {
   fetch(BACKEND_URL + '/mystatus?token=' + encodeURIComponent(localStorage.getItem('cheeseToken') || '')).then(function(r){ return r.json(); }).then(function(data){
     var limitEl = document.getElementById('dashLimit');
     var adEl = document.getElementById('dashAd');
+    var totalChatEl = document.getElementById('dashTotalChat');
     var tierEl = document.getElementById('dashTier');
     var statusEl = document.getElementById('dashStatus');
     if(limitEl) limitEl.textContent = Math.max(0, data.remaining);
     if(adEl) adEl.textContent = Math.max(0, data.adRemaining);
+    if(totalChatEl) totalChatEl.textContent = (stats && stats.chats) ? stats.chats : (localStorage.getItem('cheeseTotalChats') || '0');
     if(tierEl) {
       if(data.isDev) { tierEl.textContent = '👑 Developer'; tierEl.style.background = 'rgba(245,200,66,.2)'; tierEl.style.color = '#f5c842'; }
       else if(data.isPremium) { tierEl.textContent = '💎 Premium'; tierEl.style.background = 'rgba(88,101,242,.2)'; tierEl.style.color = '#5865f2'; }
@@ -6707,4 +6727,4 @@ function adminResetUser() {
   }
 </script>
 </body>
-            </html>
+        </html>
