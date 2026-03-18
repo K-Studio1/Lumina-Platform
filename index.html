@@ -3236,30 +3236,34 @@ function sendMessage() {
   if(detectJailbreak(text)) { addMsg('🛡️ Permintaan ini tidak dapat diproses karena melanggar kebijakan keamanan Lumina AI.','err'); input.value=''; return; }
   if(!checkRateLimit()) { addMsg('⚠️ Terlalu cepat! Mohon tunggu sebentar... 😅','err'); return; }
   // Cek status dari backend dulu
-  // Cek limit dari backend (sumber kebenaran)
-  if(_premiumStatus && _premiumStatus.checkedAt > 0) {
-    // Cek apakah sudah reset
+  // Cek limit - gabungan backend + localStorage
+  if(!isUnlocked()) {
     var now = Date.now();
     var resetAt = window._paywallResetAt || 0;
     if(resetAt > 0 && now >= resetAt) {
-      // Sudah melewati reset time - fetch ulang status
       fetchMyStatus();
-    } else if(_premiumStatus.remaining <= 0 && !_premiumStatus.isDev) {
+    } else {
+      var uCheck = getUsage();
+      var effLimit = uCheck.limit || FREE_LIMIT;
+      var localLeft = Math.max(0, effLimit - (uCheck.count||0));
+      var backendLeft = (_premiumStatus && _premiumStatus.checkedAt > 0 && typeof _premiumStatus.remaining === 'number') ? _premiumStatus.remaining : 9999;
+      var finalLeft = Math.min(localLeft, backendLeft);
+      if(finalLeft <= 0 && !_premiumStatus.isDev) {
       // Limit habis
-      var errMsg = 'Limit chat habis!';
-      if(resetAt > 0) {
-        var mins = Math.ceil((resetAt - now) / 60000);
-        var hrs = Math.floor(mins / 60); var minLeft = mins % 60;
-        errMsg = 'Limit habis! Reset dalam ' + (hrs > 0 ? hrs + 'j ' + minLeft + 'm' : minLeft + ' menit') + '.';
+        var errMsg = 'Limit chat habis!';
+        if(resetAt > 0) {
+          var mins = Math.ceil((resetAt - now) / 60000);
+          var hrs = Math.floor(mins / 60); var minLeft = mins % 60;
+          errMsg = 'Limit habis! Reset dalam ' + (hrs > 0 ? hrs + 'j ' + minLeft + 'm' : minLeft + ' menit') + '.';
+        }
+        showToast(errMsg, 'err', 4000);
+        showPaywall();
+        var sbEl = document.getElementById('sendBtn');
+        var inpEl = document.getElementById('userInput');
+        if(sbEl) { sbEl.disabled = true; sbEl.style.opacity = '0.35'; }
+        if(inpEl) { inpEl.disabled = true; inpEl.placeholder = 'Limit habis — tunggu reset...'; }
+        return;
       }
-      showToast(errMsg, 'err', 4000);
-      showPaywall();
-      // Disable UI
-      var sbEl = document.getElementById('sendBtn');
-      var inpEl = document.getElementById('userInput');
-      if(sbEl) { sbEl.disabled = true; sbEl.style.opacity = '0.35'; }
-      if(inpEl) { inpEl.disabled = true; inpEl.placeholder = 'Limit habis — tunggu reset...'; }
-      return;
     }
   }
 
@@ -4005,10 +4009,13 @@ function fetchMyStatus() {
 }
 
 function pingBackend(retry) {
+  retry = retry || 0;
   var statusEl = document.getElementById('dashStatus');
-  if(statusEl && !retry) { statusEl.textContent = 'Menghubungkan...'; statusEl.style.color = 'var(--muted)'; }
+  if(retry === 0) {
+    if(statusEl) { statusEl.textContent = 'Menghubungkan...'; statusEl.style.color = 'var(--muted)'; }
+  }
   var controller = new AbortController();
-  var tOut = setTimeout(function(){ controller.abort(); }, 10000);
+  var tOut = setTimeout(function(){ controller.abort(); }, 12000);
   fetch(BACKEND_URL + '/ping', { signal: controller.signal })
   .then(function(r){ clearTimeout(tOut); return r.json(); })
   .then(function(data){
@@ -4018,9 +4025,10 @@ function pingBackend(retry) {
     }
   }).catch(function(){
     clearTimeout(tOut);
-    if(!retry) {
-      // Deno cold start - retry setelah 4 detik
-      setTimeout(function(){ pingBackend(true); }, 4000);
+    if(retry < 3) {
+      // Retry sampai 3x — Deno cold start bisa sampai 20 detik
+      var delay = [4000, 6000, 8000][retry] || 8000;
+      setTimeout(function(){ pingBackend(retry + 1); }, delay);
     } else {
       if(statusEl) { statusEl.textContent = 'Offline'; statusEl.style.color = '#ff4444'; }
     }
@@ -4044,8 +4052,11 @@ function loadDashboard() {
       else { tierEl.textContent = '✦ Normal'; }
     }
   }).catch(function(){
+    // Jangan override status kalau ping sudah sukses
     var statusEl = document.getElementById('dashStatus');
-    if(statusEl) { statusEl.textContent = 'Offline'; statusEl.style.color = '#ff4444'; }
+    if(statusEl && statusEl.textContent === 'Menghubungkan...') {
+      statusEl.textContent = 'Offline'; statusEl.style.color = '#ff4444';
+    }
   });
 }
 
@@ -5460,15 +5471,39 @@ function updateUsageUI(){
   }
 
   if(left === 0){
-    // Limit habis → tampilkan
+    // Limit habis → tampilkan + disable input
     badge.style.display='block';
     var u2 = getUsage();
-    var remain = Math.max(0, (u2.resetAt||0) - Date.now());
+    var resetAt3 = window._paywallResetAt || (u2.resetAt||0);
+    var remain = Math.max(0, resetAt3 - Date.now());
     var m = Math.floor(remain/60000);
     var s = Math.floor((remain%60000)/1000);
     badge.textContent = '⏳ Reset ' + m + 'm ' + s + 's';
     badge.style.color = 'var(--red, #ff4757)';
-    if(!window._usageTimer) window._usageTimer = setInterval(updateUsageUI, 1000);
+    // Disable send button dan input
+    var sb2 = document.getElementById('sendBtn');
+    var inp2 = document.getElementById('userInput');
+    if(sb2 && !sb2.classList.contains('stop-mode')) { sb2.disabled = true; sb2.style.opacity='0.35'; }
+    if(inp2) { inp2.disabled = true; inp2.placeholder = 'Limit habis — tunggu reset...'; }
+    if(!window._usageTimer) window._usageTimer = setInterval(function(){
+      // Cek apakah sudah reset
+      var now3 = Date.now();
+      var ra = window._paywallResetAt || (getUsage().resetAt||0);
+      if(ra > 0 && now3 >= ra) {
+        clearInterval(window._usageTimer); window._usageTimer = null;
+        // Re-enable
+        var sb3 = document.getElementById('sendBtn');
+        var inp3 = document.getElementById('userInput');
+        if(sb3) { sb3.disabled = false; sb3.style.opacity = ''; }
+        if(inp3) { inp3.disabled = false; inp3.placeholder = 'Tanya Lumina AI...'; }
+        var badge2 = document.getElementById('usageBadge');
+        if(badge2) badge2.style.display='none';
+        fetchMyStatus();
+        showToast('✅ Limit reset! Bisa chat lagi.', 'success', 3000);
+        return;
+      }
+      updateUsageUI();
+    }, 1000);
   } else if(left <= 5){
     // Sisa 5 atau kurang → tampilkan peringatan
     badge.style.display='block';
@@ -7727,4 +7762,4 @@ function adminResetUser() {
 
 
 </body>
-                                                                                                                           </html>
+          </html>
