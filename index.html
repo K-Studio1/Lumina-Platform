@@ -6,9 +6,25 @@
       <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
 <meta charset="UTF-8"/>
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://epic-tiger-11.k-studio.deno.net https://fonts.googleapis.com https://fonts.gstatic.com https://wttr.in https://image.pollinations.ai https://www.highperformanceformat.com https://5gvci.com data: blob:;">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https://cheese-backend.k-studio1.deno.net https://www.googleapis.com https://accounts.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://wttr.in https://image.pollinations.ai https://www.highperformanceformat.com https://5gvci.com data: blob:;">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <title>Lumina Nexus</title>
+<script>
+// Early Google OAuth handler - jalan sebelum apapun
+(function(){
+  try {
+    var h = window.location.hash;
+    if (h && h.indexOf('access_token') > -1) {
+      var p = new URLSearchParams(h.slice(1));
+      var t = p.get('access_token');
+      if (t) {
+        sessionStorage.setItem('google_token', t);
+        history.replaceState(null, '', window.location.pathname + window.location.search);
+      }
+    }
+  } catch(e) {}
+})();
+</script>
 <!-- Google Identity Services -->
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" media="print" onload="this.media='all'; this.onload=null;"/>
@@ -1566,7 +1582,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
 // ============================================================
 // ============================================================
 // BACKEND URL -- ganti dengan URL Cloudflare Worker Anda!
-// Contoh: 'https://epic-tiger-11.k-studio.deno.net'
+// Contoh: 'https://cheese-backend.k-studio1.deno.net'
 // ============================================================
 var BACKEND_URL = 'https://cheese-backend.k-studio1.deno.net';
 
@@ -1835,10 +1851,17 @@ function renderRiwayat() {
 // INIT -- load from localStorage
 // ============================================================
 (function init() {
-  // Cek Google OAuth redirect PERTAMA sebelum apapun
+  // Cek token dari Google OAuth callback
+  var googleToken = sessionStorage.getItem('google_token');
+  if (googleToken) {
+    sessionStorage.removeItem('google_token');
+    // Proses token setelah splash
+    setTimeout(function(){ processGoogleToken(googleToken); }, 800);
+  }
+  // Cek hash langsung (fallback)
   if (window.location.hash && window.location.hash.includes('access_token')) {
     handleGoogleRedirect();
-    return; // Stop init normal, handleGoogleRedirect akan lanjutkan
+    return;
   }
 
   // Animate splash bar
@@ -2350,44 +2373,18 @@ function doGoogleLogin() {
   }
   var state = Math.random().toString(36).slice(2);
   localStorage.setItem('oauth_state', state);
+  // Tandai bahwa kita expect Google callback
+  sessionStorage.setItem('google_pending', '1');
 
   var params = new URLSearchParams({
     client_id: GOOGLE_CLIENT_ID,
-    redirect_uri: 'https://k-studio1.github.io/Lumina-Nexus/',
+    redirect_uri: 'https://k-studio1.github.io/Lumina-Nexus/index.html',
     response_type: 'token',
     scope: 'email profile openid',
     state: state,
   });
-  var authUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
-
-  // Coba popup dulu
-  var w = 480, h = 600;
-  var left = Math.round((screen.width - w) / 2);
-  var top = Math.round((screen.height - h) / 2);
-  var popup = window.open(authUrl, 'googleAuth',
-    'width='+w+',height='+h+',left='+left+',top='+top);
-
-  if (!popup || popup.closed) {
-    // Popup diblokir - pakai redirect biasa
-    window.location.href = authUrl;
-    return;
-  }
-
-  // Monitor popup
-  var iv = setInterval(function() {
-    try {
-      if (!popup || popup.closed) { clearInterval(iv); return; }
-      var href = popup.location.href;
-      if (href && href.indexOf('access_token') > -1) {
-        clearInterval(iv);
-        var hashStr = href.split('#')[1] || '';
-        popup.close();
-        var p2 = new URLSearchParams(hashStr);
-        var token = p2.get('access_token');
-        if (token) processGoogleToken(token);
-      }
-    } catch(e) { /* cross-origin, tunggu */ }
-  }, 300);
+  // Redirect langsung — paling reliable di mobile
+  window.location.href = 'https://accounts.google.com/o/oauth2/v2/auth?' + params.toString();
 }
 
 function processGoogleToken(accessToken) {
@@ -2425,19 +2422,17 @@ function processGoogleToken(accessToken) {
 // Handle redirect callback dari Google
 function handleGoogleRedirect() {
   var hash = window.location.hash;
-  if (!hash) return;
+  console.log('[Google] hash:', hash ? hash.slice(0,50) : 'empty');
+  if (!hash) { console.log('[Google] No hash, skip'); return; }
   var params = new URLSearchParams(hash.slice(1));
   var accessToken = params.get('access_token');
   var state = params.get('state');
+  console.log('[Google] token:', accessToken ? 'found' : 'not found');
   if (!accessToken) return;
 
-  // Validasi state
-  var savedState = localStorage.getItem('oauth_state');
-  if (savedState && state !== savedState) {
-    console.warn('[Google] State mismatch');
-    return;
-  }
+  // Validasi state (lenient)
   localStorage.removeItem('oauth_state');
+  sessionStorage.removeItem('google_pending');
 
   // Bersihkan hash dari URL
   history.replaceState(null, '', window.location.pathname);
@@ -7052,4 +7047,4 @@ function adminResetUser() {
 
 
 </body>
-        </html>
+  </html>
