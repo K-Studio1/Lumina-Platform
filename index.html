@@ -178,7 +178,7 @@ body.ai-active .topbar{display:none !important;}
 .typing-dots span{width:6px;height:6px;background:rgba(255,255,255,0.4);border-radius:50%;animation:dot 1.4s ease-in-out infinite;}
 .typing-dots span:nth-child(2){animation-delay:.2s;}
 .typing-dots span:nth-child(3){animation-delay:.4s;}
-.msg-footer{display:flex;align-items:center;gap:6px;margin-top:4px;opacity:0;transition:opacity .15s;}.msg:hover .msg-footer{opacity:1;}
+.msg-footer{display:flex;align-items:center;gap:6px;margin-top:4px;opacity:0;transition:opacity .15s;}.msg:hover .msg-footer{opacity:1;}@media(hover:none){.msg-footer{opacity:1;}}
 .msg-time{font-size:.62rem;color:rgba(255,255,255,0.25);}
 .copy-btn{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--muted);cursor:pointer;padding:5px 7px;border-radius:6px;transition:.15s;display:inline-flex;align-items:center;justify-content:center;}
 .copy-btn:hover{color:#ececec;border-color:rgba(255,255,255,0.25);background:rgba(255,255,255,0.05);}
@@ -596,6 +596,17 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
 #scrollBtn{opacity:0;transform:translateX(-50%) translateY(10px);}
 #scrollBtn.visible{opacity:1;transform:translateX(-50%) translateY(0);}
 #scrollBtn:hover{background:rgba(30,30,30,0.98) !important;color:#ececec !important;border-color:rgba(255,255,255,0.2) !important;}
+
+/* Skeleton Loading */
+.skeleton{background:linear-gradient(90deg,var(--surface2) 25%,rgba(232,184,75,0.05) 50%,var(--surface2) 75%);
+  background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px;}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.skeleton-text{height:14px;margin-bottom:8px;border-radius:6px;}
+.skeleton-circle{border-radius:50%;}
+.skeleton-card{height:80px;border-radius:14px;margin-bottom:12px;}
+
+
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
 </style>
 
 </head>
@@ -731,16 +742,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
   <div class="sidebar">
     <div class="sidebar-top">
       <div class="logo-row">
-        <div class="logo-icon-wrap" style="background:linear-gradient(135deg,#e8b84b,#d4913a);display:flex;align-items:center;justify-content:center;"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <circle cx="11" cy="11" r="10" stroke="#e8b84b" stroke-width="1.2" stroke-opacity="0.6"/>
-  <circle cx="11" cy="11" r="3" fill="#e8b84b" fill-opacity="0.9"/>
-  <line x1="11" y1="4" x2="11" y2="8" stroke="#e8b84b" stroke-width="1.2" stroke-opacity="0.5" stroke-linecap="round"/>
-  <line x1="11" y1="14" x2="11" y2="18" stroke="#e8b84b" stroke-width="1.2" stroke-opacity="0.5" stroke-linecap="round"/>
-  <line x1="4" y1="11" x2="8" y2="11" stroke="#e8b84b" stroke-width="1.2" stroke-opacity="0.5" stroke-linecap="round"/>
-  <line x1="14" y1="11" x2="18" y2="11" stroke="#e8b84b" stroke-width="1.2" stroke-opacity="0.5" stroke-linecap="round"/>
-  <line x1="6.5" y1="6.5" x2="9" y2="9" stroke="#e8b84b" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round"/>
-  <line x1="13" y1="13" x2="15.5" y2="15.5" stroke="#e8b84b" stroke-width="1" stroke-opacity="0.3" stroke-linecap="round"/>
-</svg></div>
+        <div class="logo-icon-wrap" style="background:transparent;padding:2px;"><svg style="width:36px;height:36px;" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">  <defs>    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="100%">      <stop offset="0%" style="stop-color:#fde68a"/>      <stop offset="50%" style="stop-color:#e8b84b"/>      <stop offset="100%" style="stop-color:#c8941f"/>    </linearGradient>    <filter id="glow">      <feGaussianBlur stdDeviation="3" result="blur"/>      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>    </filter>  </defs>  <!-- Background -->  <rect width="200" height="200" fill="#0a0a0a" rx="20"/>  <!-- Hexagon -->  <polygon points="100,18 168,58 168,138 100,178 32,138 32,58"     fill="none" stroke="url(#gold)" stroke-width="3" filter="url(#glow)"/>  <!-- Network lines -->  <g stroke="url(#gold)" stroke-width="1" opacity="0.5">    <line x1="100" y1="18" x2="32" y2="138"/>    <line x1="168" y1="58" x2="32" y2="138"/>    <line x1="100" y1="178" x2="168" y2="58"/>    <line x1="32" y1="58" x2="168" y2="138"/>  </g>  <!-- Network dots -->  <g fill="url(#gold)">    <circle cx="100" cy="18" r="4"/>    <circle cx="168" cy="58" r="4"/>    <circle cx="168" cy="138" r="4"/>    <circle cx="100" cy="178" r="4"/>    <circle cx="32" cy="138" r="4"/>    <circle cx="32" cy="58" r="4"/>    <circle cx="100" cy="98" r="3"/>  </g>  <!-- L letter -->  <g fill="url(#gold)" filter="url(#glow)">    <rect x="52" y="65" width="10" height="52"/>    <rect x="52" y="107" width="32" height="10"/>  </g>  <!-- N letter -->  <g fill="url(#gold)" filter="url(#glow)">    <rect x="100" y="65" width="10" height="52"/>    <rect x="138" y="65" width="10" height="52"/>    <polygon points="100,65 110,65 148,117 138,117"/>  </g></svg></div>
         <div class="logo-text"><div class="t">Lumina</div><div class="s">Nexus v3.4</div></div>
       </div>
       <div class="user-card">
@@ -883,7 +885,13 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
             <span style="display:block;width:22px;height:2px;background:currentColor;border-radius:2px;"></span>
             <span style="display:block;width:16px;height:2px;background:currentColor;border-radius:2px;"></span>
           </button>
-          <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.95rem;color:var(--text);" id="aiNameDisplay">Lumina AI</div>
+          <div style="display:flex;align-items:center;gap:8px;">
+            <div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.88rem;color:var(--text);" id="aiNameDisplay">Lumina AI</div>
+            <div id="modelSwitcher" style="display:flex;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);border-radius:20px;padding:2px;gap:2px;">
+              <button id="modelBtnLumina" onclick="switchAIModel('lumina')" style="padding:3px 10px;border-radius:16px;border:none;font-family:Outfit,sans-serif;font-weight:700;font-size:.58rem;cursor:pointer;transition:.15s;background:rgba(232,184,75,0.15);color:#e8b84b;">✦ Lumina</button>
+              <button id="modelBtnLuminaX" onclick="switchAIModel('luminax')" style="padding:3px 10px;border-radius:16px;border:none;font-family:Outfit,sans-serif;font-weight:700;font-size:.58rem;cursor:pointer;transition:.15s;background:transparent;color:#6b7280;">⚡ LuminaX</button>
+            </div>
+          </div>
           <button onclick="clearChat()" style="background:none;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.4);cursor:pointer;font-size:.75rem;padding:5px 10px;border-radius:8px;transition:.15s;" onmouseover="this.style.color='#ececec'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">Clear</button>
         </div>
         <div id="chatBox">
@@ -1093,7 +1101,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
           <div style="flex:1;min-width:0;">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
               <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.15rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="profileName">-</div>
-              <button onclick="openEditName()" style="background:none;border:none;color:var(--muted);font-size:.8rem;cursor:pointer;padding:2px;flex-shrink:0;">✏️</button>
+              <button onclick="openEditName()" style="background:none;border:none;color:var(--muted);cursor:pointer;padding:4px;flex-shrink:0;display:inline-flex;align-items:center;" title="Edit nama"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
             </div>
             <div style="font-size:.78rem;color:var(--muted);margin-bottom:8px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;" id="profileEmail">-</div>
             <div style="display:flex;gap:6px;flex-wrap:wrap;">
@@ -1236,7 +1244,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
     <!-- EDIT NAME MODAL -->
     <div id="editNameModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:8000;align-items:center;justify-content:center;">
       <div style="background:var(--surface);border-radius:20px;padding:24px;width:90%;max-width:320px;">
-        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;margin-bottom:16px;">✏️ Ganti Nama</div>
+        <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px;"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg> Ganti Nama</div>
         <input id="newNameInput" type="text" maxlength="20" placeholder="Nama Anda..." style="width:100%;padding:12px;border-radius:12px;border:1.5px solid var(--border);background:var(--surface2);color:var(--text);font-family:"DM Sans",sans-serif;font-size:.9rem;outline:none;margin-bottom:12px;"/>
         <div style="display:flex;gap:8px;">
           <button onclick="saveNewName()" style="flex:1;padding:11px;border-radius:12px;border:none;background:var(--accent);color:#070a0f;font-family:"DM Sans",sans-serif;font-weight:800;cursor:pointer;">Simpan</button>
@@ -1630,6 +1638,8 @@ var dinoRAF = null;
 var gameScore = 0;
 
 // AI Settings defaults
+var _aiModel = localStorage.getItem('luminaAIModel') || 'lumina'; // 'lumina' or 'luminax'
+
 var aiSettings = {
   style: 'formal',
   nickname: 'Lumina AI',
@@ -1921,26 +1931,31 @@ function renderRiwayat() {
 
 
   if(savedToken && currentUser) {
+    // Timeout 8 detik - kalau backend cold start, tetap masuk pakai local data
+    var verifyCtrl = new AbortController();
+    var verifyTimeout = setTimeout(function(){
+      verifyCtrl.abort();
+    }, 8000);
+
     fetch(BACKEND_URL + '/auth/verify', {
       method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({token: savedToken})
-    }).then(function(r){ return r.json(); }).then(function(data){
+      body: JSON.stringify({token: savedToken}),
+      signal: verifyCtrl.signal
+    }).then(function(r){ clearTimeout(verifyTimeout); return r.json(); }).then(function(data){
       if(data.valid) {
         currentUser = Object.assign(currentUser, data.user);
         localStorage.setItem('luminaCurrentUser', JSON.stringify(currentUser));
+        finishSplash();
+        enterApp();
       } else {
-        // Token expired - coba refresh dulu, baru logout
+        // Token benar-benar expired di backend
         localStorage.removeItem('luminaToken');
         if(currentUser && currentUser.email) {
           localStorage.setItem('luminaLastEmail', currentUser.email);
         }
         currentUser = null;
         localStorage.removeItem('luminaCurrentUser');
-      }
-      finishSplash();
-      if(currentUser) {
-        enterApp();
-      } else {
+        finishSplash();
         var lastEmail = localStorage.getItem('luminaLastEmail');
         if(lastEmail) {
           setTimeout(function(){
@@ -1953,11 +1968,11 @@ function renderRiwayat() {
         }
       }
     }).catch(function(){
-      // Network error / offline - tetap masuk pakai local data
+      clearTimeout(verifyTimeout);
+      // Network error / timeout / cold start - TETAP masuk pakai local data
       finishSplash();
       if(currentUser) {
         enterApp();
-        showToast('Mode offline - beberapa fitur mungkin terbatas.', 'info', 3000);
       }
     });
   } else if(currentUser) {
@@ -2466,7 +2481,7 @@ function exportChatPDF() {
     // Footer
     doc.setFontSize(8);
     doc.setTextColor(150, 150, 150);
-    doc.text('Generated by Lumina Nexus — k-studio1.github.io/Lumina-Nexus', margin, 290);
+    doc.text('Generated by Lumina Nexus — k-studio1.github.io/Lumina-Platform', margin, 290);
 
     doc.save('lumina-chat-' + Date.now() + '.pdf');
     showToast(t('export_success'), 'success', 2500);
@@ -2539,6 +2554,120 @@ function scheduleNotif() {
       });
     }
   }, 3000);
+}
+
+
+// ============================================================
+// HAPTIC FEEDBACK
+// ============================================================
+function haptic(type) {
+  if(!navigator.vibrate) return;
+  var patterns = {
+    light: [10],
+    medium: [20],
+    heavy: [40],
+    success: [10, 50, 10],
+    error: [50, 30, 50],
+    click: [8],
+    combo: [15, 10, 15],
+  };
+  navigator.vibrate(patterns[type] || [10]);
+}
+
+
+// ============================================================
+// PWA INSTALL PROMPT
+// ============================================================
+var _installPrompt = null;
+window.addEventListener('beforeinstallprompt', function(e) {
+  e.preventDefault();
+  _installPrompt = e;
+  // Tampilkan banner setelah 45 detik
+  setTimeout(showInstallBanner, 45000);
+});
+
+function showInstallBanner() {
+  if(!_installPrompt) return;
+  if(localStorage.getItem('luminaInstallDismissed')) return;
+  if(window.matchMedia('(display-mode: standalone)').matches) return;
+
+  var banner = document.createElement('div');
+  banner.id = 'installBanner';
+  banner.style.cssText = 'position:fixed;bottom:70px;left:12px;right:12px;background:#1a1a1a;border:1px solid rgba(232,184,75,0.25);border-radius:16px;padding:14px 16px;z-index:9998;display:flex;align-items:center;gap:12px;box-shadow:0 8px 32px rgba(0,0,0,0.5);animation:slideUp .3s ease;';
+  banner.innerHTML = '<div style="width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,#e8b84b,#c8941f);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.1rem;">✦</div>'
+    + '<div style="flex:1;"><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.82rem;color:#e8e8e8;margin-bottom:2px;">Install Lumina Nexus</div>'
+    + '<div style="font-size:.7rem;color:#6b7280;">Akses lebih cepat dari homescreen!</div></div>'
+    + '<button onclick="doInstall()" style="padding:7px 14px;border-radius:10px;border:none;background:#e8b84b;color:#0a0a0a;font-family:Outfit,sans-serif;font-weight:800;font-size:.75rem;cursor:pointer;flex-shrink:0;">Install</button>'
+    + '<button onclick="dismissInstall()" style="background:none;border:none;color:#6b7280;cursor:pointer;font-size:1rem;padding:4px;flex-shrink:0;">✕</button>';
+  document.body.appendChild(banner);
+}
+
+function doInstall() {
+  if(!_installPrompt) return;
+  _installPrompt.prompt();
+  _installPrompt.userChoice.then(function(r){
+    if(r.outcome === 'accepted') {
+      showToast('✅ Lumina Nexus berhasil diinstall!', 'success', 3000);
+      haptic('success');
+    }
+    _installPrompt = null;
+    dismissInstall();
+  });
+}
+
+function dismissInstall() {
+  localStorage.setItem('luminaInstallDismissed', '1');
+  var banner = document.getElementById('installBanner');
+  if(banner) banner.remove();
+}
+
+
+// ============================================================
+// AI MODEL SWITCHER - Lumina vs LuminaX
+// ============================================================
+function switchAIModel(model) {
+  _aiModel = model;
+  localStorage.setItem('luminaAIModel', model);
+  var isX = model === 'luminax';
+
+  // Update buttons
+  var btnL = document.getElementById('modelBtnLumina');
+  var btnX = document.getElementById('modelBtnLuminaX');
+  if(btnL) {
+    btnL.style.background = !isX ? 'rgba(232,184,75,0.15)' : 'transparent';
+    btnL.style.color = !isX ? '#e8b84b' : '#6b7280';
+  }
+  if(btnX) {
+    btnX.style.background = isX ? 'rgba(100,180,255,0.15)' : 'transparent';
+    btnX.style.color = isX ? '#64b4ff' : '#6b7280';
+  }
+
+  // Update title dan placeholder
+  var title = document.getElementById('aiTitle');
+  var input = document.getElementById('userInput');
+  var emptyState = document.getElementById('emptyState');
+
+  var nameDisplay = document.getElementById('aiNameDisplay');
+  if(isX) {
+    if(title) title.textContent = 'LuminaX AI';
+    if(nameDisplay) nameDisplay.textContent = 'LuminaX AI';
+    if(input) input.placeholder = 'Tanya tentang coding, debug, atau teknologi...';
+    if(emptyState) emptyState.innerHTML = '<div class="empty-emoji" style="color:#64b4ff;">⚡</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.98rem;">LuminaX AI siap!</div><div style="font-size:.79rem;color:var(--muted);max-width:230px;line-height:1.5;">Spesialis coding & teknologi. Gemini Pro sebagai engine utama.</div>';
+  } else {
+    if(title) title.textContent = 'Lumina AI';
+    if(nameDisplay) nameDisplay.textContent = 'Lumina AI';
+    if(input) input.placeholder = 'Tanya Lumina AI...';
+    if(emptyState) emptyState.innerHTML = '<div class="empty-emoji">✦</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.98rem;">Lumina AI siap!</div><div style="font-size:.79rem;color:var(--muted);max-width:230px;line-height:1.5;">Ketik pertanyaan apa saja untuk memulai.</div>';
+  }
+
+  sfxClick();
+  haptic('light');
+  showToast(isX ? '⚡ LuminaX AI aktif — Gemini Pro + Coding mode' : '✦ Lumina AI aktif — Mode umum & curhat', 'success', 2500);
+}
+
+// Apply model state saat load
+function applyAIModelState() {
+  switchAIModel(_aiModel);
 }
 
 // Helper: return Authorization header dengan token
@@ -2745,7 +2874,8 @@ function showSection(id) {
   document.getElementById('topbarPill').textContent = meta.pill;
   if(id === 'settings') renderSettings();
   if(id === 'profile') renderProfile();
-  if(id === 'ai') { setTimeout(updateUsageUI, 200); if(!chatStarted) loadChatHistory(); document.body.classList.add('ai-active'); setTimeout(initScrollBtn, 100); } else { document.body.classList.remove('ai-active'); }
+  if(id === 'setting') { setTimeout(function(){ renderSettings(); loadPersonalisasi(); }, 50); }
+  if(id === 'ai') { setTimeout(updateUsageUI, 200); setTimeout(applyAIModelState, 50); if(!chatStarted) loadChatHistory(); document.body.classList.add('ai-active'); setTimeout(initScrollBtn, 100); } else { document.body.classList.remove('ai-active'); }
   if(id === 'settings') { loadPersonalisasi(); renderSettings(); }
   if(id === 'podcast') renderPodHistory();
 }
@@ -3268,6 +3398,7 @@ function sendMessage() {
   }
 
   input.value = '';
+  haptic('medium');
   input.disabled = true;
   sendBtn.disabled = true; // Disable dulu cegah double-send
   sendBtn.classList.add('stop-mode');
@@ -3297,6 +3428,7 @@ function sendMessage() {
         var hist = [{role:'system', content: sys}].concat(chatHistory.slice());
         return hist;
       })(),
+      aiModel: _aiModel,
       token: localStorage.getItem('luminaToken') || '',
       max_tokens: 512
     })
@@ -3408,12 +3540,17 @@ function sendMessage() {
   }).catch(function(e){
     if(typingEl && typingEl.parentNode) typingEl.remove();
     chatHistory.pop();
-    addMsg('❌ Gagal terhubung ke server. Cek koneksi internet kamu!', 'err');
+    if(navigator.onLine) {
+      addMsg('⚠️ Server sedang startup, coba kirim pesan lagi dalam beberapa detik...', 'err');
+      setTimeout(function(){ pingBackend(); }, 1000);
+    } else {
+      addMsg('❌ Tidak ada koneksi internet. Cek koneksi kamu!', 'err');
+    }
     input.disabled = false;
     sendBtn.disabled = false;
     sendBtn.classList.remove('stop-mode');
     sendBtn.onclick = sendMessage;
-    sendBtn.innerHTML = '&#9658;';
+    sendBtn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>';
   });
 
   input.disabled = false;
@@ -3451,7 +3588,6 @@ function closeImgModal(){
 
 var _pendingImgBase64 = null; var _pendingImgMime = null;
 
-function closeImgModal(){var m=document.getElementById('imgCaptionModal');if(m)m.remove();}
 
 function showImgCaptionModal(base64, mimeType) {
   _pendingImgBase64 = base64;
@@ -3691,12 +3827,14 @@ function renderSettings() {
   if(nickEl) nickEl.value = aiSettings.nickname || 'Lumina AI v3.4';
 
   // Style buttons
-  var sg = document.getElementById('styleGrid');
-  if(sg) {
-    sg.innerHTML = STYLES.map(function(s){
-      return '<button class="style-btn'+(aiSettings.style===s.id?' active':'')+'" data-style="'+s.id+'" onclick="setAIStyle(\''+s.id+'\')">'+s.label+'</button>';
-    }).join('');
-  }
+  ['styleGrid','styleGridPers'].forEach(function(gridId){
+    var sg2 = document.getElementById(gridId);
+    if(sg2) {
+      sg2.innerHTML = STYLES.map(function(s){
+        return '<button class="style-btn'+(aiSettings.style===s.id?' active':'')+'" data-style="'+s.id+'" onclick="setAIStyle(\''+s.id+'\')">'+s.label+'</button>';
+      }).join('');
+    }
+  });
 
   // Emoji toggle
   var et = document.getElementById('emojiToggle');
@@ -3774,6 +3912,30 @@ function setAccent(color) {
   sfxClick();
 }
 
+
+function shareApp() {
+  var url = 'https://k-studio1.github.io/Lumina-Platform/';
+  var text = 'Coba Lumina Nexus - Platform AI generasi berikutnya! Chat AI, Games, dan banyak lagi 🚀';
+  if(navigator.share) {
+    navigator.share({ title: 'Lumina Nexus', text: text, url: url })
+      .then(function(){ showToast('Berhasil share!', 'success', 2000); })
+      .catch(function(){});
+  } else {
+    // Fallback: copy link
+    if(navigator.clipboard) {
+      navigator.clipboard.writeText(url).then(function(){
+        showToast('Link disalin! ' + url, 'success', 3000);
+      });
+    } else {
+      var ta = document.createElement('textarea');
+      ta.value = url; document.body.appendChild(ta);
+      ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta);
+      showToast('Link disalin!', 'success', 2000);
+    }
+  }
+  sfxClick();
+}
 // ============================================================
 // GAMES ENGINE
 // ============================================================
@@ -4004,7 +4166,21 @@ function fetchMyStatus() {
     }
     // Update dashLimit dari backend (sumber kebenaran)
     var limitEl = document.getElementById('dashLimit');
-    if(limitEl) limitEl.textContent = Math.max(0, data.remaining);
+    if(limitEl) {
+    limitEl.textContent = Math.max(0, data.remaining);
+    // Kalau limit habis, tampilkan reset time di dashboard
+    if(data.remaining <= 0 && (data.resetAt || data.resetIn)) {
+      var resetTs = data.resetAt || (Date.now() + data.resetIn);
+      window._paywallResetAt = resetTs;
+      var dashSubLimit = limitEl.parentElement ? limitEl.parentElement.querySelector('div:last-child') : null;
+      if(dashSubLimit) {
+        var rem2 = Math.max(0, resetTs - Date.now());
+        var m2 = Math.floor(rem2/60000); var s2 = Math.floor((rem2%60000)/1000);
+        dashSubLimit.textContent = '⏳ Reset ' + m2 + 'm ' + s2 + 's';
+        dashSubLimit.style.color = '#ff4444';
+      }
+    }
+  }
   }).catch(function(){});
 }
 
@@ -4043,7 +4219,21 @@ function loadDashboard() {
     var totalChatEl = document.getElementById('dashTotalChat');
     var tierEl = document.getElementById('dashTier');
     var statusEl = document.getElementById('dashStatus');
-    if(limitEl) limitEl.textContent = Math.max(0, data.remaining);
+    if(limitEl) {
+    limitEl.textContent = Math.max(0, data.remaining);
+    // Kalau limit habis, tampilkan reset time di dashboard
+    if(data.remaining <= 0 && (data.resetAt || data.resetIn)) {
+      var resetTs = data.resetAt || (Date.now() + data.resetIn);
+      window._paywallResetAt = resetTs;
+      var dashSubLimit = limitEl.parentElement ? limitEl.parentElement.querySelector('div:last-child') : null;
+      if(dashSubLimit) {
+        var rem2 = Math.max(0, resetTs - Date.now());
+        var m2 = Math.floor(rem2/60000); var s2 = Math.floor((rem2%60000)/1000);
+        dashSubLimit.textContent = '⏳ Reset ' + m2 + 'm ' + s2 + 's';
+        dashSubLimit.style.color = '#ff4444';
+      }
+    }
+  }
     if(adEl) adEl.textContent = Math.max(0, data.adRemaining);
     if(totalChatEl) totalChatEl.textContent = (stats && stats.chats) ? stats.chats : (localStorage.getItem('cheeseTotalChats') || '0');
     if(tierEl) {
@@ -4572,7 +4762,7 @@ function showSplash(){
   var splash = document.createElement('div');
   splash.id = 'splashScreen';
   splash.style.cssText = 'position:fixed;inset:0;background:var(--bg);z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;';
-  splash.innerHTML = '<div style="font-size:4rem;animation:float 1s ease-in-out infinite;">✦</div>'
+  splash.innerHTML = '<div style="width:80px;height:80px;margin:0 auto;filter:drop-shadow(0 0 20px rgba(232,184,75,0.6));animation:float 1s ease-in-out infinite;">' + '<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 200 200\">  <defs>    <linearGradient id=\"gold\" x1=\"0%\" y1=\"0%\" x2=\"100%\" y2=\"100%\">      <stop offset=\"0%\" style=\"stop-color:#fde68a\"/>      <stop offset=\"50%\" style=\"stop-color:#e8b84b\"/>      <stop offset=\"100%\" style=\"stop-color:#c8941f\"/>    </linearGradient>    <filter id=\"glow\">      <feGaussianBlur stdDeviation=\"3\" result=\"blur\"/>      <feMerge><feMergeNode in=\"blur\"/><feMergeNode in=\"SourceGraphic\"/></feMerge>    </filter>  </defs>  <!-- Background -->  <rect width=\"200\" height=\"200\" fill=\"#0a0a0a\" rx=\"20\"/>  <!-- Hexagon -->  <polygon points=\"100,18 168,58 168,138 100,178 32,138 32,58\"     fill=\"none\" stroke=\"url(#gold)\" stroke-width=\"3\" filter=\"url(#glow)\"/>  <!-- Network lines -->  <g stroke=\"url(#gold)\" stroke-width=\"1\" opacity=\"0.5\">    <line x1=\"100\" y1=\"18\" x2=\"32\" y2=\"138\"/>    <line x1=\"168\" y1=\"58\" x2=\"32\" y2=\"138\"/>    <line x1=\"100\" y1=\"178\" x2=\"168\" y2=\"58\"/>    <line x1=\"32\" y1=\"58\" x2=\"168\" y2=\"138\"/>  </g>  <!-- Network dots -->  <g fill=\"url(#gold)\">    <circle cx=\"100\" cy=\"18\" r=\"4\"/>    <circle cx=\"168\" cy=\"58\" r=\"4\"/>    <circle cx=\"168\" cy=\"138\" r=\"4\"/>    <circle cx=\"100\" cy=\"178\" r=\"4\"/>    <circle cx=\"32\" cy=\"138\" r=\"4\"/>    <circle cx=\"32\" cy=\"58\" r=\"4\"/>    <circle cx=\"100\" cy=\"98\" r=\"3\"/>  </g>  <!-- L letter -->  <g fill=\"url(#gold)\" filter=\"url(#glow)\">    <rect x=\"52\" y=\"65\" width=\"10\" height=\"52\"/>    <rect x=\"52\" y=\"107\" width=\"32\" height=\"10\"/>  </g>  <!-- N letter -->  <g fill=\"url(#gold)\" filter=\"url(#glow)\">    <rect x=\"100\" y=\"65\" width=\"10\" height=\"52\"/>    <rect x=\"138\" y=\"65\" width=\"10\" height=\"52\"/>    <polygon points=\"100,65 110,65 148,117 138,117\"/>  </g></svg>' + '</div>'
     + '<div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.4rem;color:var(--accent);">Lumina Nexus</div>'
     + '<div style="font-size:.8rem;color:var(--muted);">Memuat...</div>';
   document.body.appendChild(splash);
@@ -4653,6 +4843,8 @@ function closeGame(){
     else if(screen.unlockOrientation) screen.unlockOrientation();
     else if(screen.mozUnlockOrientation) screen.mozUnlockOrientation();
   } catch(e){}
+  // Stop battle BGM
+  stopBGM();
   var modal = document.getElementById('gameModal');
   if(modal) modal.classList.remove('open');
   if(gameInterval){ clearInterval(gameInterval); gameInterval = null; }
@@ -4791,7 +4983,7 @@ function initDino() {
 
   var canvas=document.getElementById('gc');
   var ctx=canvas.getContext('2d');
-  dinoState={dino:{x:60,y:110,vy:0,jumping:false,h:36,w:28},obs:[],speed:3.0,frame:0,score:0,dead:false,ground:110,ctx:ctx};
+  dinoState={dino:{x:60,y:110,vy:0,jumping:false,h:36,w:28},obs:[],speed:4.5,frame:0,score:0,dead:false,ground:110,ctx:ctx};
   if(dinoRAF) cancelAnimationFrame(dinoRAF);
   document.onkeydown=function(e){if(e.code==='Space'){e.preventDefault();dinoJump();}};
   canvas.onclick=dinoJump;
@@ -4808,16 +5000,18 @@ function dinoJump(){
 function spawnObs(){
   var s=dinoState,h=28+Math.random()*18;
   var lastX=s.obs.length?s.obs[s.obs.length-1].x:410;
-  s.obs.push({x:Math.max(430,lastX+(170+Math.random()*130)),y:s.ground+s.dino.h-h,w:18,h:h});
+  var gap=Math.max(100, 170-s.score*0.2+Math.random()*100);
+  s.obs.push({x:Math.max(430,lastX+gap),y:s.ground+s.dino.h-h,w:18,h:h});
 }
 
 function dinoLoop(){
   var s=dinoState;if(!s||s.dead)return;
   var d=s.dino,ctx=s.ctx;
-  s.frame++;s.score+=0.08;
+  s.frame++;s.score+=0.12;
   gameScore=Math.floor(s.score);
   var el=document.getElementById('gs');if(el)el.textContent=gameScore;
-  s.speed=3.0+s.score*0.001;
+  // Makin banyak score makin cepat: base 4.5, naik signifikan tiap 100 poin
+  s.speed=4.5+s.score*0.004+Math.floor(s.score/100)*0.5;
   d.vy+=0.6;d.y+=d.vy;
   if(d.y>=s.ground){d.y=s.ground;if(d.jumping&&d.vy>2)sfxLand();d.vy=0;d.jumping=false;}
   s.obs.forEach(function(o){o.x-=s.speed;});
@@ -6236,15 +6430,16 @@ function initBattle2P(canvas) {
   }
 
   // ── PHYSICS ──────────────────────────────────────────────
-  function updateFighter(f) {
-    f.vy+=0.65; // gravity
-    f.y+=f.vy;
-    f.x+=f.vx;
+  function updateFighter(f, dt) {
+    dt = dt || 1;
+    f.vy+=0.65*dt; // gravity
+    f.y+=f.vy*dt;
+    f.x+=f.vx*dt;
 
     var wasOG=f.wasOnGround;
     if(f.y+f.h>=groundY){
       f.y=groundY-f.h;
-      if(!wasOG) spawnDust(f.x+f.w/2, groundY); // landing dust
+      if(!wasOG) spawnDust(f.x+f.w/2, groundY);
       f.vy=0; f.onGround=true; f.wasOnGround=true;
       if(f.state==='jump') f.state='idle';
     } else {
@@ -6252,11 +6447,12 @@ function initBattle2P(canvas) {
     }
 
     f.x=Math.max(10,Math.min(W-f.w-10,f.x));
-    f.vx*=0.78; // friction
+    f.vx*=Math.pow(0.78, dt); // friction delta-corrected
 
     // Smooth render lerp
-    f.rx=f.rx+(f.x-f.rx)*0.35;
-    f.ry=f.ry+(f.y-f.ry)*0.35;
+    var lerpSpeed = 1-Math.pow(0.65, dt);
+    f.rx=f.rx+(f.x-f.rx)*lerpSpeed;
+    f.ry=f.ry+(f.y-f.ry)*lerpSpeed;
 
     // State timer
     if(f.stateTimer>0){
@@ -6293,7 +6489,7 @@ function initBattle2P(canvas) {
     f.hp=Math.max(0,f.hp-dmg);
     f.state='hurt'; f.stateTimer=14; f.invincible=12;
     if(attacker) f.vx=(f.x>attacker.x?5.5:-5.5);
-    sfxHit();
+    sfxHit(); haptic('heavy');
     spawnBlood(f.rx+f.w/2,f.ry+f.h*0.3,f.colorLight);
     hitEffects.push({type:'ring',x:f.rx+f.w/2,y:f.ry+f.h/3,r:0,life:10,color:f.color});
     showFloating('-'+dmg,f.rx+f.w/2,f.ry-12,'#fca5a5',1);
@@ -6619,7 +6815,8 @@ function initBattle2P(canvas) {
     var rd=document.getElementById('b2p-round');
     if(rd) rd.textContent='ROUND '+_b2pRound;
     gameOver2P=false; particles=[];hitEffects=[];floatingTexts=[];
-    startBGM();
+    stopBGM(); // pastikan context lama ditutup
+    setTimeout(function(){ startBGM(); }, 150); // delay kecil biar AudioContext fresh
     window.b2pDir=function(pl,dir,pressed){if(pl!==1)return;mob[dir]=pressed;if(dir==='up'&&pressed&&p1.onGround){p1.vy=-15;p1.onGround=false;p1.state='jump';}};
     window.b2pSlash=function(){doAttack(p1);};
     window.b2pDodge=function(){doDodge(p1);};
@@ -6630,15 +6827,24 @@ function initBattle2P(canvas) {
   };
 
   // ── GAME LOOP ────────────────────────────────────────────
-  function loop(){
+  var lastTime = 0;
+  var TARGET_FPS = 60;
+  var TARGET_FRAME = 1000 / TARGET_FPS;
+
+  function loop(timestamp){
     if(gameOver2P) return;
+
+    // Delta time - normalisasi ke 60fps
+    var dt = lastTime ? Math.min((timestamp - lastTime) / TARGET_FRAME, 3) : 1;
+    lastTime = timestamp;
 
     drawBG();
 
-    // Input
-    if(keys['ArrowLeft']||keys['a']||mob.left){p1.vx=-p1.speed;}
-    if(keys['ArrowRight']||keys['d']||mob.right){p1.vx=p1.speed;}
-    if((keys['ArrowUp']||keys['w']||keys[' '])&&p1.onGround){
+    // Input - keyboard + joystick
+    var joy = window.getJoy ? window.getJoy() : {dx:0,dy:0};
+    if(keys['ArrowLeft']||keys['a']||mob.left||joy.dx<-0.3){p1.vx=-p1.speed*dt;}
+    if(keys['ArrowRight']||keys['d']||mob.right||joy.dx>0.3){p1.vx=p1.speed*dt;}
+    if((keys['ArrowUp']||keys['w']||keys[' ']||mob.up||joy.dy<-0.5)&&p1.onGround){
       p1.vy=-15;p1.onGround=false;p1.state='jump';
     }
     if(keys['z']||keys['j']) doAttack(p1);
@@ -6646,8 +6852,8 @@ function initBattle2P(canvas) {
     if(keys['c']||keys['l']) doSpecial(p1);
 
     aiThink();
-    updateFighter(p1);
-    updateFighter(ai);
+    updateFighter(p1, dt);
+    updateFighter(ai, dt);
     checkAttacks();
 
     // Draw fighters (AI behind player)
@@ -6763,7 +6969,7 @@ function openBattle2P(difficulty){
     +'</div>'
     +'<div style="display:flex;flex-direction:column;align-items:center;gap:2px;">'
     +'<span id="b2p-round" style="font-size:.72rem;color:#e8b84b;font-weight:800;letter-spacing:1px;">ROUND 1</span>'+'<div id="b2p-score" style="font-size:.6rem;color:#666;text-align:center;">0 - 0</div>'+'<div id="b2p-combo" style="font-size:.65rem;color:#fde68a;font-weight:800;text-align:center;min-height:14px;"></div>'
-    +'<button onclick="closeGame()" style="background:rgba(232,184,75,0.12);border:1px solid rgba(232,184,75,0.25);color:#fff;border-radius:8px;padding:2px 10px;font-size:.6rem;cursor:pointer;">✕ Keluar</button>'
+    +'<button onclick="stopBGM();closeGame()" style="background:rgba(232,184,75,0.12);border:1px solid rgba(232,184,75,0.25);color:#fff;border-radius:8px;padding:2px 10px;font-size:.6rem;cursor:pointer;">✕ Keluar</button>'
     +'</div>'
     +'<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;">'
     +'<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2px;"><span id="b2p-hp-ai-num" style="font-size:.6rem;color:#fff;font-weight:700;">100</span><span style="font-size:.6rem;color:#ef4444;font-weight:800;">CPU</span></div>'
@@ -7380,11 +7586,30 @@ document.addEventListener('paste', function(e) {
 // Stop polling saat tab tidak aktif (memory leak fix)
 document.addEventListener('visibilitychange', function() {
   if(document.hidden) {
+    // Tab hidden - stop semua timer untuk hemat baterai
     if(window._statusInterval) { clearInterval(window._statusInterval); window._statusInterval = null; }
     if(window._usageTimer) { clearInterval(window._usageTimer); window._usageTimer = null; }
+    if(window._resetTimerIv) { clearInterval(window._resetTimerIv); window._resetTimerIv = null; }
   } else {
-    // Tab aktif lagi - refresh status
-    fetchMyStatus();
+    // Tab aktif lagi - cek apakah sudah reset dulu
+    var resetAt = window._paywallResetAt || 0;
+    var now = Date.now();
+    if(resetAt > 0 && now >= resetAt) {
+      // Sudah reset saat tab hidden - re-enable input
+      window._paywallResetAt = null;
+      var sb = document.getElementById('sendBtn');
+      var inp = document.getElementById('userInput');
+      if(sb) { sb.disabled = false; sb.style.opacity = ''; }
+      if(inp) { inp.disabled = false; inp.placeholder = 'Tanya Lumina AI...'; }
+      var badge = document.getElementById('usageBadge');
+      if(badge) badge.style.display = 'none';
+      fetchMyStatus();
+      showToast('✅ Limit sudah reset! Bisa chat lagi.', 'success', 3000);
+    } else {
+      // Belum reset - fetch status dan restart timer kalau masih limit
+      fetchMyStatus();
+      setTimeout(updateUsageUI, 300);
+    }
   }
 });
 window.addEventListener('beforeunload', function() {
@@ -7753,7 +7978,7 @@ function adminResetUser() {
     <button onclick="closeAiDrawer()" style="background:none;border:none;color:var(--muted);font-size:1.3rem;cursor:pointer;line-height:1;">✕</button>
   </div>
   <div style="padding:12px 12px 0;">
-    <button onclick="newConversation();closeAiDrawer();" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(232,184,75,.18);background:rgba(232,184,75,.05);color:var(--accent);font-family:"DM Sans",sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;margin-bottom:4px;">✏️ Percakapan Baru</button>
+    <button onclick="newConversation();closeAiDrawer();" style="width:100%;padding:12px;border-radius:12px;border:1.5px solid rgba(232,184,75,.18);background:rgba(232,184,75,.05);color:var(--accent);font-family:"DM Sans",sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;margin-bottom:4px;"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg> Percakapan Baru</button>
   </div>
   <div id="aiDrawerList" style="flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:4px;">
     <div style="text-align:center;color:var(--muted);font-size:.82rem;padding:30px 0;">Belum ada riwayat</div>
@@ -7762,4 +7987,4 @@ function adminResetUser() {
 
 
 </body>
-          </html>
+  </html>
