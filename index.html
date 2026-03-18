@@ -33,7 +33,15 @@ ROADMAP LUMINA NEXUS v3.5 (Coming Soon)
 <meta http-equiv="Permissions-Policy" content="camera=(), microphone=(), geolocation=()">
 <meta charset="UTF-8"/>
 <!-- CSP: allow scripts + frames for ad networks -->
-<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' https: data: blob:; frame-src *; img-src * data: blob:;">
+<meta http-equiv="Content-Security-Policy" content="
+  default-src 'self' 'unsafe-inline' https://cheese-backend.k-studio1.deno.net https://accounts.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com data: blob:;
+  script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdnjs.cloudflare.com https://www.highperformanceformat.com https://5gvci.com https://*.adsterra.com;
+  style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+  font-src 'self' https://fonts.gstatic.com data:;
+  img-src * data: blob:;
+  frame-src https://www.highperformanceformat.com https://*.adsterra.com https://*.adtng.com https://accounts.google.com;
+  connect-src 'self' https://cheese-backend.k-studio1.deno.net https://accounts.google.com https://oauth2.googleapis.com https://generativelanguage.googleapis.com https://wttr.in https://image.pollinations.ai https://serper.dev;
+">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#0a0a0a"/>
 <meta name="mobile-web-app-capable" content="yes"/>
@@ -50,6 +58,37 @@ ROADMAP LUMINA NEXUS v3.5 (Coming Soon)
 <noscript><link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/></noscript>
 <style>
 :root{--bg:#0a0a0a;--surface:#111111;--surface2:#1a1a1a;--surface3:#222222;--border:rgba(232,184,75,0.1);--accent:#e8b84b;--accent2:#d4913a;--text:#e8edf2;--muted:#6b7280;--green:#00e5a0;--red:#ff4d4d;}
+/* Light mode */
+[data-theme="light"]{
+  --bg:#f5f5f0;
+  --surface:#ffffff;
+  --surface2:#f0efe8;
+  --surface3:#e8e7df;
+  --border:rgba(180,140,20,0.15);
+  --accent:#c8940a;
+  --accent2:#a07208;
+  --text:#1a1a1a;
+  --muted:#6b7280;
+  --green:#00936b;
+  --red:#dc2626;
+}
+[data-theme="light"] body{background:var(--bg);color:var(--text);}
+[data-theme="light"] .sidebar{background:#fafaf5;border-right-color:rgba(180,140,20,0.12);}
+[data-theme="light"] .topbar{background:rgba(245,245,240,0.95);}
+[data-theme="light"] .msg.ai .msg-bubble{background:#ffffff;border-color:rgba(0,0,0,0.08);}
+[data-theme="light"] .msg.user .msg-bubble{background:var(--accent);color:#0a0a0a;}
+[data-theme="light"] .nav-item.active{background:rgba(200,148,10,0.08);}
+[data-theme="light"] .nav-item:hover{background:rgba(200,148,10,0.05);}
+[data-theme="light"] #authScreen{background:var(--bg);}
+[data-theme="light"] .auth-box{background:#ffffff;border-color:rgba(0,0,0,0.08);}
+[data-theme="light"] .input-group input{background:#f0efe8;border-color:rgba(0,0,0,0.12);color:var(--text);}
+[data-theme="light"] .search-input{background:#f0efe8;color:var(--text);}
+[data-theme="light"] .game-modal-box{background:#ffffff;}
+[data-theme="light"] .settings-card{background:#ffffff;border-color:rgba(0,0,0,0.08);}
+[data-theme="light"] .code-block{background:#f4f3ec;border-color:rgba(0,0,0,0.1);}
+[data-theme="light"] pre, [data-theme="light"] code{background:#f4f3ec;color:#1a1a1a;}
+[data-theme="light"] .msg-time{color:#9ca3af;}
+[data-theme="light"] .contact-card{background:#ffffff;}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:"DM Sans",sans-serif;font-size:15px;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;}
 .bg-glow{position:fixed;pointer-events:none;z-index:0;}
@@ -501,12 +540,16 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
 .stream-cursor {
   display: inline-block;
   width: 2px;
-  height: 1.1em;
+  height: 1em;
   background: var(--accent, #e8b84b);
   margin-left: 1px;
   vertical-align: text-bottom;
   border-radius: 1px;
-  animation: blink-cursor 0.55s ease-in-out infinite;
+  animation: blink 0.6s step-end infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 @keyframes blink-cursor {
   0%, 100% { opacity: 1; }
@@ -1935,7 +1978,7 @@ function renderRiwayat() {
     var verifyCtrl = new AbortController();
     var verifyTimeout = setTimeout(function(){
       verifyCtrl.abort();
-    }, 8000);
+    }, 15000); // 15 detik - cukup untuk Deno cold start
 
     fetch(BACKEND_URL + '/auth/verify', {
       method:'POST', headers:{'Content-Type':'application/json'},
@@ -2785,6 +2828,11 @@ function onGoogleSignIn(response) {
     });
     if (!data.success) { showAuthErr('loginError', data.error || 'Login Google gagal.'); return; }
     localStorage.setItem('luminaToken', data.token);
+    // Simpan picture dari Google kalau ada
+    if(data.user && !data.user.picture) {
+      // Coba ambil dari Google response
+      data.user.picture = '';
+    }
     localStorage.setItem('luminaCurrentUser', JSON.stringify(data.user));
     currentUser = data.user;
     showToast(data.isNewUser ? 'Akun dibuat! 🎉' : 'Login berhasil! 👋', 'success', 2500);
@@ -2822,13 +2870,23 @@ function doLogoutAll() {
   showToast('✅ Berhasil logout dari semua perangkat!', 'success', 2500);
 }
 
-function enterApp() { fetchMyStatus(); setInterval(fetchMyStatus, 2*60*1000); setTimeout(renderAdminPanel, 500); setTimeout(initPushNotif, 3000); setTimeout(scheduleNotif, 5000);
+function enterApp() {
+  // Apply saved theme
+  var savedTheme = localStorage.getItem('luminaTheme') || 'dark';
+  document.body.setAttribute('data-theme', savedTheme);
+  fetchMyStatus(); setInterval(fetchMyStatus, 2*60*1000); setTimeout(renderAdminPanel, 500); setTimeout(initPushNotif, 3000); setTimeout(scheduleNotif, 5000);
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'block';
   var init = currentUser.name.charAt(0).toUpperCase();
+  var pic = currentUser.picture || '';
   ['sidebarAvatar','topbarAvatar','profileAvatar'].forEach(function(id){
     var el = document.getElementById(id);
-    if(el) el.textContent = init;
+    if(!el) return;
+    if(pic) {
+      el.innerHTML = '<img src="'+pic+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" onerror="this.parentElement.textContent=\'' + init + '\'"/>';
+    } else {
+      el.textContent = init;
+    }
   });
   document.getElementById('sidebarName').textContent = currentUser.name;
   document.getElementById('sidebarRole').textContent = currentUser.isPremium ? 'Premium' : currentUser.isDev ? 'Developer' : 'Member';
@@ -3444,7 +3502,7 @@ function sendMessage() {
       if(data.error === 'limit_exceeded') {
         // Sync status langsung
         if(_premiumStatus) { _premiumStatus.remaining = 0; }
-        if(data.resetAt) { window._paywallResetAt = data.resetAt; }
+        if(data.resetAt) { window._paywallResetAt = data.resetAt; localStorage.setItem('luminaResetAt', String(data.resetAt)); }
         fetchMyStatus();
         // Update dashboard
         var limitEl = document.getElementById('dashLimit');
@@ -3473,9 +3531,11 @@ function sendMessage() {
             var resetAt2 = window._paywallResetAt || 0;
             if(!resetAt2 || now2 >= resetAt2) {
               clearInterval(window._resetTimerIv);
+              window._resetTimerIv = null;
               if(timerBadge) timerBadge.remove();
+              window._paywallResetAt = null;
+              localStorage.removeItem('luminaResetAt');
               fetchMyStatus();
-              // Re-enable input
               var sb = document.getElementById('sendBtn');
               var inp = document.getElementById('userInput');
               if(sb) { sb.disabled = false; sb.style.opacity = ''; sb.title = ''; }
@@ -4127,13 +4187,17 @@ function isUnlocked(){
 
 var _lastFetchStatus = 0;
 function fetchMyStatus() {
+  // Skip kalau file lokal - tidak bisa konek backend
+  if(location.protocol === 'file:') return;
   // Cooldown 3 detik biar tidak konflik dengan decrement lokal
   var now = Date.now();
   if (now - _lastFetchStatus < 3000) return;
   _lastFetchStatus = now;
-  var token = localStorage.getItem('luminaToken') || '';
-  var url = BACKEND_URL + '/mystatus' + (token ? '?token=' + encodeURIComponent(token) : '');
-  fetch(url).then(function(r){ return r.json(); }).then(function(data){
+  var url = BACKEND_URL + '/mystatus';
+  fetch(url, { headers: getAuthHeaders() }).then(function(r){
+    if(!r.ok) throw new Error('HTTP ' + r.status);
+    return r.json();
+  }).then(function(data){
     _premiumStatus = data;
     _premiumStatus.checkedAt = Date.now();
     // Sync usage ke localStorage dari backend (sumber kebenaran)
@@ -4155,7 +4219,7 @@ function fetchMyStatus() {
         u.resetAt = data.resetAt;
       }
       // Sync ke paywallTimer
-      if(u.resetAt) window._paywallResetAt = u.resetAt;
+      if(u.resetAt) { window._paywallResetAt = u.resetAt; localStorage.setItem('luminaResetAt', String(u.resetAt)); }
       saveUsage(u);
     }
     var pb = document.getElementById('premiumBadge');
@@ -4168,23 +4232,59 @@ function fetchMyStatus() {
     var limitEl = document.getElementById('dashLimit');
     if(limitEl) {
     limitEl.textContent = Math.max(0, data.remaining);
-    // Kalau limit habis, tampilkan reset time di dashboard
     if(data.remaining <= 0 && (data.resetAt || data.resetIn)) {
-      var resetTs = data.resetAt || (Date.now() + data.resetIn);
-      window._paywallResetAt = resetTs;
+      // Limit habis - tampilkan reset time di dashboard
+      var resetTs2 = data.resetAt || (Date.now() + data.resetIn);
+      window._paywallResetAt = resetTs2;
+      localStorage.setItem('luminaResetAt', String(resetTs2));
       var dashSubLimit = limitEl.parentElement ? limitEl.parentElement.querySelector('div:last-child') : null;
       if(dashSubLimit) {
-        var rem2 = Math.max(0, resetTs - Date.now());
+        var rem2 = Math.max(0, resetTs2 - Date.now());
         var m2 = Math.floor(rem2/60000); var s2 = Math.floor((rem2%60000)/1000);
         dashSubLimit.textContent = '⏳ Reset ' + m2 + 'm ' + s2 + 's';
         dashSubLimit.style.color = '#ff4444';
       }
+      // Disable send button
+      var sbFetch = document.getElementById('sendBtn');
+      var inpFetch = document.getElementById('userInput');
+      if(sbFetch && !sbFetch.classList.contains('stop-mode')) {
+        sbFetch.disabled = true; sbFetch.style.opacity = '0.35';
+      }
+      if(inpFetch) { inpFetch.disabled = true; inpFetch.placeholder = 'Limit habis — tunggu reset...'; }
+    } else if(data.remaining > 0) {
+      // Limit masih ada / sudah reset - bersihkan state
+      window._paywallResetAt = null;
+      localStorage.removeItem('luminaResetAt');
+      var dashSubLimit2 = limitEl.parentElement ? limitEl.parentElement.querySelector('div:last-child') : null;
+      if(dashSubLimit2 && dashSubLimit2.textContent.includes('Reset')) {
+        dashSubLimit2.textContent = 'sisa hari ini';
+        dashSubLimit2.style.color = '';
+      }
+      // Re-enable send button
+      var sbFetch2 = document.getElementById('sendBtn');
+      var inpFetch2 = document.getElementById('userInput');
+      if(sbFetch2 && sbFetch2.disabled && !sbFetch2.classList.contains('stop-mode')) {
+        sbFetch2.disabled = false; sbFetch2.style.opacity = '';
+      }
+      if(inpFetch2 && inpFetch2.disabled) {
+        inpFetch2.disabled = false; inpFetch2.placeholder = 'Tanya Lumina AI...';
+      }
     }
   }
-  }).catch(function(){});
+  // Update updateUsageUI setelah dapat data
+  setTimeout(updateUsageUI, 50);
+  }).catch(function(err){
+    console.warn('[fetchMyStatus] failed:', err.message || err);
+    // Kalau gagal, jangan disable input - mungkin cuma cold start
+  });
 }
 
 function pingBackend(retry) {
+  if(location.protocol === 'file:') {
+    var statusEl = document.getElementById('dashStatus');
+    if(statusEl) { statusEl.textContent = 'File Lokal'; statusEl.style.color = 'var(--muted)'; }
+    return;
+  }
   retry = retry || 0;
   var statusEl = document.getElementById('dashStatus');
   if(retry === 0) {
@@ -5273,8 +5373,10 @@ function answerQuiz(i){
 function toggleTheme(){
   var body = document.body;
   var dark = body.getAttribute('data-theme') !== 'light';
-  body.setAttribute('data-theme', dark ? 'light' : 'dark');
-  body.style.filter = dark ? 'invert(1) hue-rotate(180deg)' : '';
+  var newTheme = dark ? 'light' : 'dark';
+  body.setAttribute('data-theme', newTheme);
+  body.style.filter = ''; // hapus filter lama
+  localStorage.setItem('luminaTheme', newTheme);
   localStorage.setItem('cheeseTheme', dark ? 'light' : 'dark');
   showToast(dark ? 'Light mode aktif' : 'Dark mode aktif','info');
   sfxClick();
@@ -5604,6 +5706,13 @@ function initBattle(canvas){
 
 // ===== PAYWALL SYSTEM =====
 var FREE_LIMIT = 20;
+// Restore resetAt dari localStorage (persist across refresh)
+window._paywallResetAt = (function(){
+  var saved = parseInt(localStorage.getItem('luminaResetAt')||'0');
+  if(saved && saved > Date.now()) return saved;
+  localStorage.removeItem('luminaResetAt');
+  return null;
+})();
 var RESET_HOURS = 3.5;
 var OWNER_WA = '6283182368363';
 var UNLOCK_CODES = ['CHEESE-FULL','CHEESE-2025','KEJU-PRO','KSTUDIO-VIP'];
@@ -6053,8 +6162,11 @@ function sfxDodge() {
 
 function startBGM() {
   try {
-    if(_b2pBgmCtx) { _b2pBgmCtx.close(); _b2pBgmCtx=null; }
-    var a = new AudioContext();
+    if(_b2pBgmCtx) { try{_b2pBgmCtx.close();}catch(e){} _b2pBgmCtx=null; }
+    var AudioCtx = window.AudioContext || window.webkitAudioContext;
+    var a = new AudioCtx();
+    // Resume context jika suspended (browser policy untuk round 2+)
+    if(a.state === 'suspended') a.resume();
     _b2pBgmCtx = a;
     var bpm=140, beat=60/bpm;
     // 8-bit KOF-style melody pattern
@@ -6815,8 +6927,14 @@ function initBattle2P(canvas) {
     var rd=document.getElementById('b2p-round');
     if(rd) rd.textContent='ROUND '+_b2pRound;
     gameOver2P=false; particles=[];hitEffects=[];floatingTexts=[];
-    stopBGM(); // pastikan context lama ditutup
-    setTimeout(function(){ startBGM(); }, 150); // delay kecil biar AudioContext fresh
+    stopBGM();
+    // Unlock AudioContext dengan user gesture yang sudah ada
+    setTimeout(function(){
+      // Resume existing audio context kalau ada
+      if(window.AudioContext || window.webkitAudioContext) {
+        startBGM();
+      }
+    }, 200);
     window.b2pDir=function(pl,dir,pressed){if(pl!==1)return;mob[dir]=pressed;if(dir==='up'&&pressed&&p1.onGround){p1.vy=-15;p1.onGround=false;p1.state='jump';}};
     window.b2pSlash=function(){doAttack(p1);};
     window.b2pDodge=function(){doDodge(p1);};
@@ -6928,6 +7046,7 @@ function openBattle2P(difficulty){
   if(gameInterval){clearInterval(gameInterval);gameInterval=null;}
   if(dinoRAF){cancelAnimationFrame(dinoRAF);dinoRAF=null;}
   if(battle2P){cancelAnimationFrame(battle2P);battle2P=null;}
+  stopBGM(); // clear any lingering BGM
 
   var gc=document.getElementById('gameContent');
 
@@ -7662,54 +7781,56 @@ function typewriterStream(el, fullText, onDone) {
 
   var sendBtn = document.getElementById('sendBtn');
   var cb = document.getElementById('chatBox');
-
-  // Split per word (bukan per char) — lebih natural
-  var words = tokenizeWords(fullText);
+  var chars = fullText.split('');
+  var total = chars.length;
   var idx = 0;
   var built = '';
-  var lastRender = 0;
 
-  // Speed berdasarkan panjang teks — makin panjang makin cepat
-  // Target: selesai dalam ~3-6 detik untuk teks normal
-  var totalWords = words.length;
-  var targetDuration = Math.min(6000, Math.max(2000, totalWords * 40));
-  var msPerWord = targetDuration / totalWords;
-  // Clamp: min 8ms (very fast), max 60ms (slow dramatic)
-  msPerWord = Math.max(8, Math.min(60, msPerWord));
+  // ChatGPT/DeepSeek style: per karakter
+  // Speed adaptif: makin panjang teks makin cepat biar tidak lama
+  // Target selesai ~3-5 detik
+  var targetMs = Math.min(5000, Math.max(1500, total * 8));
+  var msPerChar = targetMs / total;
+  msPerChar = Math.max(4, Math.min(30, msPerChar)); // 4-30ms per char
+
+  // Batch size adaptif - mobile friendly (hindari lag)
+  // Render tiap N karakter, bukan tiap 1 karakter
+  var batchSize = total > 1000 ? 8 :
+                  total > 500  ? 5 :
+                  total > 200  ? 3 : 2;
+
+  var lastTime = 0;
 
   function frame(ts) {
     if (_streamingStopped) { finalize(true); return; }
-    if (idx >= words.length) { finalize(false); return; }
+    if (idx >= total) { finalize(false); return; }
 
-    // Rate limit
-    if (ts - lastRender < msPerWord) {
+    // Throttle per msPerChar
+    if (ts - lastTime < msPerChar) {
       _streamingRAF = requestAnimationFrame(frame);
       return;
     }
-    lastRender = ts;
+    lastTime = ts;
 
-    // Batch: makin banyak kata makin besar batch (speed up untuk teks panjang)
-    var batch = idx < 10 ? 1 :              // mulai lambat
-                totalWords > 500 ? 4 :       // teks sangat panjang: 4 kata/frame
-                totalWords > 200 ? 3 :       // panjang: 3 kata/frame
-                totalWords > 80  ? 2 : 1;    // normal: 1-2 kata/frame
-
-    for (var b = 0; b < batch && idx < words.length; b++) {
-      built += words[idx];
-      idx++;
+    // Tambah batch karakter sekaligus
+    var end = Math.min(idx + batchSize, total);
+    for (var i = idx; i < end; i++) {
+      built += chars[i];
     }
+    idx = end;
 
-    // Render: pakai textContent dulu (lebih cepat), switch ke markdown kalau perlu
-    var hasMarkdown = /(\*\*|```|^#{1,3} |^[-*] |`)/m.test(built);
+    // Render efisien — hanya update DOM tiap batch
+    var hasMarkdown = /(\*\*|```|^#{1,3} |^[*-] |`[^`])/m.test(built);
     if (hasMarkdown) {
       el.innerHTML = renderMarkdown(built) + '<span class="stream-cursor"></span>';
     } else {
+      // Teks biasa: lebih cepat pakai textContent
       el.textContent = built;
       el.insertAdjacentHTML('beforeend', '<span class="stream-cursor"></span>');
     }
 
-    // Auto scroll kalau user di bawah
-    if (cb && cb.scrollHeight - cb.scrollTop - cb.clientHeight < 100) {
+    // Auto scroll smooth hanya kalau user di dekat bawah
+    if (cb && cb.scrollHeight - cb.scrollTop - cb.clientHeight < 120) {
       cb.scrollTop = cb.scrollHeight;
     }
 
@@ -7726,7 +7847,6 @@ function typewriterStream(el, fullText, onDone) {
       sendBtn.disabled = false;
     }
     _streamingRAF = null;
-    // Scroll ke bawah setelah selesai
     if (cb) cb.scrollTo({ top: cb.scrollHeight, behavior: 'smooth' });
     if (onDone) onDone();
   }
@@ -7987,4 +8107,4 @@ function adminResetUser() {
 
 
 </body>
-  </html>
+                                 </html>
