@@ -35,12 +35,12 @@ ROADMAP LUMINA NEXUS v3.5 (Coming Soon)
 <!-- CSP: allow scripts + frames for ad networks -->
 <meta http-equiv="Content-Security-Policy" content="
   default-src 'self' 'unsafe-inline' https://cheese-backend.k-studio1.deno.net https://accounts.google.com https://fonts.googleapis.com https://fonts.gstatic.com https://cdnjs.cloudflare.com data: blob:;
-  script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdnjs.cloudflare.com https://www.highperformanceformat.com https://5gvci.com https://*.adsterra.com;
+  script-src 'self' 'unsafe-inline' https://accounts.google.com https://apis.google.com https://cdnjs.cloudflare.com https://www.highperformanceformat.com https://5gvci.com https://*.adsterra.com https://*.adtng.com https://*.adsterratech.com https://*.effectivemeasure.net;
   style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
   font-src 'self' https://fonts.gstatic.com data:;
   img-src * data: blob:;
-  frame-src https://www.highperformanceformat.com https://*.adsterra.com https://*.adtng.com https://accounts.google.com;
-  connect-src 'self' https://cheese-backend.k-studio1.deno.net https://accounts.google.com https://oauth2.googleapis.com https://generativelanguage.googleapis.com https://wttr.in https://image.pollinations.ai https://serper.dev;
+  frame-src * ;
+  connect-src 'self' https://cheese-backend.k-studio1.deno.net https://accounts.google.com https://oauth2.googleapis.com https://generativelanguage.googleapis.com https://wttr.in https://image.pollinations.ai https://serper.dev https://*.adsterra.com https://*.adtng.com;
 ">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
 <meta name="theme-color" content="#0a0a0a"/>
@@ -89,6 +89,15 @@ ROADMAP LUMINA NEXUS v3.5 (Coming Soon)
 [data-theme="light"] pre, [data-theme="light"] code{background:#f4f3ec;color:#1a1a1a;}
 [data-theme="light"] .msg-time{color:#9ca3af;}
 [data-theme="light"] .contact-card{background:#ffffff;}
+[data-theme="light"] .mobile-nav{background:#ffffff;border-top-color:rgba(0,0,0,0.08);}
+[data-theme="light"] .mobile-nav-item{color:#6b7280;}
+[data-theme="light"] .mobile-nav-item.active{color:var(--accent);}
+[data-theme="light"] .chat-input-wrap{background:#f0efe8;border-top-color:rgba(0,0,0,0.08);}
+[data-theme="light"] #userInput{background:#ffffff;color:#1a1a1a;}
+[data-theme="light"] .section{background:var(--bg);}
+[data-theme="light"] .stat-card{background:#ffffff;border-color:rgba(0,0,0,0.08);}
+[data-theme="light"] .qa-card{background:#ffffff;border-color:rgba(0,0,0,0.08);}
+[data-theme="light"] .notif-item{background:#ffffff;border-color:rgba(0,0,0,0.06);}
 *{box-sizing:border-box;margin:0;padding:0;}
 body{font-family:"DM Sans",sans-serif;font-size:15px;background:var(--bg);color:var(--text);min-height:100dvh;overflow-x:hidden;}
 .bg-glow{position:fixed;pointer-events:none;z-index:0;}
@@ -196,10 +205,10 @@ body.ai-active .topbar{display:none !important;}
 .ai-status{font-size:.7rem;color:var(--green);display:flex;align-items:center;gap:4px;margin-top:2px;}
 .clear-btn{font-size:.7rem;padding:5px 11px;border-radius:8px;border:1px solid var(--border);background:transparent;color:var(--muted);cursor:pointer;transition:.2s;}
 .clear-btn:hover{color:#ff6b6b;border-color:rgba(255,80,80,.4);}
-#chatBox{height:calc(100dvh - 280px);overflow-y:auto;padding:24px 16px;display:flex;flex-direction:column;gap:0;background:#0a0a0a;scroll-behavior:smooth;}
+#chatBox{height:calc(100dvh - 280px);overflow-y:auto;padding:24px 16px;display:flex;flex-direction:column;gap:0;background:#0a0a0a;scroll-behavior:smooth;align-items:stretch;}
 #chatBox::-webkit-scrollbar{width:4px;}
 #chatBox::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.1);border-radius:4px;}
-.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:60px 20px;text-align:center;height:100%;}
+.empty-state{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;padding:20px;text-align:center;flex:1;min-height:60vh;}
 .empty-emoji{font-size:2.2rem;animation:float 4s ease-in-out infinite;opacity:0.6;}
 .msg{max-width:80%;padding:12px 16px;border-radius:18px;font-size:.9rem;line-height:1.7;word-break:break-word;animation:msgIn .25s ease;margin-bottom:16px;}
 .msg{animation:msgIn .25s cubic-bezier(.2,.8,.3,1) both;}
@@ -1117,7 +1126,7 @@ canvas{border:2px solid var(--border);border-radius:12px;background:#0a0f15;disp
 </svg></span>
         <div style="font-family:Outfit,sans-serif;font-weight:800;font-size:1.5rem;color:var(--accent);margin-bottom:8px;">Lumina Nexus</div>
         <div style="font-size:.86rem;color:var(--muted);max-width:380px;margin:0 auto;line-height:1.6;">Platform AI generasi berikutnya — Multi AI Engine, Mini Games, Top Up, Voice Input, dan lebih banyak lagi!</div>
-        <div style="display:inline-block;margin-top:10px;font-size:.7rem;padding:4px 12px;border-radius:20px;background:rgba(232,184,75,.07);color:var(--accent);border:1px solid rgba(232,184,75,.11);">v3.4 — Built with passion 🔮 · Backend v3.12</div>
+        <div style="display:inline-block;margin-top:10px;font-size:.7rem;padding:4px 12px;border-radius:20px;background:rgba(232,184,75,.07);color:var(--accent);border:1px solid rgba(232,184,75,.11);">v3.4 — Built with passion 🔮 · Backend v4.05</div>
       </div>
       <div class="about-grid">
         <div class="about-card"><div style="font-size:1.5rem;margin-bottom:10px;">🤖</div><div style="font-family:Outfit,sans-serif;font-weight:700;font-size:.9rem;margin-bottom:5px;">Lumina AI</div><div style="font-size:.77rem;color:var(--muted);line-height:1.5;">Multi-engine AI (Gemini, Llama, DeepSeek, Qwen) — cerdas, cepat, dan selalu illuminate your mind!</div></div>
@@ -1917,15 +1926,42 @@ function renderRiwayat() {
     return;
   }
   list.innerHTML = '';
-  convs.forEach(function(c) {
+  convs.forEach(function(conv) {
     var div = document.createElement('div');
-    div.style.cssText = 'padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:.2s;';
-    div.innerHTML = '<div style="flex:1;min-width:0;"><div style="font-size:.84rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + c.title + '</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + c.updated + '</div></div>';
-    div.addEventListener('click', function() { loadConversation(c.id); });
+    div.style.cssText = 'padding:12px 14px;border-radius:12px;border:1px solid var(--border);background:var(--surface2);margin-bottom:8px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:8px;transition:.2s;-webkit-tap-highlight-color:rgba(232,184,75,0.1);';
+    div.innerHTML = '<div style="flex:1;min-width:0;pointer-events:none;"><div style="font-size:.84rem;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">' + conv.title + '</div><div style="font-size:.68rem;color:var(--muted);margin-top:2px;">' + conv.updated + '</div></div>';
+    
+    var _convId = conv.id;
+    var _loading = false;
+    function doLoadConv(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if(_loading) return;
+      _loading = true;
+      div.style.background = 'rgba(232,184,75,0.1)';
+      setTimeout(function(){ loadConversation(_convId); }, 80);
+    }
+    div.addEventListener('touchend', doLoadConv, {passive: false});
+    div.addEventListener('click', function(e) {
+      // Hanya jalankan click kalau bukan touch device
+      if(!('ontouchstart' in window)) doLoadConv(e);
+    });
+
     var btn = document.createElement('button');
     btn.innerHTML = '🗑️';
-    btn.style.cssText = 'background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;flex-shrink:0;padding:4px;';
-    btn.addEventListener('click', function(e) { e.stopPropagation(); deleteConversation(c.id); });
+    btn.style.cssText = 'background:none;border:none;color:var(--muted);cursor:pointer;font-size:1rem;flex-shrink:0;padding:8px;';
+    var _delLoading = false;
+    function doDelete(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      if(_delLoading) return;
+      _delLoading = true;
+      deleteConversation(_convId);
+    }
+    btn.addEventListener('touchend', doDelete, {passive: false});
+    btn.addEventListener('click', function(e) {
+      if(!('ontouchstart' in window)) doDelete(e);
+    });
     div.appendChild(btn);
     list.appendChild(div);
   });
@@ -1984,14 +2020,19 @@ function renderRiwayat() {
       method:'POST', headers:{'Content-Type':'application/json'},
       body: JSON.stringify({token: savedToken}),
       signal: verifyCtrl.signal
-    }).then(function(r){ clearTimeout(verifyTimeout); return r.json(); }).then(function(data){
+    }).then(function(r){
+      clearTimeout(verifyTimeout);
+      if(!r.ok) throw new Error('HTTP ' + r.status);
+      return r.json();
+    }).then(function(data){
       if(data.valid) {
+        // Token valid - update user data dari backend
         currentUser = Object.assign(currentUser, data.user);
         localStorage.setItem('luminaCurrentUser', JSON.stringify(currentUser));
         finishSplash();
         enterApp();
-      } else {
-        // Token benar-benar expired di backend
+      } else if(data.error === 'session_expired' || data.error === 'token_invalid') {
+        // Token benar-benar expired - baru logout
         localStorage.removeItem('luminaToken');
         if(currentUser && currentUser.email) {
           localStorage.setItem('luminaLastEmail', currentUser.email);
@@ -2009,14 +2050,16 @@ function renderRiwayat() {
             }
           }, 500);
         }
+      } else {
+        // Response tidak jelas / backend error - tetap masuk pakai local data
+        finishSplash();
+        if(currentUser) enterApp();
       }
     }).catch(function(){
       clearTimeout(verifyTimeout);
-      // Network error / timeout / cold start - TETAP masuk pakai local data
+      // Network error / timeout / cold start - SELALU masuk pakai local data
       finishSplash();
-      if(currentUser) {
-        enterApp();
-      }
+      if(currentUser) enterApp();
     });
   } else if(currentUser) {
     finishSplash();
@@ -2874,10 +2917,26 @@ function enterApp() {
   // Apply saved theme
   var savedTheme = localStorage.getItem('luminaTheme') || 'dark';
   document.body.setAttribute('data-theme', savedTheme);
-  fetchMyStatus(); setInterval(fetchMyStatus, 2*60*1000); setTimeout(renderAdminPanel, 500); setTimeout(initPushNotif, 3000); setTimeout(scheduleNotif, 5000);
+  // Update icon sesuai theme tersimpan
+  setTimeout(function(){
+    var icon = document.getElementById('themeIcon');
+    var label = document.getElementById('themeLabel');
+    if(icon) icon.textContent = savedTheme === 'light' ? '☀️' : '🌙';
+    if(label) label.textContent = savedTheme === 'light' ? 'Light Mode' : 'Dark Mode';
+  }, 500);
+  fetchMyStatus();
+  // Keep-alive: ping backend tiap 4 menit biar tidak cold start
+  if(window._keepAliveIv) clearInterval(window._keepAliveIv);
+  window._keepAliveIv = setInterval(function(){
+    if(document.hidden) return; // skip kalau tab tidak aktif
+    if(location.protocol === 'file:') return;
+    fetch(BACKEND_URL + '/ping').catch(function(){});
+  }, 4 * 60 * 1000); // 4 menit setInterval(fetchMyStatus, 2*60*1000); setTimeout(renderAdminPanel, 500); setTimeout(initPushNotif, 3000); setTimeout(scheduleNotif, 5000);
   document.getElementById('authScreen').style.display = 'none';
   document.getElementById('appScreen').style.display = 'block';
   var init = currentUser.name.charAt(0).toUpperCase();
+  // Restore Google picture kalau ada di localStorage
+  if(!currentUser.picture) currentUser.picture = localStorage.getItem('luminaGooglePicture') || '';
   var pic = currentUser.picture || '';
   ['sidebarAvatar','topbarAvatar','profileAvatar'].forEach(function(id){
     var el = document.getElementById(id);
@@ -4534,14 +4593,15 @@ function renderProfile(){
   var u = getUser();
   if(!u) return;
 
-  // Avatar -- support foto atau emoji
-  var savedPhoto = localStorage.getItem('cheeseAvatarPhoto');
+  // Avatar -- prioritas: custom upload > foto Google > inisial nama
+  var savedPhoto = localStorage.getItem('cheeseAvatarPhoto')
+    || (currentUser && currentUser.picture ? currentUser.picture : '');
   var savedEmoji = localStorage.getItem('cheeseAvatar') || u.name.charAt(0).toUpperCase();
   var av = document.getElementById('profileAvatar');
   var avImg = document.getElementById('profileAvatarImg');
   if(savedPhoto){
     if(av) av.style.display='none';
-    if(avImg){ avImg.src=savedPhoto; avImg.style.display='block'; }
+    if(avImg){ avImg.src=savedPhoto; avImg.style.display='block'; avImg.onerror=function(){ avImg.style.display='none'; if(av){av.style.display='flex';av.textContent=savedEmoji;} }; }
   } else {
     if(avImg) avImg.style.display='none';
     if(av){ av.style.display='flex'; av.textContent=savedEmoji; av.style.fontSize=savedEmoji.length>1?'1.6rem':'1.8rem'; }
@@ -4552,7 +4612,9 @@ function renderProfile(){
     var el = document.getElementById(id);
     if(!el) return;
     if(savedPhoto){
-      el.innerHTML='<img src="'+savedPhoto+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;"/>';
+      el.innerHTML='<img src="'+savedPhoto+'" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;">';
+      var imgEl = el.querySelector('img');
+      if(imgEl) imgEl.onerror = function(){ this.style.display='none'; el.textContent=savedEmoji; };
     } else {
       el.textContent = savedEmoji;
     }
@@ -5375,11 +5437,17 @@ function toggleTheme(){
   var dark = body.getAttribute('data-theme') !== 'light';
   var newTheme = dark ? 'light' : 'dark';
   body.setAttribute('data-theme', newTheme);
-  body.style.filter = ''; // hapus filter lama
+  body.style.filter = '';
   localStorage.setItem('luminaTheme', newTheme);
-  localStorage.setItem('cheeseTheme', dark ? 'light' : 'dark');
-  showToast(dark ? 'Light mode aktif' : 'Dark mode aktif','info');
+  localStorage.setItem('cheeseTheme', newTheme);
+  // Update icon dan label
+  var icon = document.getElementById('themeIcon');
+  var label = document.getElementById('themeLabel');
+  if(icon) icon.textContent = dark ? '☀️' : '🌙';
+  if(label) label.textContent = dark ? 'Light Mode' : 'Dark Mode';
+  showToast(dark ? '☀️ Light mode aktif' : '🌙 Dark mode aktif', 'info');
   sfxClick();
+  haptic('light');
 }
 
 // ===== BATTLE 2D GAME =====
@@ -6218,11 +6286,27 @@ function startBGM() {
       });
     }
     var loopDur = totalDur*beat;
-    var now=a.currentTime;
-    for(var i=0;i<8;i++){
-      scheduleMelody(now+i*loopDur);
-      scheduleBass(now+i*loopDur);
+
+    // Infinite loop - jadwalkan ulang sebelum loop habis
+    function scheduleLoop(startTime) {
+      if(!_b2pBgmCtx || _b2pBgmCtx !== a) return; // stop kalau context sudah diganti
+      scheduleMelody(startTime);
+      scheduleBass(startTime);
+      // Jadwalkan loop berikutnya 1 detik sebelum habis
+      var rescheduleAt = (startTime - a.currentTime - 1) * 1000;
+      setTimeout(function(){
+        if(_b2pBgmCtx && _b2pBgmCtx === a) {
+          scheduleLoop(startTime + loopDur);
+        }
+      }, Math.max(100, rescheduleAt));
     }
+
+    // Mulai 3 loop sekaligus sebagai buffer
+    var now = a.currentTime + 0.1;
+    scheduleLoop(now);
+    scheduleLoop(now + loopDur);
+    scheduleLoop(now + loopDur * 2);
+
   } catch(e){}
 }
 function stopBGM() {
@@ -6928,13 +7012,11 @@ function initBattle2P(canvas) {
     if(rd) rd.textContent='ROUND '+_b2pRound;
     gameOver2P=false; particles=[];hitEffects=[];floatingTexts=[];
     stopBGM();
-    // Unlock AudioContext dengan user gesture yang sudah ada
-    setTimeout(function(){
-      // Resume existing audio context kalau ada
-      if(window.AudioContext || window.webkitAudioContext) {
-        startBGM();
-      }
-    }, 200);
+    // startBGM langsung - tombol Round 2 adalah user gesture yang valid
+    try { startBGM(); } catch(e) {
+      // Fallback delay kalau context belum ready
+      setTimeout(startBGM, 300);
+    }
     window.b2pDir=function(pl,dir,pressed){if(pl!==1)return;mob[dir]=pressed;if(dir==='up'&&pressed&&p1.onGround){p1.vy=-15;p1.onGround=false;p1.state='jump';}};
     window.b2pSlash=function(){doAttack(p1);};
     window.b2pDodge=function(){doDodge(p1);};
@@ -8107,4 +8189,4 @@ function adminResetUser() {
 
 
 </body>
-                                 </html>
+                </html>
