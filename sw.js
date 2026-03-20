@@ -1,10 +1,10 @@
 // ============================================================
-// Lumina Nexus Service Worker v1.0
-// Cache CDN libraries untuk offline support
+// Lumina Nexus Service Worker v3.4-9
+// by Kira · Updated: logo baru, cache version bump
 // ============================================================
 
-var CACHE_NAME = 'lumina-v3-4-8';
-var CDN_CACHE = 'lumina-cdn-v1';
+var CACHE_NAME = 'lumina-v3-4-9';
+var CDN_CACHE = 'lumina-cdn-v2';
 
 // Asset yang di-cache saat install
 var PRECACHE_URLS = [
@@ -30,12 +30,12 @@ self.addEventListener('install', function(event) {
         console.warn('[SW] Precache failed:', err);
       });
     }).then(function() {
-      return self.skipWaiting();
+      return self.skipWaiting(); // Langsung aktif tanpa tunggu tab lama
     })
   );
 });
 
-// Activate: hapus cache lama
+// Activate: hapus SEMUA cache lama
 self.addEventListener('activate', function(event) {
   event.waitUntil(
     caches.keys().then(function(keys) {
@@ -43,28 +43,41 @@ self.addEventListener('activate', function(event) {
         keys.filter(function(key) {
           return key !== CACHE_NAME && key !== CDN_CACHE;
         }).map(function(key) {
+          console.log('[SW] Deleting old cache:', key);
           return caches.delete(key);
         })
       );
     }).then(function() {
-      return self.clients.claim();
+      return self.clients.claim(); // Ambil alih semua tab
     })
   );
 });
 
 // Fetch: strategi cache
 self.addEventListener('fetch', function(event) {
-  var url = new URL(event.request.url);
+  var url;
+  try {
+    url = new URL(event.request.url);
+  } catch(e) {
+    return;
+  }
 
-  // Skip non-GET dan backend API requests
+  // Skip non-GET
   if (event.request.method !== 'GET') return;
-  if (url.hostname.includes('deno.net')) return;
-  if (url.hostname.includes('serper.dev')) return;
-  if (url.hostname.includes('groq.com')) return;
-  if (url.hostname.includes('openrouter.ai')) return;
-  if (url.hostname.includes('googleapis.com') && url.pathname.includes('/v1beta')) return;
 
-  // CDN: Cache First
+  // Skip backend & AI API — jangan pernah cache
+  var skipHosts = [
+    'deno.net', 'serper.dev', 'groq.com', 'openrouter.ai',
+    'generativelanguage.googleapis.com', 'brevo.com',
+    'cloudflare-ai.workers.dev'
+  ];
+  if (skipHosts.some(function(h) { return url.hostname.includes(h); })) return;
+
+  // Skip Google AI API
+  if (url.hostname.includes('googleapis.com') && 
+      (url.pathname.includes('/v1beta') || url.pathname.includes('/v1/'))) return;
+
+  // CDN: Cache First (font, library statis)
   var isCDN = CDN_HOSTS.some(function(host) {
     return url.hostname.includes(host);
   });
@@ -88,8 +101,8 @@ self.addEventListener('fetch', function(event) {
     return;
   }
 
-  // App shell: Network First, fallback cache
-  if (url.hostname.includes('github.io')) {
+  // App shell (GitHub Pages): Network First, fallback cache
+  if (url.hostname.includes('github.io') || url.hostname.includes('kira-128')) {
     event.respondWith(
       fetch(event.request).then(function(response) {
         if (response && response.status === 200) {
@@ -106,5 +119,19 @@ self.addEventListener('fetch', function(event) {
       })
     );
     return;
+  }
+});
+
+// Message handler - force refresh cache
+self.addEventListener('message', function(event) {
+  if (event.data && event.data.type === 'SKIP_WAITING') {
+    self.skipWaiting();
+  }
+  if (event.data && event.data.type === 'CLEAR_CACHE') {
+    caches.keys().then(function(keys) {
+      return Promise.all(keys.map(function(key) {
+        return caches.delete(key);
+      }));
+    });
   }
 });
