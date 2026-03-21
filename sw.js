@@ -3,7 +3,7 @@
 // by Kira · Updated: logo baru, cache version bump
 // ============================================================
 
-var CACHE_NAME = 'lumina-v3-4-9';
+var CACHE_NAME = 'lumina-v3-4-16';
 var CDN_CACHE = 'lumina-cdn-v2';
 
 // Asset yang di-cache saat install
